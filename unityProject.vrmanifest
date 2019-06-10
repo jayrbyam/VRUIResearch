@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.vruiresearch.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\jayrb\\VRUIResearch\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "VR UI Research [Testing]"
+        }
+      }
+    }
+  ]
+}
