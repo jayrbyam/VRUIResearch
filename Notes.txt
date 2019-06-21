@@ -4,6 +4,12 @@ Registered Hypotheses:
     - When the alert is outside the camera view, visual cues are most helpful for descreasing response time, followed by audio cues then no cues.
     -
 
+Colors:
+ - Gainsboro #D8DBE2
+ - Maximum Blue #46ACC2
+ - Pastel Blue #A9BCD0
+ - Charcoal #373F51
+ - Eerie Black #1B1B1E
 
 Tasks:
  - Develop class for timing an action

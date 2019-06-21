@@ -49,10 +49,10 @@ public class MainController : MonoBehaviour
         switch (sceneIdx)
         {
             case 0:
-                if (SteamVR_Actions.default_InteractUI[SteamVR_Input_Sources.Any].state)
-                {
-                    startText.Hide = true;
-                }
+                //if (SteamVR_Actions.default_InteractUI[SteamVR_Input_Sources.Any].state)
+                //{
+                //    startText.Hide = true;
+                //}
                 break;
             case 1:
 
