@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Valve.VR;
+using VRTK;
 
 public class MainController : MonoBehaviour
 {
@@ -21,6 +21,8 @@ public class MainController : MonoBehaviour
     }
 
     public List<GameObject> scenes;
+    public VRTK_ControllerEvents leftControllerEvents;
+    public VRTK_ControllerEvents rightControllerEvents;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
@@ -49,10 +51,10 @@ public class MainController : MonoBehaviour
         switch (sceneIdx)
         {
             case 0:
-                //if (SteamVR_Actions.default_InteractUI[SteamVR_Input_Sources.Any].state)
-                //{
-                //    startText.Hide = true;
-                //}
+                if (leftControllerEvents.IsButtonPressed(VRTK_ControllerEvents.ButtonAlias.TriggerClick) || rightControllerEvents.IsButtonPressed(VRTK_ControllerEvents.ButtonAlias.TriggerClick))
+                {
+                    startText.Hide = true;
+                }
                 break;
             case 1:
 
@@ -66,5 +68,10 @@ public class MainController : MonoBehaviour
         scenes[sceneIdx].SetActive(false);
         sceneIdx = idx;
         scenes[sceneIdx].SetActive(true);
+    }
+
+    public void WheresMyCookies()
+    {
+        Debug.Log("Okay....");
     }
 }
