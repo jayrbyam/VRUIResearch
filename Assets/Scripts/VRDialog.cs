@@ -10,32 +10,99 @@ public class VRDialog : MonoBehaviour
 
     public Text mainText;
     public GameObject answersPanel;
-    public bool showAnswers = true;
     public GameObject originalAnswer;
     public GameObject originalAction;
 
-    private List<string> answers;
-    private List<VRDialogAction> actions;
-
-    public VRDialog(string text, List<VRDialogAction> actionObjects, bool question = false, List<string> answerStrings = null)
+    public string text
     {
-        mainText.text = text;
-
-        foreach (VRDialogAction action in actionObjects)
+        get
         {
-            GameObject newAction = Instantiate(originalAction);
-            newAction.SetActive(true);
-            newAction.transform.SetParent(originalAction.transform.parent);
-            // Fill in text from button or whatever
-            // Set callback of button thing to action.callback;
-            newAction.GetComponent<ProceduralImage>().color = action.background;
+            return mainText.text;
         }
-    } 
+        set
+        {
+            mainText.text = value;
+        }
+    }
+    public bool question
+    {
+        get
+        {
+            return answersPanel.activeSelf;
+        }
+        set
+        {
+            answersPanel.SetActive(value);
+        }
+    }
+
+    private string selectedAnswer;
 
     // Update is called once per frame
     void Update()
     {
-        if (answersPanel.activeSelf && !showAnswers) answersPanel.SetActive(false);
-        if (!answersPanel.activeSelf && showAnswers) answersPanel.SetActive(true);
+
+    }
+
+    public void SetActions(List<VRDialogActionValues> actions)
+    {
+        foreach (VRDialogActionValues action in actions)
+        {
+            GameObject newAction = Instantiate(originalAction);
+            newAction.SetActive(true);
+            newAction.transform.SetParent(originalAction.transform.parent);
+            newAction.transform.localPosition = new Vector3(newAction.transform.localPosition.x, newAction.transform.localPosition.y, 0f);
+            newAction.transform.localScale = Vector3.one;
+            VRDialogAction dialogAction = newAction.GetComponent<VRDialogAction>();
+            dialogAction.text = action.text;
+            newAction.GetComponent<Button>().onClick.AddListener(() => {
+                if (selectedAnswer != null) action.callback();
+            });
+            dialogAction.callback = action.callback;
+            newAction.GetComponent<ProceduralImage>().color = question ? action.disabledBackground : action.enabledBackground;
+            dialogAction.disabledBackground = action.disabledBackground;
+            dialogAction.enabledBackground = action.enabledBackground;
+        }
+    }
+
+    public void SetAnswers(List<string> answers)
+    {
+        foreach (string answer in answers)
+        {
+            GameObject newAnswer = Instantiate(originalAnswer);
+            newAnswer.SetActive(true);
+            newAnswer.transform.SetParent(originalAnswer.transform.parent);
+            newAnswer.transform.localPosition = new Vector3(newAnswer.transform.localPosition.x, newAnswer.transform.localPosition.y, 0f);
+            newAnswer.transform.localScale = Vector3.one;
+            newAnswer.GetComponentInChildren<Text>().text = answer;
+            newAnswer.GetComponent<Button>().onClick.AddListener(() => {
+                selectedAnswer = answer;
+                
+                // Enable all actions
+                foreach (Transform action in originalAction.transform.parent)
+                {
+                    if (action != originalAction)
+                    {
+                        action.GetComponent<ProceduralImage>().color = action.GetComponent<VRDialogAction>().enabledBackground;
+                    }
+                }
+
+                // Unselect all other answers
+                foreach (Transform answerTransform in originalAnswer.transform.parent)
+                {
+                    if (answerTransform != originalAnswer)
+                    {
+                        Color notSelected = Color.black;
+                        ColorUtility.TryParseHtmlString("#373F51", out notSelected);
+                        answerTransform.GetComponent<RawImage>().color = notSelected;
+                    }
+                }
+
+                // Select the current answer
+                Color selected = Color.blue;
+                ColorUtility.TryParseHtmlString("#46ACC2", out selected);
+                newAnswer.GetComponent<RawImage>().color = selected;
+            });
+        }
     }
 }

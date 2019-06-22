@@ -23,6 +23,7 @@ public class MainController : MonoBehaviour
     public List<GameObject> scenes;
     public VRTK_ControllerEvents leftControllerEvents;
     public VRTK_ControllerEvents rightControllerEvents;
+    public GameObject dialog;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
@@ -33,7 +34,7 @@ public class MainController : MonoBehaviour
     public FadePulse startText;
 
     // Scene 1
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +58,29 @@ public class MainController : MonoBehaviour
                 }
                 break;
             case 1:
-
+                if (!dialog.activeSelf)
+                {
+                    dialog.SetActive(true);
+                    VRDialog questionsDialog = dialog.GetComponent<VRDialog>();
+                    questionsDialog.text = "How would you categorize yourself as a VR user?";
+                    questionsDialog.question = true;
+                    Color disabledActionColor = Color.grey;
+                    ColorUtility.TryParseHtmlString("#A9BCD0", out disabledActionColor);
+                    Color enabledActionColor = Color.black;
+                    ColorUtility.TryParseHtmlString("#46ACC2", out enabledActionColor);
+                    questionsDialog.SetActions(new List<VRDialogActionValues>()
+                    {
+                        new VRDialogActionValues()
+                        {
+                            text = "Okay",
+                            callback = () => { Debug.Log("Okay pressed!"); },
+                            disabledBackground = disabledActionColor,
+                            enabledBackground = enabledActionColor
+                        }
+                    });
+                    questionsDialog.SetAnswers(new List<string>() { "A", "B", "C", "D" });
+                }
+                
                 break;
         }
         
