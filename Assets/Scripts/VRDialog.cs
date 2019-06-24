@@ -56,12 +56,16 @@ public class VRDialog : MonoBehaviour
             VRDialogAction dialogAction = newAction.GetComponent<VRDialogAction>();
             dialogAction.text = action.text;
             newAction.GetComponent<Button>().onClick.AddListener(() => {
-                if (selectedAnswer != null) action.callback();
+                if (!action.requireAnswer || selectedAnswer != null)
+                {
+                    action.callback(selectedAnswer);
+                }
             });
             dialogAction.callback = action.callback;
-            newAction.GetComponent<ProceduralImage>().color = question ? action.disabledBackground : action.enabledBackground;
+            newAction.GetComponent<ProceduralImage>().color = action.requireAnswer ? action.disabledBackground : action.enabledBackground;
             dialogAction.disabledBackground = action.disabledBackground;
             dialogAction.enabledBackground = action.enabledBackground;
+            dialogAction.requireAction = action.requireAnswer;
         }
     }
 
@@ -81,7 +85,7 @@ public class VRDialog : MonoBehaviour
                 // Enable all actions
                 foreach (Transform action in originalAction.transform.parent)
                 {
-                    if (action != originalAction)
+                    if (action != originalAction && action.GetComponent<VRDialogAction>().requireAction)
                     {
                         action.GetComponent<ProceduralImage>().color = action.GetComponent<VRDialogAction>().enabledBackground;
                     }
@@ -103,6 +107,27 @@ public class VRDialog : MonoBehaviour
                 ColorUtility.TryParseHtmlString("#46ACC2", out selected);
                 newAnswer.GetComponent<RawImage>().color = selected;
             });
+        }
+    }
+
+    public void Reset()
+    {
+        selectedAnswer = null;
+
+        foreach (Transform answer in originalAnswer.transform.parent)
+        {
+            if (answer.gameObject.activeSelf) // Don't delete the original
+            {
+                Destroy(answer.gameObject);
+            }
+        }
+
+        foreach (Transform action in originalAction.transform.parent)
+        {
+            if (action.gameObject.activeSelf) // Don't delete the original
+            {
+                Destroy(action.gameObject);
+            }
         }
     }
 }
