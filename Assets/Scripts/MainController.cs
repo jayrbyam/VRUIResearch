@@ -30,7 +30,7 @@ public class MainController : MonoBehaviour
     // 0 - Start screen
     // 1 - Pre-experience questions
     // 2 - Skill test
-    private int sceneIdx = 0;
+    private int sceneIdx = 2;
 
     // Scene 0
     public FadePulse startText;
@@ -69,7 +69,8 @@ public class MainController : MonoBehaviour
             case 1: // Pre-experiment questions
                 if (!dialog.activeSelf)
                 {
-                    dialog.SetActive(true);
+
+                    ToggleDialog(true);
                 }
 
                 if (questionIdx != null)
@@ -127,6 +128,7 @@ public class MainController : MonoBehaviour
                         case 2:
                             questionIdx = null;
                             questionsDialog.text = "Select your dominant hand.";
+                            questionsDialog.question = true;
                             disabledActionColor = Color.grey;
                             ColorUtility.TryParseHtmlString("#A9BCD0", out disabledActionColor);
                             enabledActionColor = Color.black;
@@ -185,7 +187,7 @@ public class MainController : MonoBehaviour
                                     text = "Alright!",
                                     callback = answer => {
                                         questionsDialog.Reset();
-                                        dialog.SetActive(false);
+                                        ToggleDialog(false);
                                         SetSceneIdx(2);
                                     },
                                     disabledBackground = disabledActionColor,
@@ -205,8 +207,8 @@ public class MainController : MonoBehaviour
                         {
                             if (!dialog.activeSelf)
                             {
-                                dialog.SetActive(true);
-                                questionsDialog.text = "Our first test is a simple game of 'Virtually Throw the Virtual Ball in the Virtual Basket'. Use the trigger to grab and throw each ball. Remember, you will be timed and the score will be recorded.";
+                                ToggleDialog(true);
+                                questionsDialog.text = "Our first test is a simple game of 'Virtually Throw the Virtual Darts at the Virtual Dartboard'. Use the trigger to grab and throw each ball. Remember, you will be timed and the score will be recorded.";
                                 questionsDialog.question = false;
                                 Color disabledActionColor = Color.grey;
                                 ColorUtility.TryParseHtmlString("#A9BCD0", out disabledActionColor);
@@ -219,7 +221,7 @@ public class MainController : MonoBehaviour
                                         text = "Ready!",
                                         callback = answer => {
                                             questionsDialog.Reset();
-                                            dialog.SetActive(false);
+                                            ToggleDialog(false);
                                             testStarted = true;
                                         },
                                         disabledBackground = disabledActionColor,
@@ -246,5 +248,12 @@ public class MainController : MonoBehaviour
         scenes[sceneIdx].SetActive(false);
         sceneIdx = idx;
         scenes[sceneIdx].SetActive(true);
+    }
+
+    private void ToggleDialog(bool show)
+    {
+        dialog.SetActive(show);
+        leftControllerEvents.gameObject.GetComponent<VRTK_Pointer>().Toggle(show);
+        rightControllerEvents.gameObject.GetComponent<VRTK_Pointer>().Toggle(show);
     }
 }
