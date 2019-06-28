@@ -23,14 +23,17 @@ public class MainController : MonoBehaviour
     public List<GameObject> scenes;
     public VRTK_ControllerEvents leftControllerEvents;
     public VRTK_ControllerEvents rightControllerEvents;
+    public VRTK_Pointer leftPointer;
+    public VRTK_Pointer rightPointer;
     public GameObject dialog;
     private VRDialog questionsDialog;
+    private bool dominantRight = true;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
     // 1 - Pre-experience questions
     // 2 - Skill test
-    private int sceneIdx = 2;
+    private int sceneIdx = 0;
 
     // Scene 0
     public FadePulse startText;
@@ -151,6 +154,8 @@ public class MainController : MonoBehaviour
                                     text = "Next",
                                     callback = answer => {
                                         Debug.Log("'" + answer + "' selected.");
+                                        dominantRight = answer == "Right";
+                                        ToggleDialog(false); // Force reload of dominant hand pointer
                                         questionsDialog.Reset();
                                         questionIdx = 3;
                                     },
@@ -253,7 +258,7 @@ public class MainController : MonoBehaviour
     private void ToggleDialog(bool show)
     {
         dialog.SetActive(show);
-        leftControllerEvents.gameObject.GetComponent<VRTK_Pointer>().Toggle(show);
-        rightControllerEvents.gameObject.GetComponent<VRTK_Pointer>().Toggle(show);
+        rightPointer.Toggle(show && dominantRight);
+        leftPointer.Toggle(show && !dominantRight);
     }
 }

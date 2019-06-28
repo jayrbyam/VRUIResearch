@@ -31,8 +31,8 @@ public class FadePulse : MonoBehaviour
             fadingOut = false;
             if (hide)
             {
-                transform.parent.gameObject.SetActive(false);
                 MainController.Instance.SetSceneIdx(1);
+                transform.parent.gameObject.SetActive(false);
             }
         }
         if (oldColor.a >= 1f) fadingOut = true;
