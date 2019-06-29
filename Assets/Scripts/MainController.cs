@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using VRTK;
+using Valve.VR;
+using Valve.VR.Extras;
 
 public class MainController : MonoBehaviour
 {
@@ -21,10 +22,10 @@ public class MainController : MonoBehaviour
     }
 
     public List<GameObject> scenes;
-    public VRTK_ControllerEvents leftControllerEvents;
-    public VRTK_ControllerEvents rightControllerEvents;
-    public VRTK_Pointer leftPointer;
-    public VRTK_Pointer rightPointer;
+    //public VRTK_ControllerEvents leftControllerEvents;
+    //public VRTK_ControllerEvents rightControllerEvents;
+    public LaserPointer leftPointer;
+    public LaserPointer rightPointer;
     public GameObject dialog;
     private VRDialog questionsDialog;
     private bool dominantRight = true;
@@ -64,7 +65,7 @@ public class MainController : MonoBehaviour
         switch (sceneIdx)
         {
             case 0: // Starting screen
-                if (leftControllerEvents.IsButtonPressed(VRTK_ControllerEvents.ButtonAlias.TriggerClick) || rightControllerEvents.IsButtonPressed(VRTK_ControllerEvents.ButtonAlias.TriggerClick))
+                if (SteamVR_Actions.default_InteractUI[SteamVR_Input_Sources.Any].state)
                 {
                     startText.Hide = true;
                 }
@@ -258,7 +259,7 @@ public class MainController : MonoBehaviour
     private void ToggleDialog(bool show)
     {
         dialog.SetActive(show);
-        rightPointer.Toggle(show && dominantRight);
-        leftPointer.Toggle(show && !dominantRight);
+        rightPointer.active = show && dominantRight;
+        leftPointer.active = show && !dominantRight;
     }
 }
