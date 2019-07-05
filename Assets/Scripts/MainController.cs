@@ -85,10 +85,8 @@ public class MainController : MonoBehaviour
                             questionIdx = null;
                             questionsDialog.text = "Hi! Thanks for participating.  We're going to start off with just a few questions.";
                             questionsDialog.question = false;
-                            Color disabledActionColor = Color.grey;
-                            ColorUtility.TryParseHtmlString("#A9BCD0", out disabledActionColor);
-                            Color enabledActionColor = Color.black;
-                            ColorUtility.TryParseHtmlString("#46ACC2", out enabledActionColor);
+                            Color actionColor = Color.black;
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                             questionsDialog.SetActions(new List<VRDialogActionValues>()
                             {
                                 new VRDialogActionValues()
@@ -98,8 +96,7 @@ public class MainController : MonoBehaviour
                                         questionsDialog.Reset();
                                         questionIdx = 1;
                                     },
-                                    disabledBackground = disabledActionColor,
-                                    enabledBackground = enabledActionColor,
+                                    background = actionColor,
                                     requireAnswer = false
                                 }
                             });
@@ -108,10 +105,8 @@ public class MainController : MonoBehaviour
                             questionIdx = null;
                             questionsDialog.text = "How would you categorize yourself as a VR user?";
                             questionsDialog.question = true;
-                            disabledActionColor = Color.grey;
-                            ColorUtility.TryParseHtmlString("#A9BCD0", out disabledActionColor);
-                            enabledActionColor = Color.black;
-                            ColorUtility.TryParseHtmlString("#46ACC2", out enabledActionColor);
+                            actionColor = Color.black;
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                             questionsDialog.SetActions(new List<VRDialogActionValues>()
                             {
                                 new VRDialogActionValues()
@@ -122,8 +117,7 @@ public class MainController : MonoBehaviour
                                         questionsDialog.Reset();
                                         questionIdx = 2;
                                     },
-                                    disabledBackground = disabledActionColor,
-                                    enabledBackground = enabledActionColor,
+                                    background = actionColor,
                                     requireAnswer = true
                                 }
                             });
@@ -133,10 +127,8 @@ public class MainController : MonoBehaviour
                             questionIdx = null;
                             questionsDialog.text = "Select your dominant hand.";
                             questionsDialog.question = true;
-                            disabledActionColor = Color.grey;
-                            ColorUtility.TryParseHtmlString("#A9BCD0", out disabledActionColor);
-                            enabledActionColor = Color.black;
-                            ColorUtility.TryParseHtmlString("#46ACC2", out enabledActionColor);
+                            actionColor = Color.black;
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                             questionsDialog.SetActions(new List<VRDialogActionValues>()
                             {
                                 new VRDialogActionValues()
@@ -146,8 +138,7 @@ public class MainController : MonoBehaviour
                                         questionsDialog.Reset();
                                         questionIdx = 1;
                                     },
-                                    disabledBackground = disabledActionColor,
-                                    enabledBackground = enabledActionColor,
+                                    background = actionColor,
                                     requireAnswer = false
                                 },
                                 new VRDialogActionValues()
@@ -160,8 +151,7 @@ public class MainController : MonoBehaviour
                                         questionsDialog.Reset();
                                         questionIdx = 3;
                                     },
-                                    disabledBackground = disabledActionColor,
-                                    enabledBackground = enabledActionColor,
+                                    background = actionColor,
                                     requireAnswer = true
                                 }
                             });
@@ -171,10 +161,8 @@ public class MainController : MonoBehaviour
                             questionIdx = null;
                             questionsDialog.text = "Nice work! You will now proceed to the pre-experiment skill test.";
                             questionsDialog.question = false;
-                            disabledActionColor = Color.grey;
-                            ColorUtility.TryParseHtmlString("#A9BCD0", out disabledActionColor);
-                            enabledActionColor = Color.black;
-                            ColorUtility.TryParseHtmlString("#46ACC2", out enabledActionColor);
+                            actionColor = Color.black;
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                             questionsDialog.SetActions(new List<VRDialogActionValues>()
                             {
                                 new VRDialogActionValues()
@@ -184,8 +172,7 @@ public class MainController : MonoBehaviour
                                         questionsDialog.Reset();
                                         questionIdx = 2;
                                     },
-                                    disabledBackground = disabledActionColor,
-                                    enabledBackground = enabledActionColor,
+                                    background = actionColor,
                                     requireAnswer = false
                                 },
                                 new VRDialogActionValues()
@@ -196,8 +183,7 @@ public class MainController : MonoBehaviour
                                         ToggleDialog(false);
                                         SetSceneIdx(2);
                                     },
-                                    disabledBackground = disabledActionColor,
-                                    enabledBackground = enabledActionColor,
+                                    background = actionColor,
                                     requireAnswer = false
                                 }
                             });
@@ -216,10 +202,8 @@ public class MainController : MonoBehaviour
                                 ToggleDialog(true);
                                 questionsDialog.text = "Our first test is a simple game of 'Virtually Throw the Virtual Darts at the Virtual Dartboard'. Use the trigger to grab and throw each ball. Remember, you will be timed and the score will be recorded.";
                                 questionsDialog.question = false;
-                                Color disabledActionColor = Color.grey;
-                                ColorUtility.TryParseHtmlString("#A9BCD0", out disabledActionColor);
-                                Color enabledActionColor = Color.black;
-                                ColorUtility.TryParseHtmlString("#46ACC2", out enabledActionColor);
+                                Color actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                                 questionsDialog.SetActions(new List<VRDialogActionValues>()
                                 {
                                     new VRDialogActionValues()
@@ -230,8 +214,7 @@ public class MainController : MonoBehaviour
                                             ToggleDialog(false);
                                             testStarted = true;
                                         },
-                                        disabledBackground = disabledActionColor,
-                                        enabledBackground = enabledActionColor,
+                                        background = actionColor,
                                         requireAnswer = false
                                     }
                                 });

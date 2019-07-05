@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.ProceduralImage;
 
 public class VRDialogAction : MonoBehaviour
 {
@@ -17,7 +18,15 @@ public class VRDialogAction : MonoBehaviour
         }
     }
     public Action<string> callback { get; set; }
-    public Color disabledBackground { get; set; }
-    public Color enabledBackground { get; set; }
+    public Color background {
+        get
+        {
+            return GetComponent<ProceduralImage>().color;
+        }
+        set
+        {
+            GetComponent<ProceduralImage>().color = value;
+        }
+    }
     public bool requireAction { get; set; }
 }

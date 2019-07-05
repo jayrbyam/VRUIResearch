@@ -62,9 +62,8 @@ public class VRDialog : MonoBehaviour
                 }
             });
             dialogAction.callback = action.callback;
-            newAction.GetComponent<ProceduralImage>().color = action.requireAnswer ? action.disabledBackground : action.enabledBackground;
-            dialogAction.disabledBackground = action.disabledBackground;
-            dialogAction.enabledBackground = action.enabledBackground;
+            newAction.GetComponent<Button>().enabled = !action.requireAnswer;
+            dialogAction.background = action.background;
             dialogAction.requireAction = action.requireAnswer;
         }
     }
@@ -87,7 +86,7 @@ public class VRDialog : MonoBehaviour
                 {
                     if (action != originalAction && action.GetComponent<VRDialogAction>().requireAction)
                     {
-                        action.GetComponent<ProceduralImage>().color = action.GetComponent<VRDialogAction>().enabledBackground;
+                        action.GetComponent<Button>().enabled = true;
                     }
                 }
 

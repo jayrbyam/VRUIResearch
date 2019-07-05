@@ -1,6 +1,7 @@
 ﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
 using UnityEngine;
 using System.Collections;
+using Valve.VR.InteractionSystem;
 
 namespace Valve.VR.Extras
 {
@@ -24,6 +25,7 @@ namespace Valve.VR.Extras
         public event PointerEventHandler PointerClick;
 
         Transform previousContact = null;
+        private Hand hand;
 
 
         private void Start()
@@ -67,24 +69,41 @@ namespace Valve.VR.Extras
             Material newMaterial = new Material(Shader.Find("Unlit/Color"));
             newMaterial.SetColor("_Color", color);
             pointer.GetComponent<MeshRenderer>().material = newMaterial;
+
+            hand = GetComponent<Hand>();
         }
 
         public virtual void OnPointerIn(PointerEventArgs e)
         {
             if (PointerIn != null)
                 PointerIn(this, e);
+
+            if (e.target.GetComponent<UIElement>() != null)
+            {
+                e.target.GetComponent<UIElement>().onHoverBegin(hand);
+            }
         }
 
         public virtual void OnPointerClick(PointerEventArgs e)
         {
             if (PointerClick != null)
                 PointerClick(this, e);
+
+            if (e.target.GetComponent<UIElement>() != null)
+            {
+                e.target.GetComponent<UIElement>().onButtonClick();
+            }
         }
 
         public virtual void OnPointerOut(PointerEventArgs e)
         {
             if (PointerOut != null)
                 PointerOut(this, e);
+
+            if (e.target.GetComponent<UIElement>() != null)
+            {
+                e.target.GetComponent<UIElement>().onHoverEnd(hand);
+            }
         }
 
 
@@ -157,14 +176,4 @@ namespace Valve.VR.Extras
             pointer.transform.localPosition = new Vector3(0f, 0f, dist / 2f);
         }
     }
-
-    public struct PointerEventArgs
-    {
-        public SteamVR_Input_Sources fromInputSource;
-        public uint flags;
-        public float distance;
-        public Transform target;
-    }
-
-    public delegate void PointerEventHandler(object sender, PointerEventArgs e);
 }
