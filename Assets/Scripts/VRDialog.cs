@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.ProceduralImage;
+using Valve.VR.InteractionSystem;
 
 public class VRDialog : MonoBehaviour
 {
@@ -55,7 +56,8 @@ public class VRDialog : MonoBehaviour
             newAction.transform.localScale = Vector3.one;
             VRDialogAction dialogAction = newAction.GetComponent<VRDialogAction>();
             dialogAction.text = action.text;
-            newAction.GetComponent<Button>().onClick.AddListener(() => {
+            newAction.GetComponent<Button>().onClick.AddListener(() =>
+            {
                 if (!action.requireAnswer || selectedAnswer != null)
                 {
                     action.callback(selectedAnswer);
@@ -78,9 +80,10 @@ public class VRDialog : MonoBehaviour
             newAnswer.transform.localPosition = new Vector3(newAnswer.transform.localPosition.x, newAnswer.transform.localPosition.y, 0f);
             newAnswer.transform.localScale = Vector3.one;
             newAnswer.GetComponentInChildren<Text>().text = answer;
-            newAnswer.GetComponent<Button>().onClick.AddListener(() => {
+            newAnswer.GetComponent<Button>().onClick.AddListener(() =>
+            {
                 selectedAnswer = answer;
-                
+
                 // Enable all actions
                 foreach (Transform action in originalAction.transform.parent)
                 {

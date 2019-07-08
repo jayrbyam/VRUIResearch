@@ -23,6 +23,7 @@ namespace Valve.VR.Extras
         public event PointerEventHandler PointerIn;
         public event PointerEventHandler PointerOut;
         public event PointerEventHandler PointerClick;
+        private GameObject hovering = null;
 
         Transform previousContact = null;
         private Hand hand;
@@ -78,9 +79,10 @@ namespace Valve.VR.Extras
             if (PointerIn != null)
                 PointerIn(this, e);
 
-            if (e.target.GetComponent<UIElement>() != null)
+            if (e.target.GetComponent<LaserUIElement>() != null)
             {
-                e.target.GetComponent<UIElement>().onHoverBegin(hand);
+                e.target.GetComponent<LaserUIElement>().OnEnter(hand);
+                hovering = e.target.gameObject;
             }
         }
 
@@ -88,11 +90,6 @@ namespace Valve.VR.Extras
         {
             if (PointerClick != null)
                 PointerClick(this, e);
-
-            if (e.target.GetComponent<UIElement>() != null)
-            {
-                e.target.GetComponent<UIElement>().onButtonClick();
-            }
         }
 
         public virtual void OnPointerOut(PointerEventArgs e)
@@ -100,15 +97,19 @@ namespace Valve.VR.Extras
             if (PointerOut != null)
                 PointerOut(this, e);
 
-            if (e.target.GetComponent<UIElement>() != null)
+            if (e.target.GetComponent<LaserUIElement>() != null)
             {
-                e.target.GetComponent<UIElement>().onHoverEnd(hand);
+                e.target.GetComponent<LaserUIElement>().OnExit(hand);
             }
+            hovering = null;
         }
 
 
         private void Update()
         {
+
+            if (hovering != null) hovering.GetComponent<LaserUIElement>().HoverUpdate(hand);
+
             if (!isActive)
             {
                 isActive = true;

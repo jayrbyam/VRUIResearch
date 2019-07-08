@@ -19,8 +19,8 @@ namespace Valve.VR.InteractionSystem
 
         protected Hand currentHand;
 
-		//-------------------------------------------------
-		protected virtual void Awake()
+        //-------------------------------------------------
+        protected virtual void Awake()
 		{
 			Button button = GetComponent<Button>();
 			if ( button )
@@ -30,8 +30,8 @@ namespace Valve.VR.InteractionSystem
 		}
 
 
-		//-------------------------------------------------
-		protected virtual void OnHandHoverBegin( Hand hand )
+        //-------------------------------------------------
+        protected virtual void OnHandHoverBegin( Hand hand )
 		{
 			currentHand = hand;
 			InputModule.instance.HoverBegin( gameObject );
@@ -62,8 +62,9 @@ namespace Valve.VR.InteractionSystem
         //-------------------------------------------------
         protected virtual void OnButtonClick()
 		{
-			onHandClick.Invoke( currentHand );
-		}
+            onHandClick.Invoke(currentHand);
+        }
+
 	}
 
 #if UNITY_EDITOR

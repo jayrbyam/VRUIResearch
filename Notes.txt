@@ -10,6 +10,8 @@ Colors:
  - Pastel Blue #A9BCD0
  - Charcoal #373F51
  - Eerie Black #1B1B1E
+ - Nasturcian Flower #e84118
+ - Download Progress #4cd137
 
 Tasks:
  - Develop class for timing an action

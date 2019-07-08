@@ -22,8 +22,6 @@ public class MainController : MonoBehaviour
     }
 
     public List<GameObject> scenes;
-    //public VRTK_ControllerEvents leftControllerEvents;
-    //public VRTK_ControllerEvents rightControllerEvents;
     public LaserPointer leftPointer;
     public LaserPointer rightPointer;
     public GameObject dialog;
