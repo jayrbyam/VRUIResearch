@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 using Valve.VR.Extras;
+using Valve.VR.InteractionSystem;
 
 public class MainController : MonoBehaviour
 {
@@ -26,7 +27,9 @@ public class MainController : MonoBehaviour
     public LaserPointer rightPointer;
     public GameObject dialog;
     private VRDialog questionsDialog;
-    private bool dominantRight = true;
+    private bool dominantRight = false;
+    private delegate void AfterWaitDelegate();
+    public GameObject numberPad;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
@@ -44,6 +47,14 @@ public class MainController : MonoBehaviour
     private int testIdx = 0;
     private bool testStarted = false;
     public List<Transform> skillTests;
+    public Transform darts;
+    public static int dartsThrown = 0;
+    public GameObject leftRacket;
+    public GameObject rightRacket;
+    public GameObject tennisBall;
+    public TennisShooter shooter;
+    public static int numbersCompleted = 0;
+    private int numbersHandled = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -198,7 +209,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "Our first test is a simple game of 'Virtually Throw the Virtual Darts at the Virtual Dartboard'. Use the trigger to grab and throw each ball. Remember, you will be timed and the score will be recorded.";
+                                questionsDialog.text = "Our first test is a simple game of 'Virtually Throw the Virtual Darts at the Virtual Dartboard'. Use the trigger to grab and throw each dart. Remember, you will be timed and the score will be recorded.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -219,12 +230,145 @@ public class MainController : MonoBehaviour
                             }
                         } else
                         {
-                            if (!skillTests[testIdx].gameObject.activeSelf) skillTests[testIdx].gameObject.SetActive(true);
+                            if (!skillTests[0].gameObject.activeSelf)
+                            {
+                                skillTests[0].gameObject.SetActive(true);
+                                if (!dominantRight) darts.localPosition = new Vector3(-1.2f, 0f, 0f);
+                            }
                             
+                            if (dartsThrown == 3)
+                            {
+                                StartCoroutine(WaitThenExecute(3f, () =>
+                                {
+                                    skillTests[0].gameObject.SetActive(false);
+                                    testIdx = 1;
+                                    testStarted = false;
+                                }));
+                            }
+                        }
+                        break;
+                    case 1:
+                        if (!testStarted)
+                        {
+                            if (!dialog.activeSelf)
+                            {
+                                ToggleDialog(true);
+                                questionsDialog.text = "Now, lets test your reaction time.  You will be given a racket and tennis balls will be shot toward you.  Hit a ball, get a point.";
+                                questionsDialog.question = false;
+                                Color actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Ready!",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            ToggleDialog(false);
+                                            testStarted = true;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                            }
+                        }
+                        else
+                        {
+                            if (!skillTests[1].gameObject.activeSelf)
+                            {
+                                skillTests[1].gameObject.SetActive(true);
+                                StartCoroutine(FillWithTennisBalls());
 
+                                StartCoroutine(WaitThenExecute(1f, () =>
+                                {
+                                    if (dominantRight && !rightRacket.activeSelf)
+                                    {
+                                        rightRacket.SetActive(true);
+                                        rightPointer.gameObject.GetComponent<Hand>().Hide();
+                                    }
+                                    if (!dominantRight && !leftRacket.activeSelf)
+                                    {
+                                        leftRacket.SetActive(true);
+                                        leftPointer.gameObject.GetComponent<Hand>().Hide();
+                                    }
+                                    shooter.active = true;
+                                }));
+                            }
+
+
+                            if (shooter.ballsShot == 9)
+                            {
+                                StartCoroutine(WaitThenExecute(3f, () =>
+                                {
+                                    if (dominantRight)
+                                    {
+                                        rightRacket.SetActive(false);
+                                        rightPointer.gameObject.GetComponent<Hand>().Show();
+                                    }
+                                    else
+                                    {
+                                        leftRacket.SetActive(false);
+                                        leftPointer.gameObject.GetComponent<Hand>().Show();
+                                    }
+                                    skillTests[1].gameObject.SetActive(false);
+                                    testIdx = 2;
+                                    testStarted = false;
+                                }));
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (!testStarted)
+                        {
+                            if (!dialog.activeSelf)
+                            {
+                                ToggleDialog(true);
+                                questionsDialog.text = "Lastly, your speed with a menu will be tested.  When prompted, use the laser pointer to enter the displayed sequence on the number pad, as fast and as accuractely as you can.";
+                                questionsDialog.question = false;
+                                Color actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Ready!",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            ToggleDialog(false);
+                                            testStarted = true;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                            }
+                        }
+                        else
+                        {
+                            if (!skillTests[2].gameObject.activeSelf)
+                            {
+                                skillTests[2].gameObject.SetActive(true);
+                                ToggleNumberPad(true);
+                            }
+                            
+                            if (numbersCompleted > 5)
+                            {
+                                sceneIdx = 3;
+                            } else
+                            {
+                                if (numbersCompleted == numbersHandled)
+                                {
+                                    numberPad.GetComponent<VRNumberPad>().promptText = Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                    numbersHandled++;
+                                }
+                            }
                         }
                         break;
                 }
+                break;
+            case 3:
+
                 break;
         }
         
@@ -242,5 +386,34 @@ public class MainController : MonoBehaviour
         dialog.SetActive(show);
         rightPointer.active = show && dominantRight;
         leftPointer.active = show && !dominantRight;
+    }
+
+    private void ToggleNumberPad(bool show)
+    {
+        numberPad.SetActive(show);
+        rightPointer.active = show && dominantRight;
+        leftPointer.active = show && !dominantRight;
+    }
+
+    private IEnumerator WaitThenExecute(float seconds, AfterWaitDelegate callable)
+    {
+        yield return new WaitForSeconds(seconds);
+        callable();
+    }
+
+    private IEnumerator FillWithTennisBalls()
+    {
+        for (int i = 0; i < 200; i++)
+        {
+            GameObject newBall = Instantiate(tennisBall);
+            newBall.SetActive(true);
+            newBall.transform.SetParent(tennisBall.transform.parent);
+            newBall.transform.localScale = tennisBall.transform.localScale;
+            float newX = tennisBall.transform.localPosition.x + Random.Range(-0.1f, 0.1f);
+            float newY = tennisBall.transform.localPosition.y + Random.Range(-0.1f, 0.1f);
+            float newZ = tennisBall.transform.localPosition.z + Random.Range(-0.1f, 0.1f);
+            newBall.transform.localPosition = new Vector3(newX, newY, newZ);
+            yield return null;
+        }
     }
 }

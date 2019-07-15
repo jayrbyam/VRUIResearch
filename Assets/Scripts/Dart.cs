@@ -32,8 +32,7 @@ public class Dart : MonoBehaviour
         thrown = false;
         if (focused != null)
         {
-            focused.highlight.SetActive(false);
-            focused.textHint.SetActive(false);
+            Destroy(focused.gameObject);
         }
         focused = this;
     }
@@ -82,6 +81,14 @@ public class Dart : MonoBehaviour
             textHint.SetActive(true);
             textHint.transform.position = new Vector3(textHint.transform.position.x, textHint.transform.position.y + 0.1f, textHint.transform.position.z);
             highlight.SetActive(true);
+
+            MainController.dartsThrown++;
+            if (MainController.dartsThrown == 3) Invoke("DestroyThis", 3f);
         }
+    }
+
+    private void DestroyThis()
+    {
+        Destroy(gameObject);
     }
 }
