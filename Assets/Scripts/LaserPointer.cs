@@ -17,6 +17,7 @@ namespace Valve.VR.Extras
         public Color clickColor = Color.green;
         public GameObject holder;
         public GameObject pointer;
+        public GameObject cursor;
         bool isActive = false;
         public bool addRigidBody = false;
         public Transform reference;
@@ -71,6 +72,13 @@ namespace Valve.VR.Extras
             newMaterial.SetColor("_Color", color);
             pointer.GetComponent<MeshRenderer>().material = newMaterial;
 
+            cursor = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            Destroy(cursor.GetComponent<CapsuleCollider>());
+            cursor.transform.parent = holder.transform;
+            cursor.transform.localScale = new Vector3(0.1f, 0.005f, 0.1f);
+            cursor.GetComponent<MeshRenderer>().material = newMaterial;
+            cursor.SetActive(false);
+
             hand = GetComponent<Hand>();
         }
 
@@ -117,7 +125,12 @@ namespace Valve.VR.Extras
             }
 
             if (active && !pointer.activeSelf) pointer.SetActive(true);
-            if (!active && pointer.activeSelf) pointer.SetActive(false);
+            if (!active)
+            {
+                if (pointer.activeSelf) pointer.SetActive(false);
+                if (cursor.activeSelf) cursor.SetActive(false);
+                return;
+            }
 
             float dist = 100f;
 
@@ -148,10 +161,14 @@ namespace Valve.VR.Extras
             if (!bHit)
             {
                 previousContact = null;
+                if (cursor.activeSelf) cursor.SetActive(false);
             }
             if (bHit && hit.distance < 100f)
             {
                 dist = hit.distance;
+                if (!cursor.activeSelf) cursor.SetActive(true);
+                cursor.transform.position = hit.point;
+                cursor.transform.up = hit.normal;
             }
 
             if (bHit && interactWithUI.GetStateUp(pose.inputSource))
@@ -168,11 +185,13 @@ namespace Valve.VR.Extras
             {
                 pointer.transform.localScale = new Vector3(thickness * 5f, thickness * 5f, dist);
                 pointer.GetComponent<MeshRenderer>().material.color = clickColor;
+                cursor.GetComponent<MeshRenderer>().material.color = clickColor;
             }
             else
             {
                 pointer.transform.localScale = new Vector3(thickness, thickness, dist);
                 pointer.GetComponent<MeshRenderer>().material.color = color;
+                cursor.GetComponent<MeshRenderer>().material.color = color;
             }
             pointer.transform.localPosition = new Vector3(0f, 0f, dist / 2f);
         }

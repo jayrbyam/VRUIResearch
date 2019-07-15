@@ -538,6 +538,7 @@ MonoBehaviour:
   clickColor: {r: 0, g: 1, b: 0, a: 1}
   holder: {fileID: 0}
   pointer: {fileID: 0}
+  cursor: {fileID: 0}
   addRigidBody: 0
   reference: {fileID: 0}
 --- !u!114 &243297673 stripped
@@ -4194,6 +4195,7 @@ MonoBehaviour:
   clickColor: {r: 0, g: 1, b: 0, a: 1}
   holder: {fileID: 0}
   pointer: {fileID: 0}
+  cursor: {fileID: 0}
   addRigidBody: 0
   reference: {fileID: 0}
 --- !u!114 &1829834745 stripped
