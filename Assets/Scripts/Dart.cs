@@ -10,6 +10,7 @@ public class Dart : MonoBehaviour
     public static Dart focused;
     public GameObject textHint;
     public GameObject highlight;
+    public CapsuleCollider collider;
     private bool grabbed = false;
     private bool thrown = false;
 
@@ -23,12 +24,14 @@ public class Dart : MonoBehaviour
 
     private void onDetach(Hand hand)
     {
+        collider.enabled = true;
         grabbed = false;
         thrown = true;
     }
 
     private void onAttach(Hand hand)
     {
+        collider.enabled = false;
         grabbed = true;
         thrown = false;
         if (focused != null)
@@ -56,24 +59,12 @@ public class Dart : MonoBehaviour
             GetComponent<Rigidbody>().isKinematic = true;
             if (collision.gameObject.tag == "Dartboard")
             {
-                // Radius of dartboard is 0.35
-                float toMiddle = Vector3.Distance(collision.transform.position, collision.contacts[0].point);
-                float score = (1 - toMiddle / 0.35f) * 100;
-                if (score < 1)
-                {
-                    textHint.GetComponentInChildren<Text>().text = "0";
-                    Color red = Color.red;
-                    ColorUtility.TryParseHtmlString("#E84118", out red);
-                    textHint.GetComponentInChildren<ProceduralImage>().color = red;
-                } else
-                {
-                    textHint.GetComponentInChildren<Text>().text = ((int)score).ToString();
-                    Color green = Color.green;
-                    ColorUtility.TryParseHtmlString("#4CD137", out green);
-                    textHint.GetComponentInChildren<ProceduralImage>().color = green;
-                }
+                textHint.GetComponentInChildren<Text>().text = "+1";
+                Color green = Color.green;
+                ColorUtility.TryParseHtmlString("#4CD137", out green);
+                textHint.GetComponentInChildren<ProceduralImage>().color = green;
             } else {
-                textHint.GetComponentInChildren<Text>().text = "0";
+                textHint.GetComponentInChildren<Text>().text = "Miss";
                 Color red = Color.red;
                 ColorUtility.TryParseHtmlString("#E84118", out red);
                 textHint.GetComponentInChildren<ProceduralImage>().color = red;
@@ -84,7 +75,7 @@ public class Dart : MonoBehaviour
             highlight.SetActive(true);
 
             MainController.dartsThrown++;
-            if (MainController.dartsThrown == 3) Invoke("DestroyThis", 3f);
+            if (MainController.dartsThrown == 5) Invoke("DestroyThis", 3f);
         }
     }
 

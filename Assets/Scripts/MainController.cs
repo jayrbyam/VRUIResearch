@@ -35,7 +35,7 @@ public class MainController : MonoBehaviour
     // 0 - Start screen
     // 1 - Pre-experience questions
     // 2 - Skill test
-    private int sceneIdx = 0;
+    private int sceneIdx = 2;
 
     // Scene 0
     public FadePulse startText;
@@ -236,7 +236,7 @@ public class MainController : MonoBehaviour
                                 if (!dominantRight) darts.localPosition = new Vector3(-1.2f, 0f, 0f);
                             }
                             
-                            if (dartsThrown == 3 && !endTriggered)
+                            if (dartsThrown == 5 && !endTriggered)
                             {
                                 endTriggered = true;
                                 StartCoroutine(WaitThenExecute(3f, () =>
