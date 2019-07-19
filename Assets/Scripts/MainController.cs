@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Valve.VR;
 using Valve.VR.Extras;
 using Valve.VR.InteractionSystem;
@@ -27,7 +29,7 @@ public class MainController : MonoBehaviour
     public LaserPointer rightPointer;
     public GameObject dialog;
     private VRDialog questionsDialog;
-    private bool dominantRight = false;
+    private bool dominantRight = true;
     private delegate void AfterWaitDelegate();
     public GameObject numberPad;
 
@@ -35,7 +37,7 @@ public class MainController : MonoBehaviour
     // 0 - Start screen
     // 1 - Pre-experience questions
     // 2 - Skill test
-    private int sceneIdx = 2;
+    private int sceneIdx = 0;
 
     // Scene 0
     public FadePulse startText;
@@ -48,14 +50,40 @@ public class MainController : MonoBehaviour
     private bool testStarted = false;
     public List<Transform> skillTests;
     public Transform darts;
+    public Text dartScoreText;
+    public int dartScore
+    {
+        get
+        {
+            return int.Parse(dartScoreText.text.Split(' ')[1]);
+        }
+        set
+        {
+            dartScoreText.text = "Score: " + value.ToString();
+        }
+    }
     public static int dartsThrown = 0;
     private bool endTriggered = false;
     public GameObject leftRacket;
     public GameObject rightRacket;
     public GameObject tennisBall;
     public TennisShooter shooter;
+    public Text tennisScoreText;
+    public int tennisScore
+    {
+        get
+        {
+            return int.Parse(tennisScoreText.text.Split(' ')[1].Split('/')[0]);
+        }
+        set
+        {
+            tennisScoreText.text = "Score: " + value.ToString() + "/10";
+        }
+    }
+    public Text numbersTimeText;
     public static int numbersCompleted = 0;
     private int numbersHandled = 0;
+    public Timer numbersTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -168,7 +196,7 @@ public class MainController : MonoBehaviour
                             break;
                         case 3:
                             questionIdx = null;
-                            questionsDialog.text = "Nice work! You will now proceed to the pre-experiment skill test.";
+                            questionsDialog.text = "Nice work! You will now proceed to the first test.";
                             questionsDialog.question = false;
                             actionColor = Color.black;
                             ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -209,7 +237,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "Our first test is a simple game of 'Virtually Throw the Virtual Darts at the Virtual Dartboard'. Use the trigger to grab and throw each dart. Remember, you will be timed and the score will be recorded.";
+                                questionsDialog.text = "The first test is a game of darts. Use the trigger to grab and throw each dart. Remember, you will be timed and the score will be recorded.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -255,7 +283,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "Now, lets test your reaction time.  You will be given a racket, and tennis balls will be shot toward you.  Hit a ball, get a point.";
+                                questionsDialog.text = "Next, you will be given a racket, and tennis balls will be shot toward you.  Hit a ball, get a point.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -325,7 +353,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "Lastly, your speed with a menu will be tested.  When prompted, use the laser pointer to enter the displayed sequence on the number pad, as fast and as accuractely as you can.";
+                                questionsDialog.text = "Next, a number pad will appear.  Use the laser pointer to enter the 5 displayed sequences on the number pad, as fast and as accuractely as you can.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -351,16 +379,22 @@ public class MainController : MonoBehaviour
                             {
                                 skillTests[2].gameObject.SetActive(true);
                                 ToggleNumberPad(true);
+                                numbersTimer = new Timer();
+                                numbersTimer.text = numbersTimeText;
+                                numbersTimer.StartTimer();
                             }
-                            
+                            numbersTimer.Update();
                             if (numbersCompleted > 5)
                             {
-                                sceneIdx = 3;
+                                SetSceneIdx(3);
+                                testStarted = false;
+                                ToggleNumberPad(false);
                             } else
                             {
                                 if (numbersCompleted == numbersHandled)
                                 {
-                                    numberPad.GetComponent<VRNumberPad>().promptText = Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                    numbersTimer.StartTimer();
+                                    numberPad.GetComponent<VRNumberPad>().promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
                                     numbersHandled++;
                                 }
                             }
@@ -368,8 +402,36 @@ public class MainController : MonoBehaviour
                         break;
                 }
                 break;
-            case 3:
-
+            case 3: // Instructions & Alerts
+                if (!testStarted)
+                {
+                    if (!dialog.activeSelf)
+                    {
+                        ToggleDialog(true);
+                        questionsDialog.text = "Now, a series of instructions and alerts will appear in your view.  Follow the directions and answer each question to proceed through the test.";
+                        questionsDialog.question = false;
+                        Color actionColor = Color.black;
+                        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                        questionsDialog.SetActions(new List<VRDialogActionValues>()
+                        {
+                            new VRDialogActionValues()
+                            {
+                                text = "Okay",
+                                callback = answer => {
+                                    questionsDialog.Reset();
+                                    ToggleDialog(false);
+                                    testStarted = true;
+                                },
+                                background = actionColor,
+                                requireAnswer = false
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    
+                }
                 break;
         }
         
@@ -410,9 +472,9 @@ public class MainController : MonoBehaviour
             newBall.SetActive(true);
             newBall.transform.SetParent(tennisBall.transform.parent);
             newBall.transform.localScale = tennisBall.transform.localScale;
-            float newX = tennisBall.transform.localPosition.x + Random.Range(-0.1f, 0.1f);
-            float newY = tennisBall.transform.localPosition.y + Random.Range(-0.1f, 0.1f);
-            float newZ = tennisBall.transform.localPosition.z + Random.Range(-0.1f, 0.1f);
+            float newX = tennisBall.transform.localPosition.x + UnityEngine.Random.Range(-0.1f, 0.1f);
+            float newY = tennisBall.transform.localPosition.y + UnityEngine.Random.Range(-0.1f, 0.1f);
+            float newZ = tennisBall.transform.localPosition.z + UnityEngine.Random.Range(-0.1f, 0.1f);
             newBall.transform.localPosition = new Vector3(newX, newY, newZ);
             yield return null;
         }

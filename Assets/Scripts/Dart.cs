@@ -63,6 +63,7 @@ public class Dart : MonoBehaviour
                 Color green = Color.green;
                 ColorUtility.TryParseHtmlString("#4CD137", out green);
                 textHint.GetComponentInChildren<ProceduralImage>().color = green;
+                MainController.Instance.dartScore++;
             } else {
                 textHint.GetComponentInChildren<Text>().text = "Miss";
                 Color red = Color.red;

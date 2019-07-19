@@ -81,6 +81,7 @@ public class VRNumberPad : MonoBehaviour
 
     private IEnumerator NextNumber()
     {
+        MainController.Instance.numbersTimer.StopTimer();
         yield return new WaitForSeconds(1f);
         Reset();
         MainController.numbersCompleted++;
