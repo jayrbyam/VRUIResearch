@@ -20,7 +20,7 @@
     {
         Tags
         {
-            "Queue"="Overlay"
+            "Queue"="Transparent"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
             "PreviewType"="Plane"

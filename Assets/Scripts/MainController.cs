@@ -49,6 +49,7 @@ public class MainController : MonoBehaviour
     public List<Transform> skillTests;
     public Transform darts;
     public static int dartsThrown = 0;
+    private bool endTriggered = false;
     public GameObject leftRacket;
     public GameObject rightRacket;
     public GameObject tennisBall;
@@ -70,7 +71,6 @@ public class MainController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         switch (sceneIdx)
         {
             case 0: // Starting screen
@@ -236,13 +236,15 @@ public class MainController : MonoBehaviour
                                 if (!dominantRight) darts.localPosition = new Vector3(-1.2f, 0f, 0f);
                             }
                             
-                            if (dartsThrown == 3)
+                            if (dartsThrown == 3 && !endTriggered)
                             {
+                                endTriggered = true;
                                 StartCoroutine(WaitThenExecute(3f, () =>
                                 {
                                     skillTests[0].gameObject.SetActive(false);
                                     testIdx = 1;
                                     testStarted = false;
+                                    endTriggered = false;
                                 }));
                             }
                         }
@@ -253,7 +255,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "Now, lets test your reaction time.  You will be given a racket and tennis balls will be shot toward you.  Hit a ball, get a point.";
+                                questionsDialog.text = "Now, lets test your reaction time.  You will be given a racket, and tennis balls will be shot toward you.  Hit a ball, get a point.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -280,25 +282,23 @@ public class MainController : MonoBehaviour
                                 skillTests[1].gameObject.SetActive(true);
                                 StartCoroutine(FillWithTennisBalls());
 
-                                StartCoroutine(WaitThenExecute(1f, () =>
+                                if (dominantRight && !rightRacket.activeSelf)
                                 {
-                                    if (dominantRight && !rightRacket.activeSelf)
-                                    {
-                                        rightRacket.SetActive(true);
-                                        rightPointer.gameObject.GetComponent<Hand>().Hide();
-                                    }
-                                    if (!dominantRight && !leftRacket.activeSelf)
-                                    {
-                                        leftRacket.SetActive(true);
-                                        leftPointer.gameObject.GetComponent<Hand>().Hide();
-                                    }
-                                    shooter.active = true;
-                                }));
+                                    rightRacket.SetActive(true);
+                                    rightPointer.gameObject.GetComponent<Hand>().Hide();
+                                }
+                                if (!dominantRight && !leftRacket.activeSelf)
+                                {
+                                    leftRacket.SetActive(true);
+                                    leftPointer.gameObject.GetComponent<Hand>().Hide();
+                                }
+                                shooter.active = true;
                             }
 
 
-                            if (shooter.ballsShot == 9)
+                            if (shooter.ballsShot == 9 && !endTriggered)
                             {
+                                endTriggered = true;
                                 StartCoroutine(WaitThenExecute(3f, () =>
                                 {
                                     if (dominantRight)
@@ -314,6 +314,7 @@ public class MainController : MonoBehaviour
                                     skillTests[1].gameObject.SetActive(false);
                                     testIdx = 2;
                                     testStarted = false;
+                                    endTriggered = false;
                                 }));
                             }
                         }

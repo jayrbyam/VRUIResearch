@@ -18,6 +18,7 @@ public class Dart : MonoBehaviour
     {
         GetComponent<Interactable>().onAttachedToHand += onAttach;
         GetComponent<Interactable>().onDetachedFromHand += onDetach;
+        textHint.SetActive(false);
     }
 
     private void onDetach(Hand hand)
