@@ -29,15 +29,19 @@ public class MainController : MonoBehaviour
     public LaserPointer rightPointer;
     public GameObject dialog;
     private VRDialog questionsDialog;
-    private bool dominantRight = true;
+    private bool dominantRight = false;
     private delegate void AfterWaitDelegate();
     public GameObject numberPad;
+    public GameObject threeTwoOne;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
     // 1 - Pre-experience questions
     // 2 - Skill test
-    private int sceneIdx = 0;
+    // 3 - Instructions and Alerts
+    // 4 - Menus
+    // 5 - Movement
+    private int sceneIdx = 2;
 
     // Scene 0
     public FadePulse startText;
@@ -84,6 +88,16 @@ public class MainController : MonoBehaviour
     public static int numbersCompleted = 0;
     private int numbersHandled = 0;
     public Timer numbersTimer;
+
+    // Scene 3
+    private bool secondScreen = false;
+
+    // Scene 4
+    public GameObject leftHandMenu;
+    public GameObject rightHandMenu;
+
+    // Scene 5
+
 
     // Start is called before the first frame update
     void Start()
@@ -196,7 +210,7 @@ public class MainController : MonoBehaviour
                             break;
                         case 3:
                             questionIdx = null;
-                            questionsDialog.text = "Nice work! You will now proceed to the first test.";
+                            questionsDialog.text = "Nice work! You will now proceed to the pre-experiment skill test.  This skill test will help us get an idea of your base VR skill before starting the actual experiment.";
                             questionsDialog.question = false;
                             actionColor = Color.black;
                             ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -237,7 +251,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "The first test is a game of darts. Use the trigger to grab and throw each dart. Remember, you will be timed and the score will be recorded.";
+                                questionsDialog.text = "<b>Skill Test #1</b>\nThe first test is a game of darts. Use the trigger to grab and throw each dart. Remember, you will be timed and the score will be recorded.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -262,6 +276,7 @@ public class MainController : MonoBehaviour
                             {
                                 skillTests[0].gameObject.SetActive(true);
                                 if (!dominantRight) darts.localPosition = new Vector3(-1.2f, 0f, 0f);
+                                StartCoroutine(ThreeTwoOne());
                             }
                             
                             if (dartsThrown == 5 && !endTriggered)
@@ -283,7 +298,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "Next, you will be given a racket, and tennis balls will be shot toward you.  Hit a ball, get a point.";
+                                questionsDialog.text = "<b>Skill Test #2</b>\nNext, you will be given a racket, and tennis balls will be shot toward you.  Hit a ball, get a point.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -320,7 +335,7 @@ public class MainController : MonoBehaviour
                                     leftRacket.SetActive(true);
                                     leftPointer.gameObject.GetComponent<Hand>().Hide();
                                 }
-                                shooter.active = true;
+                                StartCoroutine(ThreeTwoOne(() => { shooter.active = true; }));
                             }
 
 
@@ -353,7 +368,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "Next, a number pad will appear.  Use the laser pointer to enter the 5 displayed sequences on the number pad, as fast and as accuractely as you can.";
+                                questionsDialog.text = "<b>Skill Test #3</b>\nLastly, a number pad will appear.  Use the laser pointer to enter the 5 displayed sequences on the number pad, as fast and as accuractely as you can.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -379,11 +394,14 @@ public class MainController : MonoBehaviour
                             {
                                 skillTests[2].gameObject.SetActive(true);
                                 ToggleNumberPad(true);
-                                numbersTimer = new Timer();
-                                numbersTimer.text = numbersTimeText;
-                                numbersTimer.StartTimer();
+                                StartCoroutine(ThreeTwoOne(() => 
+                                {
+                                    numbersTimer = new Timer();
+                                    numbersTimer.text = numbersTimeText;
+                                    numbersTimer.StartTimer();
+                                }));
                             }
-                            numbersTimer.Update();
+                            if (numbersTimer != null) numbersTimer.Update();
                             if (numbersCompleted > 5)
                             {
                                 SetSceneIdx(3);
@@ -408,7 +426,27 @@ public class MainController : MonoBehaviour
                     if (!dialog.activeSelf)
                     {
                         ToggleDialog(true);
-                        questionsDialog.text = "Now, a series of instructions and alerts will appear in your view.  Follow the directions and answer each question to proceed through the test.";
+                        questionsDialog.text = "Great work!  Your base VR skill score has been recorded.  Now, we will begin the first component of the UI experiment.";
+                        questionsDialog.question = false;
+                        Color actionColor = Color.black;
+                        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                        questionsDialog.SetActions(new List<VRDialogActionValues>()
+                        {
+                            new VRDialogActionValues()
+                            {
+                                text = "Okay",
+                                callback = answer => {
+                                    questionsDialog.Reset();
+                                    secondScreen = true;
+                                },
+                                background = actionColor,
+                                requireAnswer = false
+                            }
+                        });
+                    } else if (secondScreen)
+                    {
+                        secondScreen = false;
+                        questionsDialog.text = "<b>Experiment #1</b>\nA series of instructions and alerts will appear in your view.  Follow the directions and answer each question to proceed through the test.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -431,6 +469,68 @@ public class MainController : MonoBehaviour
                 else
                 {
                     
+                }
+                break;
+            case 4: // Menus
+                if (!testStarted)
+                {
+                    if (!dialog.activeSelf)
+                    {
+                        ToggleDialog(true);
+                        questionsDialog.text = "Now, a series of menus will appear in your view.  Follow the directions and perform the menu tasks to proceed through the test.";
+                        questionsDialog.question = false;
+                        Color actionColor = Color.black;
+                        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                        questionsDialog.SetActions(new List<VRDialogActionValues>()
+                        {
+                            new VRDialogActionValues()
+                            {
+                                text = "Okay",
+                                callback = answer => {
+                                    questionsDialog.Reset();
+                                    ToggleDialog(false);
+                                    testStarted = true;
+                                },
+                                background = actionColor,
+                                requireAnswer = false
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    leftHandMenu.SetActive(true);
+                }
+                break;
+            case 5: // Movement
+                if (!testStarted)
+                {
+                    if (!dialog.activeSelf)
+                    {
+                        ToggleDialog(true);
+                        questionsDialog.text = "You've done well!  This is the final test.  Follow the directions and complete the movements to finish this final test.";
+                        questionsDialog.question = false;
+                        Color actionColor = Color.black;
+                        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                        questionsDialog.SetActions(new List<VRDialogActionValues>()
+                        {
+                            new VRDialogActionValues()
+                            {
+                                text = "Okay",
+                                callback = answer => {
+                                    questionsDialog.Reset();
+                                    ToggleDialog(false);
+                                    testStarted = true;
+                                },
+                                background = actionColor,
+                                requireAnswer = false
+                            }
+                        });
+                    }
+                }
+                else
+                {
+
                 }
                 break;
         }
@@ -478,5 +578,18 @@ public class MainController : MonoBehaviour
             newBall.transform.localPosition = new Vector3(newX, newY, newZ);
             yield return null;
         }
+    }
+
+    private IEnumerator ThreeTwoOne(AfterWaitDelegate callable = null)
+    {
+        threeTwoOne.SetActive(true);
+        threeTwoOne.GetComponentInChildren<Text>().text = "3";
+        yield return new WaitForSeconds(1f);
+        threeTwoOne.GetComponentInChildren<Text>().text = "2";
+        yield return new WaitForSeconds(1f);
+        threeTwoOne.GetComponentInChildren<Text>().text = "1";
+        yield return new WaitForSeconds(1f);
+        threeTwoOne.SetActive(false);
+        callable();
     }
 }

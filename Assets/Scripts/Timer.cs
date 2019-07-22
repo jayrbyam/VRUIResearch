@@ -23,7 +23,6 @@ public class Timer
             time += Time.deltaTime;
             if (text != null)
             {
-                Debug.Log("Got here.");
                 string minutes = "00";
                 int m = 0;
                 if (time > 60f)

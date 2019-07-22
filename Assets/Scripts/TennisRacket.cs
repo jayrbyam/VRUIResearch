@@ -18,7 +18,7 @@ public class TennisRacket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "TennisBall")
+        if (collision.gameObject.tag == "TennisBall" && MainController.Instance.tennisScore < 10)
         {
             MainController.Instance.tennisScore++;
         }
