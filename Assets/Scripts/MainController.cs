@@ -33,6 +33,10 @@ public class MainController : MonoBehaviour
     private delegate void AfterWaitDelegate();
     public GameObject numberPad;
     public GameObject threeTwoOne;
+    public AudioSource ambience;
+    public AudioSource successSound;
+    public AudioSource failureSound;
+    public AudioSource hoverSound;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
@@ -91,6 +95,12 @@ public class MainController : MonoBehaviour
 
     // Scene 3
     private bool secondScreen = false;
+    private int experiment1Idx = 0;
+    private bool testsStarted = false;
+    public List<GameObject> experiments;
+    private int audioSourcesHandled = 0;
+    public int audioSourcesSelected = 0;
+    public TwoAudio twoAudio;
 
     // Scene 4
     public GameObject leftHandMenu;
@@ -108,6 +118,7 @@ public class MainController : MonoBehaviour
         }
         scenes[sceneIdx].SetActive(true);
         questionsDialog = dialog.GetComponent<VRDialog>();
+        StartCoroutine(FadeAmbience(true));
     }
 
     // Update is called once per frame
@@ -399,6 +410,8 @@ public class MainController : MonoBehaviour
                                     numbersTimer = new Timer();
                                     numbersTimer.text = numbersTimeText;
                                     numbersTimer.StartTimer();
+                                    numberPad.GetComponent<VRNumberPad>().promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                    numbersHandled++;
                                 }));
                             }
                             if (numbersTimer != null) numbersTimer.Update();
@@ -409,7 +422,7 @@ public class MainController : MonoBehaviour
                                 ToggleNumberPad(false);
                             } else
                             {
-                                if (numbersCompleted == numbersHandled)
+                                if (numbersCompleted == numbersHandled && numbersHandled != 0)
                                 {
                                     numbersTimer.StartTimer();
                                     numberPad.GetComponent<VRNumberPad>().promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
@@ -421,7 +434,7 @@ public class MainController : MonoBehaviour
                 }
                 break;
             case 3: // Instructions & Alerts
-                if (!testStarted)
+                if (!testsStarted)
                 {
                     if (!dialog.activeSelf)
                     {
@@ -434,7 +447,7 @@ public class MainController : MonoBehaviour
                         {
                             new VRDialogActionValues()
                             {
-                                text = "Okay",
+                                text = "Ready!",
                                 callback = answer => {
                                     questionsDialog.Reset();
                                     secondScreen = true;
@@ -446,7 +459,7 @@ public class MainController : MonoBehaviour
                     } else if (secondScreen)
                     {
                         secondScreen = false;
-                        questionsDialog.text = "<b>Experiment #1</b>\nA series of instructions and alerts will appear in your view.  Follow the directions and answer each question to proceed through the test.";
+                        questionsDialog.text = "<b>Experiment #1</b>\nA series of instructions and alerts will appear in your view.  Follow the directions and complete the actions to proceed through the test.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -454,11 +467,11 @@ public class MainController : MonoBehaviour
                         {
                             new VRDialogActionValues()
                             {
-                                text = "Okay",
+                                text = "Next",
                                 callback = answer => {
                                     questionsDialog.Reset();
                                     ToggleDialog(false);
-                                    testStarted = true;
+                                    testsStarted = true;
                                 },
                                 background = actionColor,
                                 requireAnswer = false
@@ -468,7 +481,159 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-                    
+                    switch (experiment1Idx)
+                    {
+                        case 0:
+                            if (!testStarted)
+                            {
+                                if (!dialog.activeSelf)
+                                {
+                                    ToggleDialog(true);
+                                    questionsDialog.text = "<b>Experiment #1a</b>\nTwo audio sources will appear in front of you.  Use the laser pointer to select the audio source that is currently emitting audio.  Please make selections as quickly as possible.";
+                                    questionsDialog.question = false;
+                                    Color actionColor = Color.black;
+                                    ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                    questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                    {
+                                        new VRDialogActionValues()
+                                        {
+                                            text = "Let do it!",
+                                            callback = answer => {
+                                                questionsDialog.Reset();
+                                                ToggleDialog(false);
+                                                TogglePointer(true);
+                                                testStarted = true;
+                                            },
+                                            background = actionColor,
+                                            requireAnswer = false
+                                        }
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                if (!experiments[0].gameObject.activeSelf)
+                                {
+                                    experiments[0].SetActive(true);
+                                    StartCoroutine(ThreeTwoOne(() =>
+                                    {
+                                        twoAudio.EmitRandom();
+                                        audioSourcesHandled++;
+                                    }));
+                                }
+
+                                if (audioSourcesSelected > 8)
+                                {
+                                    experiments[0].SetActive(false);
+                                    experiment1Idx = 1;
+                                    testStarted = false;
+                                }
+                                else
+                                {
+                                    if (audioSourcesSelected == audioSourcesHandled && audioSourcesHandled != 0)
+                                    {
+                                        twoAudio.EmitRandom();
+                                        audioSourcesHandled++;
+                                    }
+                                }
+                            }
+                            break;
+                        case 1:
+                            if (!testStarted)
+                            {
+                                if (!dialog.activeSelf)
+                                {
+                                    ToggleDialog(true);
+                                    questionsDialog.text = "<b>Experiment #1b</b>\nTwo visual indicators will appear in front of you.  Use the laser pointer to select the indicator that is currently activated.  Please make selections as quickly as possible.";
+                                    questionsDialog.question = false;
+                                    Color actionColor = Color.black;
+                                    ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                    questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Ready!",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            ToggleDialog(false);
+                                            testStarted = true;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                }
+                            }
+                            else
+                            {
+                                if (!experiments[1].gameObject.activeSelf)
+                                {
+                                    experiments[1].SetActive(true);
+                                    StartCoroutine(ThreeTwoOne());
+                                }
+
+                                
+                            }
+                            break;
+                        case 2:
+                            if (!testStarted)
+                            {
+                                if (!dialog.activeSelf)
+                                {
+                                    ToggleDialog(true);
+                                    questionsDialog.text = "<b>Skill Test #3</b>\nLastly, a number pad will appear.  Use the laser pointer to enter the 5 displayed sequences on the number pad, as fast and as accuractely as you can.";
+                                    questionsDialog.question = false;
+                                    Color actionColor = Color.black;
+                                    ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                    questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Ready!",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            ToggleDialog(false);
+                                            testStarted = true;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                }
+                            }
+                            else
+                            {
+                                if (!skillTests[2].gameObject.activeSelf)
+                                {
+                                    skillTests[2].gameObject.SetActive(true);
+                                    ToggleNumberPad(true);
+                                    StartCoroutine(ThreeTwoOne(() =>
+                                    {
+                                        numbersTimer = new Timer();
+                                        numbersTimer.text = numbersTimeText;
+                                        numbersTimer.StartTimer();
+                                    }));
+                                }
+                                if (numbersTimer != null) numbersTimer.Update();
+                                if (numbersCompleted > 5)
+                                {
+                                    SetSceneIdx(3);
+                                    testStarted = false;
+                                    ToggleNumberPad(false);
+                                }
+                                else
+                                {
+                                    if (numbersCompleted == numbersHandled)
+                                    {
+                                        numbersTimer.StartTimer();
+                                        numberPad.GetComponent<VRNumberPad>().promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                        numbersHandled++;
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                    break;
                 }
                 break;
             case 4: // Menus
@@ -537,6 +702,21 @@ public class MainController : MonoBehaviour
         
     }
 
+    private void TogglePointer(bool show)
+    {
+        rightPointer.active = show && dominantRight;
+        leftPointer.active = show && !dominantRight;
+    }
+
+    private IEnumerator FadeAmbience(bool on)
+    {
+        while ((on && ambience.volume < 0.2f) || (!on && ambience.volume > 0f))
+        {
+            ambience.volume += on ? 0.01f : -0.01f;
+            yield return null;
+        }
+    }
+
     public void SetSceneIdx (int idx)
     {
         scenes[sceneIdx].SetActive(false);
@@ -547,15 +727,14 @@ public class MainController : MonoBehaviour
     private void ToggleDialog(bool show)
     {
         dialog.SetActive(show);
-        rightPointer.active = show && dominantRight;
-        leftPointer.active = show && !dominantRight;
+        TogglePointer(show);
+        StartCoroutine(FadeAmbience(show));
     }
 
     private void ToggleNumberPad(bool show)
     {
         numberPad.SetActive(show);
-        rightPointer.active = show && dominantRight;
-        leftPointer.active = show && !dominantRight;
+        TogglePointer(show);
     }
 
     private IEnumerator WaitThenExecute(float seconds, AfterWaitDelegate callable)
@@ -590,6 +769,6 @@ public class MainController : MonoBehaviour
         threeTwoOne.GetComponentInChildren<Text>().text = "1";
         yield return new WaitForSeconds(1f);
         threeTwoOne.SetActive(false);
-        callable();
+        if (callable != null) callable();
     }
 }

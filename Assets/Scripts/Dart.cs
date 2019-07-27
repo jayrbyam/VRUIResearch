@@ -54,6 +54,7 @@ public class Dart : MonoBehaviour
     {
         if (thrown)
         {
+            GetComponent<AudioSource>().Play();
             thrown = false;
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             GetComponent<Rigidbody>().isKinematic = true;

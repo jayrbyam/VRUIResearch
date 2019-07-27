@@ -6,6 +6,8 @@ using Valve.VR.InteractionSystem;
 public class LaserUIElement : UIElement
 {
 
+    public AudioSource hoverSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public class LaserUIElement : UIElement
     public void OnEnter(Hand hand)
     {
         base.OnHandHoverBegin(hand);
+        //if (hoverSound != null && !hoverSound.isPlaying) hoverSound.Play();
     }
 
     public void OnExit(Hand hand)

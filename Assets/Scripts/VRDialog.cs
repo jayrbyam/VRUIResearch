@@ -13,6 +13,8 @@ public class VRDialog : MonoBehaviour
     public GameObject answersPanel;
     public GameObject originalAnswer;
     public GameObject originalAction;
+    public AudioSource successSound;
+    public AudioSource failureSound;
 
     public string text
     {
@@ -60,7 +62,11 @@ public class VRDialog : MonoBehaviour
             {
                 if (!action.requireAnswer || selectedAnswer != null)
                 {
+                    successSound.Play();
                     action.callback(selectedAnswer);
+                } else
+                {
+                    failureSound.Play();
                 }
             });
             dialogAction.callback = action.callback;
