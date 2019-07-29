@@ -8,11 +8,12 @@ public class TwoAudio : MonoBehaviour
     public AudioSource left;
     public AudioSource right;
     private bool leftEmitting = false;
+    private System.Random rand;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rand = new System.Random();
     }
 
     // Update is called once per frame
@@ -23,7 +24,7 @@ public class TwoAudio : MonoBehaviour
 
     public void EmitRandom()
     {
-        leftEmitting = Random.Range(0, 2) == 0;
+        leftEmitting = rand.NextDouble() > 0.5;
         if (leftEmitting)
         {
             int idx = Random.Range(0, sounds.Count - 1);

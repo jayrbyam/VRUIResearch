@@ -34,9 +34,6 @@ public class MainController : MonoBehaviour
     public GameObject numberPad;
     public GameObject threeTwoOne;
     public AudioSource ambience;
-    public AudioSource successSound;
-    public AudioSource failureSound;
-    public AudioSource hoverSound;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
@@ -45,7 +42,7 @@ public class MainController : MonoBehaviour
     // 3 - Instructions and Alerts
     // 4 - Menus
     // 5 - Movement
-    private int sceneIdx = 2;
+    private int sceneIdx = 0;
 
     // Scene 0
     public FadePulse startText;
@@ -95,12 +92,16 @@ public class MainController : MonoBehaviour
 
     // Scene 3
     private bool secondScreen = false;
-    private int experiment1Idx = 0;
+    private int experimentIdx = 0;
     private bool testsStarted = false;
     public List<GameObject> experiments;
     private int audioSourcesHandled = 0;
     public int audioSourcesSelected = 0;
     public TwoAudio twoAudio;
+    public int indicatorsHandled = 0;
+    public int indicatorsSelected = 0;
+    public TwoIndicators twoIndicators;
+    public AlertsController alerts;
 
     // Scene 4
     public GameObject leftHandMenu;
@@ -481,7 +482,7 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-                    switch (experiment1Idx)
+                    switch (experimentIdx)
                     {
                         case 0:
                             if (!testStarted)
@@ -525,7 +526,7 @@ public class MainController : MonoBehaviour
                                 if (audioSourcesSelected > 8)
                                 {
                                     experiments[0].SetActive(false);
-                                    experiment1Idx = 1;
+                                    experimentIdx = 1;
                                     testStarted = false;
                                 }
                                 else
@@ -556,6 +557,7 @@ public class MainController : MonoBehaviour
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
+                                            TogglePointer(true);
                                             testStarted = true;
                                         },
                                         background = actionColor,
@@ -569,10 +571,27 @@ public class MainController : MonoBehaviour
                                 if (!experiments[1].gameObject.activeSelf)
                                 {
                                     experiments[1].SetActive(true);
-                                    StartCoroutine(ThreeTwoOne());
+                                    StartCoroutine(ThreeTwoOne(() =>
+                                    {
+                                        twoIndicators.ActivateRandom();
+                                        indicatorsHandled++;
+                                    }));
                                 }
 
-                                
+                                if (indicatorsSelected > 8)
+                                {
+                                    experiments[1].SetActive(false);
+                                    experimentIdx = 2;
+                                    testStarted = false;
+                                }
+                                else
+                                {
+                                    if (indicatorsSelected == indicatorsHandled && indicatorsHandled != 0)
+                                    {
+                                        twoIndicators.ActivateRandom();
+                                        indicatorsHandled++;
+                                    }
+                                }
                             }
                             break;
                         case 2:
@@ -581,7 +600,7 @@ public class MainController : MonoBehaviour
                                 if (!dialog.activeSelf)
                                 {
                                     ToggleDialog(true);
-                                    questionsDialog.text = "<b>Skill Test #3</b>\nLastly, a number pad will appear.  Use the laser pointer to enter the 5 displayed sequences on the number pad, as fast and as accuractely as you can.";
+                                    questionsDialog.text = "<b>Experiment #1c</b>\nAlerts will appear in and out of your view.  Use the laser pointer to answer the yes/no questions appearing on the alerts. Please do so as quickly as possible.";
                                     questionsDialog.question = false;
                                     Color actionColor = Color.black;
                                     ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -593,6 +612,7 @@ public class MainController : MonoBehaviour
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
+                                            TogglePointer(true);
                                             testStarted = true;
                                         },
                                         background = actionColor,
@@ -603,32 +623,21 @@ public class MainController : MonoBehaviour
                             }
                             else
                             {
-                                if (!skillTests[2].gameObject.activeSelf)
+                                if (!experiments[2].gameObject.activeSelf)
                                 {
-                                    skillTests[2].gameObject.SetActive(true);
-                                    ToggleNumberPad(true);
+                                    experiments[2].SetActive(true);
                                     StartCoroutine(ThreeTwoOne(() =>
                                     {
-                                        numbersTimer = new Timer();
-                                        numbersTimer.text = numbersTimeText;
-                                        numbersTimer.StartTimer();
+                                        alerts.Begin();
                                     }));
                                 }
-                                if (numbersTimer != null) numbersTimer.Update();
-                                if (numbersCompleted > 5)
+
+                                if (alerts.completed)
                                 {
-                                    SetSceneIdx(3);
+                                    experiments[2].SetActive(false);
+                                    SetSceneIdx(4);
+                                    experimentIdx = 3;
                                     testStarted = false;
-                                    ToggleNumberPad(false);
-                                }
-                                else
-                                {
-                                    if (numbersCompleted == numbersHandled)
-                                    {
-                                        numbersTimer.StartTimer();
-                                        numberPad.GetComponent<VRNumberPad>().promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
-                                        numbersHandled++;
-                                    }
                                 }
                             }
                             break;
