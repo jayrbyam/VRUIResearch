@@ -42,7 +42,7 @@ public class MainController : MonoBehaviour
     // 3 - Instructions and Alerts
     // 4 - Menus
     // 5 - Movement
-    private int sceneIdx = 0;
+    private int sceneIdx = 4;
 
     // Scene 0
     public FadePulse startText;
@@ -104,6 +104,9 @@ public class MainController : MonoBehaviour
     public AlertsController alerts;
 
     // Scene 4
+    private int techniqueIdx = -1;
+    public GameObject technique2Button;
+    public ButtonGroup technique3Buttons;
     public GameObject leftHandMenu;
     public GameObject rightHandMenu;
 
@@ -651,7 +654,7 @@ public class MainController : MonoBehaviour
                     if (!dialog.activeSelf)
                     {
                         ToggleDialog(true);
-                        questionsDialog.text = "Now, a series of menus will appear in your view.  Follow the directions and perform the menu tasks to proceed through the test.";
+                        questionsDialog.text = "<b>Experiment #2:</b>\nA series of menus will appear in your view.  You will be prompted to interact with each menu in one of 3 ways: laser pointer, controller touch, thumbpad.\nBefore we get started, these interaction techniques will be introduced.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -659,16 +662,67 @@ public class MainController : MonoBehaviour
                         {
                             new VRDialogActionValues()
                             {
-                                text = "Okay",
+                                text = "Show me!",
                                 callback = answer => {
                                     questionsDialog.Reset();
-                                    ToggleDialog(false);
-                                    testStarted = true;
+                                    techniqueIdx = 0;
                                 },
                                 background = actionColor,
                                 requireAnswer = false
                             }
                         });
+                    } else
+                    {
+                        switch (techniqueIdx)
+                        {
+                            case 0:
+                                techniqueIdx = -1;
+                                questionsDialog.text = "<b>Technique #1: Laser Pointer</b>\nYou may recognize this technique...prove that you haven't forgotten by selecting 'Next'.";
+                                questionsDialog.question = false;
+                                Color actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            techniqueIdx = 1;
+                                            TogglePointer(false);
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                break;
+                            case 1:
+                                techniqueIdx = -1;
+                                technique2Button.transform.parent.gameObject.SetActive(true);
+                                technique2Button.GetComponent<Button>().onClick.AddListener(() =>
+                                {
+                                    questionsDialog.Reset();
+                                    technique2Button.transform.parent.gameObject.SetActive(false);
+                                    techniqueIdx = 2;
+                                });
+                                questionsDialog.text = "<b>Technique #2: Controller Touch</b>\nFor this technique, touch the UI button with your controller and pull the trigger to make a selection.";
+                                questionsDialog.question = false;
+                                break;
+                            case 2:
+                                techniqueIdx = -1;
+                                technique3Buttons.transform.parent.gameObject.SetActive(true);
+                                technique3Buttons.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
+                                {
+                                    questionsDialog.Reset();
+                                    ToggleDialog(false);
+                                    technique3Buttons.transform.parent.gameObject.SetActive(false);
+                                    testStarted = true;
+                                });
+                                questionsDialog.text = "<b>Technique #3: Thumbpad</b>\nWith this technique, a button in view is highlighted.  Press on the edges of the thumbpad on either controller to change which button is highlighted.  Pull the trigger to select the 'Correct' button.";
+                                questionsDialog.question = false;
+                                break;
+                        }
+                           
                     }
                 }
                 else

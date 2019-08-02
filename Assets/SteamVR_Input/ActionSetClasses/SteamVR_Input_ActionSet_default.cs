@@ -89,6 +89,38 @@ namespace Valve.VR
             }
         }
         
+        public virtual SteamVR_Action_Boolean DPadUp
+        {
+            get
+            {
+                return SteamVR_Actions.default_DPadUp;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean DPadDown
+        {
+            get
+            {
+                return SteamVR_Actions.default_DPadDown;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean DPadLeft
+        {
+            get
+            {
+                return SteamVR_Actions.default_DPadLeft;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean DPadRight
+        {
+            get
+            {
+                return SteamVR_Actions.default_DPadRight;
+            }
+        }
+        
         public virtual SteamVR_Action_Vibration Haptic
         {
             get
