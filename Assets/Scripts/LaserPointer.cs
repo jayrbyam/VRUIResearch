@@ -75,7 +75,7 @@ namespace Valve.VR.Extras
             cursor = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             Destroy(cursor.GetComponent<CapsuleCollider>());
             cursor.transform.parent = holder.transform;
-            cursor.transform.localScale = new Vector3(0.1f, 0.005f, 0.1f);
+            cursor.transform.localScale = new Vector3(0.03f, 0.001f, 0.03f);
             cursor.GetComponent<MeshRenderer>().material = newMaterial;
             cursor.SetActive(false);
 

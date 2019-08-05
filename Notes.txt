@@ -18,15 +18,7 @@ Tasks:
    - Pass in bool function that determines starting/ending action
    - Watch then record time between starting and ending actions
  - Write up agreement/waiver for participants
- - Develop generic instruction object to use throughout the experience
- - Set up pre-experience questions using the generic instruction object
  - Store pre-experience questions in the database (or at least develop means to do so)
- - Develop Skill Test
-   - Include instructions
-   - Throw balls into basket
-   - Catch falling things in basket
-   - Can't remember the other one
- - ...
 
 Audio section! 
 - Which source

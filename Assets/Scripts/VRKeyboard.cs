@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.UI.ProceduralImage;
 using Valve.VR.InteractionSystem;
 
-public class VRNumberPad : MonoBehaviour
+public class VRKeyboard : MonoBehaviour
 {
 
     public Text prompt;
@@ -61,6 +61,13 @@ public class VRNumberPad : MonoBehaviour
         }
     }
 
+    public void Space()
+    {
+        if (completed) return;
+        enteredText += " ";
+        if (enteredText == promptText) Completed();
+    }
+
     private void Reset()
     {
         enteredText = "";
@@ -76,14 +83,14 @@ public class VRNumberPad : MonoBehaviour
         Color green = Color.green;
         ColorUtility.TryParseHtmlString(greenHex, out green);
         entered.transform.parent.GetComponent<RawImage>().color = green;
-        StartCoroutine(NextNumber());
+        StartCoroutine(Complete());
     }
 
-    private IEnumerator NextNumber()
+    private IEnumerator Complete()
     {
         MainController.Instance.timer.StopTimer();
         yield return new WaitForSeconds(1f);
         Reset();
-        MainController.numbersCompleted++;
+        MainController.Instance.stringsCompleted++;
     }
 }

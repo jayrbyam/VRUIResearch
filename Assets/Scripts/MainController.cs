@@ -34,6 +34,8 @@ public class MainController : MonoBehaviour
     public GameObject numberPad;
     public GameObject threeTwoOne;
     public AudioSource ambience;
+    public Timer timer;
+    private List<string> letters = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
@@ -88,7 +90,6 @@ public class MainController : MonoBehaviour
     public Text numbersTimeText;
     public static int numbersCompleted = 0;
     private int numbersHandled = 0;
-    public Timer numbersTimer;
 
     // Scene 3
     private bool secondScreen = false;
@@ -107,8 +108,19 @@ public class MainController : MonoBehaviour
     private int techniqueIdx = -1;
     public GameObject technique2Button;
     public ButtonGroup technique3Buttons;
-    public GameObject leftHandMenu;
-    public GameObject rightHandMenu;
+    public int stringsHandled = 0;
+    public int stringsCompleted = 0;
+    public Text stringsTimeText;
+    public VRKeyboard keyboard;
+    public GameObject menusPrompt;
+    public GameObject touchNumberPad;
+    public GameObject headKeyboard;
+    public GameObject leftHandNumberPad;
+    public GameObject rightHandNumberPad;
+    public GameObject buttonKeyboard;
+    public GameObject leftHandKeyboard;
+    public GameObject rightHandKeyboard;
+    public GameObject headNumberPad;
 
     // Scene 5
 
@@ -123,6 +135,7 @@ public class MainController : MonoBehaviour
         scenes[sceneIdx].SetActive(true);
         questionsDialog = dialog.GetComponent<VRDialog>();
         StartCoroutine(FadeAmbience(true));
+        timer = new Timer();
     }
 
     // Update is called once per frame
@@ -411,15 +424,14 @@ public class MainController : MonoBehaviour
                                 ToggleNumberPad(true);
                                 StartCoroutine(ThreeTwoOne(() => 
                                 {
-                                    numbersTimer = new Timer();
-                                    numbersTimer.text = numbersTimeText;
-                                    numbersTimer.StartTimer();
+                                    timer.text = numbersTimeText;
+                                    timer.StartTimer();
                                     numberPad.GetComponent<VRNumberPad>().promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
                                     numbersHandled++;
                                 }));
                             }
-                            if (numbersTimer != null) numbersTimer.Update();
-                            if (numbersCompleted > 5)
+                            timer.Update();
+                            if (numbersCompleted > 4)
                             {
                                 SetSceneIdx(3);
                                 testStarted = false;
@@ -428,7 +440,7 @@ public class MainController : MonoBehaviour
                             {
                                 if (numbersCompleted == numbersHandled && numbersHandled != 0)
                                 {
-                                    numbersTimer.StartTimer();
+                                    timer.StartTimer();
                                     numberPad.GetComponent<VRNumberPad>().promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
                                     numbersHandled++;
                                 }
@@ -714,12 +726,42 @@ public class MainController : MonoBehaviour
                                 technique3Buttons.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
                                 {
                                     questionsDialog.Reset();
-                                    ToggleDialog(false);
                                     technique3Buttons.transform.parent.gameObject.SetActive(false);
-                                    testStarted = true;
+                                    techniqueIdx = 3;
                                 });
                                 questionsDialog.text = "<b>Technique #3: Thumbpad</b>\nWith this technique, a button in view is highlighted.  Press on the edges of the thumbpad on either controller to change which button is highlighted.  Pull the trigger to select the 'Correct' button.";
                                 questionsDialog.question = false;
+                                break;
+                            case 3:
+                                techniqueIdx = -1;
+                                TogglePointer(true);
+                                questionsDialog.text = "Experiment #2 will now begin.  Use the prompted interaction technique and the menus that appear to enter the 6 displayed sequences, much like in Skill Test #3.";
+                                questionsDialog.question = false;
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Ready!",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            ToggleDialog(false);
+                                            testStarted = true;
+                                            StartCoroutine(ThreeTwoOne(() =>
+                                            {
+                                                menusPrompt.SetActive(true);
+                                                touchNumberPad.SetActive(true);
+                                                timer.text = stringsTimeText;
+                                                timer.StartTimer();
+                                                keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                                stringsHandled++;
+                                            }));
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
                                 break;
                         }
                            
@@ -727,7 +769,75 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-                    leftHandMenu.SetActive(true);
+                    timer.Update();
+                    if (stringsCompleted > 5)
+                    {
+                        menusPrompt.SetActive(false);
+                        headNumberPad.SetActive(false);
+                        SetSceneIdx(5);
+                        testStarted = false;
+                        ToggleNumberPad(false);
+                    }
+                    else
+                    {
+                        if (stringsCompleted == stringsHandled && stringsHandled != 0)
+                        {
+                            timer.StartTimer();
+                            stringsHandled++;
+                            switch (stringsCompleted)
+                            {
+                                case 1:
+                                    touchNumberPad.SetActive(false);
+                                    headKeyboard.SetActive(true);
+                                    TogglePointer(true);
+                                    string newPrompt = "";
+                                    for (int i = 0; i < 6; i++)
+                                    {
+                                        newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
+                                    }
+                                    keyboard.promptText = newPrompt;
+                                    break;
+                                case 2:
+                                    headKeyboard.SetActive(false);
+                                    TogglePointer(false);
+                                    if (dominantRight) leftHandNumberPad.SetActive(true);
+                                    else rightHandNumberPad.SetActive(true);
+                                    keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                    break;
+                                case 3:
+                                    if (dominantRight) leftHandNumberPad.SetActive(false);
+                                    else rightHandNumberPad.SetActive(false);
+                                    buttonKeyboard.SetActive(true);
+                                    newPrompt = "";
+                                    for (int i = 0; i < 6; i++)
+                                    {
+                                        newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
+                                    }
+                                    keyboard.promptText = newPrompt;
+                                    break;
+                                case 4:
+                                    buttonKeyboard.SetActive(false);
+                                    if (dominantRight) leftHandKeyboard.SetActive(true);
+                                    else rightHandKeyboard.SetActive(true);
+                                    TogglePointer(true);
+                                    newPrompt = "";
+                                    for (int i = 0; i < 6; i++)
+                                    {
+                                        newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
+                                    }
+                                    keyboard.promptText = newPrompt;
+                                    break;
+                                case 5:
+                                    if (dominantRight) leftHandKeyboard.SetActive(false);
+                                    else rightHandKeyboard.SetActive(false);
+                                    TogglePointer(false);
+                                    headNumberPad.SetActive(true);
+                                    keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                    break;
+                            }
+                            
+                        }
+                    }
                 }
                 break;
             case 5: // Movement

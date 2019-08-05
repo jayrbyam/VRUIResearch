@@ -57,6 +57,10 @@
       "type": "boolean"
     },
     {
+      "name": "/actions/default/in/DPad",
+      "type": "vector2"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -166,7 +170,8 @@
       "/actions/default/in/DPadUp": "DPad Up",
       "/actions/default/in/DPadDown": "DPad Down",
       "/actions/default/in/DPadLeft": "DPad Left",
-      "/actions/default/in/DPadRight": "DPad Right"
+      "/actions/default/in/DPadRight": "DPad Right",
+      "/actions/default/in/DPad": "DPad"
     }
   ]
 }
