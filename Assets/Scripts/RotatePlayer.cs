@@ -1,0 +1,26 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Valve.VR;
+
+public class RotatePlayer : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (SteamVR_Actions.default_DPadLeft[SteamVR_Input_Sources.RightHand].stateDown)
+        {
+            transform.eulerAngles += new Vector3(0f, -35f, 0f);
+        }
+        if (SteamVR_Actions.default_DPadRight[SteamVR_Input_Sources.RightHand].stateDown)
+        {
+            transform.eulerAngles += new Vector3(0f, 35f, 0f);
+        }
+    }
+}

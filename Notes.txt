@@ -20,6 +20,14 @@ Tasks:
  - Write up agreement/waiver for participants
  - Store pre-experience questions in the database (or at least develop means to do so)
 
+Menus:
+Touch world-space number pad
+Button controlled world-space keyboard
+Button controlled head-mounted number pad
+Laser pointer head-mounted keyboard
+Touch hand-mounted number pad
+Laser pointer hand-mounted keyboard
+
 Audio section! 
 - Which source
 - Look at the source that is emmitting

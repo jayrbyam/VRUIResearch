@@ -14,7 +14,7 @@ namespace Valve.VR.InteractionSystem
 	public class Teleport : MonoBehaviour
     {
         public SteamVR_Action_Boolean teleportAction = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("Teleport");
-
+        public bool blur = false;
         public LayerMask traceLayerMask;
 		public LayerMask floorFixupTraceLayerMask;
 		public float floorFixupMaximumTraceDistance = 1.0f;
@@ -829,23 +829,26 @@ namespace Valve.VR.InteractionSystem
 		{
 			teleporting = true;
 
-			currentFadeTime = teleportFadeTime;
+            currentFadeTime = teleportFadeTime;
 
-			TeleportPoint teleportPoint = teleportingToMarker as TeleportPoint;
-			if ( teleportPoint != null && teleportPoint.teleportType == TeleportPoint.TeleportPointType.SwitchToNewScene )
-			{
-				currentFadeTime *= 3.0f;
-				Teleport.ChangeScene.Send( currentFadeTime );
-			}
+            TeleportPoint teleportPoint = teleportingToMarker as TeleportPoint;
+            if (teleportPoint != null && teleportPoint.teleportType == TeleportPoint.TeleportPointType.SwitchToNewScene)
+            {
+                currentFadeTime *= 3.0f;
+                Teleport.ChangeScene.Send(currentFadeTime);
+            }
 
-			SteamVR_Fade.Start( Color.clear, 0 );
-			SteamVR_Fade.Start( Color.black, currentFadeTime );
+            if (!blur) // The normal teleport functionality
+            {
+                SteamVR_Fade.Start(Color.clear, 0);
+                SteamVR_Fade.Start(Color.black, currentFadeTime);
+            }
 
-			headAudioSource.transform.SetParent( player.hmdTransform );
-			headAudioSource.transform.localPosition = Vector3.zero;
-			PlayAudioClip( headAudioSource, teleportSound );
+            headAudioSource.transform.SetParent(player.hmdTransform);
+            headAudioSource.transform.localPosition = Vector3.zero;
+            PlayAudioClip(headAudioSource, teleportSound);
 
-			Invoke( "TeleportPlayer", currentFadeTime );
+            Invoke("TeleportPlayer", currentFadeTime);
 		}
 
 
@@ -856,7 +859,7 @@ namespace Valve.VR.InteractionSystem
 
 			Teleport.PlayerPre.Send( pointedAtTeleportMarker );
 
-			SteamVR_Fade.Start( Color.clear, currentFadeTime );
+			if (!blur) SteamVR_Fade.Start( Color.clear, currentFadeTime );
 
 			TeleportPoint teleportPoint = teleportingToMarker as TeleportPoint;
 			Vector3 teleportPosition = pointedAtPosition;
@@ -890,21 +893,46 @@ namespace Valve.VR.InteractionSystem
 			if ( teleportingToMarker.ShouldMovePlayer() )
 			{
 				Vector3 playerFeetOffset = player.trackingOriginTransform.position - player.feetPositionGuess;
-				player.trackingOriginTransform.position = teleportPosition + playerFeetOffset;
 
-                if (player.leftHand.currentAttachedObjectInfo.HasValue)
-                    player.leftHand.ResetAttachedTransform(player.leftHand.currentAttachedObjectInfo.Value);
-                if (player.rightHand.currentAttachedObjectInfo.HasValue)
-                    player.rightHand.ResetAttachedTransform(player.rightHand.currentAttachedObjectInfo.Value);
+                if (blur)
+                {
+                    teleporting = true;
+                    StartCoroutine(Blur(teleportPosition + playerFeetOffset));
+                }
+                else
+                {
+                    player.trackingOriginTransform.position = teleportPosition + playerFeetOffset;
+                    if (player.leftHand.currentAttachedObjectInfo.HasValue)
+                        player.leftHand.ResetAttachedTransform(player.leftHand.currentAttachedObjectInfo.Value);
+                    if (player.rightHand.currentAttachedObjectInfo.HasValue)
+                        player.rightHand.ResetAttachedTransform(player.rightHand.currentAttachedObjectInfo.Value);
+                }
             }
 			else
 			{
 				teleportingToMarker.TeleportPlayer( pointedAtPosition );
 			}
 
-			Teleport.Player.Send( pointedAtTeleportMarker );
-		}
+            Teleport.Player.Send(pointedAtTeleportMarker);
+        }
 
+        private IEnumerator Blur(Vector3 position)
+        {
+            float speed = 10f;
+            Vector3 start = player.trackingOriginTransform.position;
+
+            while (Vector3.Distance(player.trackingOriginTransform.position, position) > 0.1f)
+            {
+                player.trackingOriginTransform.position = Vector3.Lerp(player.trackingOriginTransform.position, position, speed * Time.deltaTime);
+                yield return null;
+            }
+
+            if (player.leftHand.currentAttachedObjectInfo.HasValue)
+                player.leftHand.ResetAttachedTransform(player.leftHand.currentAttachedObjectInfo.Value);
+            if (player.rightHand.currentAttachedObjectInfo.HasValue)
+                player.rightHand.ResetAttachedTransform(player.rightHand.currentAttachedObjectInfo.Value);
+            teleporting = false;
+        }
 
 		//-------------------------------------------------
 		private void HighlightSelected( TeleportMarkerBase hitTeleportMarker )

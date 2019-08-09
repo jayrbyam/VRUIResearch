@@ -22,9 +22,9 @@ public class ButtonGroup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SteamVR_Actions.default_Teleport[SteamVR_Input_Sources.Any].stateDown)
+        if (SteamVR_Actions.default_Teleport[SteamVR_Input_Sources.LeftHand].stateDown)
         {
-            Vector2 normalizedPosition = SteamVR_Actions.default_DPad[SteamVR_Input_Sources.Any].axis.Rotate(45f);
+            Vector2 normalizedPosition = SteamVR_Actions.default_DPad[SteamVR_Input_Sources.LeftHand].axis.Rotate(45f);
             if (normalizedPosition.x <= 0 && normalizedPosition.y > 0 && selected > width - 1)  // If up pressed and not in top row
             {
                 Select(selected - width);
@@ -56,7 +56,7 @@ public class ButtonGroup : MonoBehaviour
         transform.GetChild(selected).GetComponent<ProceduralImage>().color = unselectedBackground;
         Color unselectedText = Color.white;
         ColorUtility.TryParseHtmlString("#D8DBE2", out unselectedText);
-        transform.GetChild(selected).GetComponentInChildren<Text>().color = unselectedText;
+        if ((!numberPad || selected != 11) && (!keyboard || selected != 19)) transform.GetChild(selected).GetComponentInChildren<Text>().color = unselectedText;
 
         selected = idx;
         if (keyboard && selected == 20) selected++;
@@ -66,7 +66,7 @@ public class ButtonGroup : MonoBehaviour
         Color selectedBackground = Color.gray;
         ColorUtility.TryParseHtmlString("#46ACC2", out selectedBackground);
         transform.GetChild(selected).GetComponent<ProceduralImage>().color = selectedBackground;
-        transform.GetChild(selected).GetComponentInChildren<Text>().color = Color.white;
+        if ((!numberPad || selected != 11) && (!keyboard || selected != 19)) transform.GetChild(selected).GetComponentInChildren<Text>().color = Color.white;
     }
 }
 
