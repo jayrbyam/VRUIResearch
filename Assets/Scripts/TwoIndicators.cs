@@ -37,7 +37,8 @@ public class TwoIndicators : MonoBehaviour
         if (activating) return;
         left.Activate(false);
         right.Activate(false);
-        // In future, record whether selection was correct or not
+        MainController.Instance.timer.StopTimer();
+        if (leftActive) MainController.Instance.metrics.e1bCA++;
         MainController.Instance.indicatorsSelected++;
     }
 
@@ -46,13 +47,15 @@ public class TwoIndicators : MonoBehaviour
         if (activating) return;
         left.Activate(false);
         right.Activate(false);
-        // In future, record whether selection was correct or not
+        MainController.Instance.timer.StopTimer();
+        if (!leftActive) MainController.Instance.metrics.e1bCA++;
         MainController.Instance.indicatorsSelected++;
     }
 
     private IEnumerator WaitThenActivate()
     {
         yield return new WaitForSeconds(1f);
+        MainController.Instance.timer.StartTimer();
         activating = false;
         leftActive = rand.NextDouble() > 0.5;
         left.Activate(leftActive);

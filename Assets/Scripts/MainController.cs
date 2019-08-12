@@ -24,6 +24,7 @@ public class MainController : MonoBehaviour
         }
     }
 
+    public Metrics metrics;
     public List<GameObject> scenes;
     public LaserPointer leftPointer;
     public LaserPointer rightPointer;
@@ -44,7 +45,7 @@ public class MainController : MonoBehaviour
     // 3 - Instructions and Alerts
     // 4 - Menus
     // 5 - Movement
-    private int sceneIdx = 0;
+    private int sceneIdx = 5;
 
     // Scene 0
     public FadePulse startText;
@@ -69,7 +70,7 @@ public class MainController : MonoBehaviour
             dartScoreText.text = "Score: " + value.ToString();
         }
     }
-    public static int dartsThrown = 0;
+    public int dartsThrown = 0;
     private bool endTriggered = false;
     public GameObject leftRacket;
     public GameObject rightRacket;
@@ -125,10 +126,20 @@ public class MainController : MonoBehaviour
     // Scene 5
     public Teleport teleport;
     public Joystick joystick;
+    public GameObject lapStuff;
+    private Vector3 originalThreeTwoOnePosition;
+    public TrackPlayer tracker;
+    public GameObject secondLapStuff;
+    public GameObject thirdLapStuff;
+    public GameObject joystickStuff;
+    public GameObject joystickSecondLapStuff;
+    public GameObject joystickThirdLapStuff;
 
     // Start is called before the first frame update
     void Start()
     {
+        metrics = new Metrics();
+
         foreach (GameObject child in scenes)
         {
             child.SetActive(false);
@@ -141,6 +152,7 @@ public class MainController : MonoBehaviour
         teleport.CancelTeleportHint();
         teleport.enabled = false;
         joystick.enabled = false;
+        originalThreeTwoOnePosition = threeTwoOne.transform.position;
     }
 
     // Update is called once per frame
@@ -197,7 +209,7 @@ public class MainController : MonoBehaviour
                                 {
                                     text = "Next",
                                     callback = answer => {
-                                        Debug.Log("'" + answer + "' selected.");
+                                        metrics.peqVRE = answer;
                                         questionsDialog.Reset();
                                         questionIdx = 2;
                                     },
@@ -229,7 +241,7 @@ public class MainController : MonoBehaviour
                                 {
                                     text = "Next",
                                     callback = answer => {
-                                        Debug.Log("'" + answer + "' selected.");
+                                        metrics.peqDH = answer;
                                         dominantRight = answer == "Right";
                                         ToggleDialog(false); // Force reload of dominant hand pointer
                                         questionsDialog.Reset();
@@ -309,11 +321,18 @@ public class MainController : MonoBehaviour
                             {
                                 skillTests[0].gameObject.SetActive(true);
                                 if (!dominantRight) darts.localPosition = new Vector3(-1.2f, 0f, 0f);
-                                StartCoroutine(ThreeTwoOne());
+                                StartCoroutine(ThreeTwoOne(() =>
+                                {
+                                    timer.StartTimer();
+                                }));
                             }
-                            
+                            timer.Update();
                             if (dartsThrown == 5 && !endTriggered)
                             {
+                                timer.StopTimer();
+                                metrics.st1T = timer.time;
+                                timer.time = 0f;
+                                metrics.st1S = dartScore;
                                 endTriggered = true;
                                 StartCoroutine(WaitThenExecute(3f, () =>
                                 {
@@ -374,6 +393,7 @@ public class MainController : MonoBehaviour
 
                             if (shooter.ballsShot == 9 && !endTriggered)
                             {
+                                metrics.st2S = tennisScore;
                                 endTriggered = true;
                                 StartCoroutine(WaitThenExecute(3f, () =>
                                 {
@@ -438,6 +458,8 @@ public class MainController : MonoBehaviour
                             timer.Update();
                             if (numbersCompleted > 4)
                             {
+                                metrics.st3T = timer.time;
+                                timer.time = 0f;
                                 SetSceneIdx(3);
                                 testStarted = false;
                                 ToggleNumberPad(false);
@@ -541,11 +563,14 @@ public class MainController : MonoBehaviour
                                     {
                                         twoAudio.EmitRandom();
                                         audioSourcesHandled++;
+                                        timer.StartTimer();
                                     }));
                                 }
-
+                                timer.Update();
                                 if (audioSourcesSelected > 8)
                                 {
+                                    metrics.e1aT = timer.time;
+                                    timer.time = 0f;
                                     experiments[0].SetActive(false);
                                     experimentIdx = 1;
                                     testStarted = false;
@@ -596,11 +621,14 @@ public class MainController : MonoBehaviour
                                     {
                                         twoIndicators.ActivateRandom();
                                         indicatorsHandled++;
+                                        timer.StartTimer();
                                     }));
                                 }
-
+                                timer.Update();
                                 if (indicatorsSelected > 8)
                                 {
+                                    metrics.e1bT = timer.time;
+                                    timer.time = 0f;
                                     experiments[1].SetActive(false);
                                     experimentIdx = 2;
                                     testStarted = false;
@@ -650,11 +678,15 @@ public class MainController : MonoBehaviour
                                     StartCoroutine(ThreeTwoOne(() =>
                                     {
                                         alerts.Begin();
+                                        timer.StartTimer();
                                     }));
                                 }
-
+                                timer.Update();
                                 if (alerts.completed)
                                 {
+                                    timer.StopTimer();
+                                    metrics.e1cT = timer.time;
+                                    timer.time = 0f;
                                     experiments[2].SetActive(false);
                                     SetSceneIdx(4);
                                     experimentIdx = 3;
@@ -986,7 +1018,7 @@ public class MainController : MonoBehaviour
                                 break;
                             case 3:
                                 techniqueIdx = -1;
-                                questionsDialog.text = "Experiment #3 will now begin....";
+                                questionsDialog.text = "Experiment #3 will now begin.  Use the prompted movement technique to complete 3 laps as quickly as possible.";
                                 questionsDialog.question = false;
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -999,9 +1031,15 @@ public class MainController : MonoBehaviour
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
                                             testStarted = true;
+                                            lapStuff.SetActive(true);
+                                            joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
+                                            joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                                            threeTwoOne.transform.position = new Vector3(2.5f, 1.5f, 9f);
+                                            threeTwoOne.transform.eulerAngles = new Vector3(0, 90f, 0f);
                                             StartCoroutine(ThreeTwoOne(() =>
                                             {
-                                                
+                                                techniqueIdx = 0;
+                                                tracker.track = true;
                                             }));
                                         },
                                         background = actionColor,
@@ -1014,7 +1052,52 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-
+                    switch (techniqueIdx)
+                    {
+                        case 0:
+                            teleport.enabled = true;
+                            teleport.blur = false;
+                            if (tracker.completed)
+                            {
+                                techniqueIdx = 1;
+                                teleport.enabled = false;
+                                tracker.completed = false;
+                                joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
+                                joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                                StartCoroutine(ThreeTwoOne(() => 
+                                {
+                                    teleport.enabled = true;
+                                    teleport.blur = true;
+                                }));
+                            }
+                            break;
+                        case 1:
+                            if (tracker.completed)
+                            {
+                                techniqueIdx = 2;
+                                tracker.completed = false;
+                                teleport.enabled = false;
+                                teleport.blur = false;
+                                joystickStuff.SetActive(true);
+                                StartCoroutine(WaitThenExecute(0.5f, () => {
+                                    joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
+                                    joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                                    StartCoroutine(ThreeTwoOne(() =>
+                                    {
+                                        joystick.enabled = true;
+                                        tracker.joystick = true;
+                                    }));
+                                }));
+                            }
+                            break;
+                        case 2:
+                            if (tracker.completed)
+                            {
+                                joystickStuff.SetActive(false);
+                                lapStuff.SetActive(false);
+                            }
+                            break;
+                    }
                 }
                 break;
         }

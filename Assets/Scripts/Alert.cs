@@ -6,6 +6,7 @@ public class Alert : MonoBehaviour
 {
     public bool yesCorrect = false;
     public bool answered = false;
+    public bool last = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,13 +22,13 @@ public class Alert : MonoBehaviour
 
     public void YesSelected()
     {
-        // Record whether answer was correct or not
+        if (yesCorrect && !last) MainController.Instance.metrics.e1cCA++;
         answered = true;
     }
 
     public void NoSelected()
     {
-        // Record whether answer was correct or not
+        if (!yesCorrect && !last) MainController.Instance.metrics.e1cCA++;
         answered = true;
     }
 }

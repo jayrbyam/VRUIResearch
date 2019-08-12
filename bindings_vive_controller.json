@@ -262,6 +262,9 @@
                   }
                },
                "mode" : "trackpad",
+               "parameters" : {
+                  "sub_mode" : "click"
+               },
                "path" : "/user/hand/right/input/trackpad"
             }
          ]

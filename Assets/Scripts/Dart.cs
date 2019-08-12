@@ -76,8 +76,8 @@ public class Dart : MonoBehaviour
             textHint.transform.position = new Vector3(textHint.transform.position.x, textHint.transform.position.y + 0.1f, textHint.transform.position.z);
             highlight.SetActive(true);
 
-            MainController.dartsThrown++;
-            if (MainController.dartsThrown == 5) Invoke("DestroyThis", 3f);
+            MainController.Instance.dartsThrown++;
+            if (MainController.Instance.dartsThrown == 5) Invoke("DestroyThis", 3f);
         }
     }
 

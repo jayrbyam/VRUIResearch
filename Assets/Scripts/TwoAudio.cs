@@ -45,7 +45,7 @@ public class TwoAudio : MonoBehaviour
     {
         left.Stop();
         right.Stop();
-        // In future, record whether selection was correct or not
+        if (leftEmitting) MainController.Instance.metrics.e1aCA++;
         MainController.Instance.audioSourcesSelected++;
     }
 
@@ -53,7 +53,7 @@ public class TwoAudio : MonoBehaviour
     {
         left.Stop();
         right.Stop();
-        // In future, record whether selection was correct or not
+        if (!leftEmitting) MainController.Instance.metrics.e1aCA++;
         MainController.Instance.audioSourcesSelected++;
     }
 }
