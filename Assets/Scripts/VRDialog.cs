@@ -13,8 +13,8 @@ public class VRDialog : MonoBehaviour
     public GameObject answersPanel;
     public GameObject originalAnswer;
     public GameObject originalAction;
-    public AudioSource successSound;
     public AudioSource failureSound;
+    public AudioSource hoverSound;
 
     public string text
     {
@@ -62,10 +62,12 @@ public class VRDialog : MonoBehaviour
             {
                 if (!action.requireAnswer || selectedAnswer != null)
                 {
-                    successSound.Play();
+                    MainController.Instance.successSound.Stop();
+                    MainController.Instance.successSound.Play();
                     action.callback(selectedAnswer);
                 } else
                 {
+                    failureSound.Stop();
                     failureSound.Play();
                 }
             });
@@ -89,6 +91,8 @@ public class VRDialog : MonoBehaviour
             newAnswer.GetComponent<Button>().onClick.AddListener(() =>
             {
                 selectedAnswer = answer;
+                hoverSound.Stop();
+                hoverSound.Play();
 
                 // Enable all actions
                 foreach (Transform action in originalAction.transform.parent)

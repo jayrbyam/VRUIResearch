@@ -34,7 +34,10 @@ public class MainController : MonoBehaviour
     private delegate void AfterWaitDelegate();
     public GameObject numberPad;
     public GameObject threeTwoOne;
+    public AudioSource threeTwoOneSound;
+    public AudioSource successSound;
     public AudioSource ambience;
+    public AudioSource music;
     public Timer timer;
     private List<string> letters = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
@@ -45,7 +48,7 @@ public class MainController : MonoBehaviour
     // 3 - Instructions and Alerts
     // 4 - Menus
     // 5 - Movement
-    private int sceneIdx = 5;
+    private int sceneIdx = 0;
 
     // Scene 0
     public FadePulse startText;
@@ -127,7 +130,7 @@ public class MainController : MonoBehaviour
     public Teleport teleport;
     public Joystick joystick;
     public GameObject lapStuff;
-    private Vector3 originalThreeTwoOnePosition;
+    public Text techniqueText;
     public TrackPlayer tracker;
     public GameObject secondLapStuff;
     public GameObject thirdLapStuff;
@@ -152,7 +155,6 @@ public class MainController : MonoBehaviour
         teleport.CancelTeleportHint();
         teleport.enabled = false;
         joystick.enabled = false;
-        originalThreeTwoOnePosition = threeTwoOne.transform.position;
     }
 
     // Update is called once per frame
@@ -164,6 +166,7 @@ public class MainController : MonoBehaviour
                 if (SteamVR_Actions.default_InteractUI[SteamVR_Input_Sources.Any].state)
                 {
                     startText.Hide = true;
+                    threeTwoOneSound.Play();
                 }
                 break;
             case 1: // Pre-experiment questions
@@ -309,6 +312,8 @@ public class MainController : MonoBehaviour
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
                                             testStarted = true;
+                                            StartCoroutine(FadeAmbience(false));
+                                            StartCoroutine(FadeMusic(true));
                                         },
                                         background = actionColor,
                                         requireAnswer = false
@@ -463,6 +468,7 @@ public class MainController : MonoBehaviour
                                 SetSceneIdx(3);
                                 testStarted = false;
                                 ToggleNumberPad(false);
+                                StartCoroutine(FadeMusic(false));
                             } else
                             {
                                 if (numbersCompleted == numbersHandled && numbersHandled != 0)
@@ -482,6 +488,7 @@ public class MainController : MonoBehaviour
                     if (!dialog.activeSelf)
                     {
                         ToggleDialog(true);
+                        StartCoroutine(FadeAmbience(true));
                         questionsDialog.text = "Great work!  Your base VR skill score has been recorded.  Now, we will begin the first component of the UI experiment.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
@@ -545,6 +552,7 @@ public class MainController : MonoBehaviour
                                             callback = answer => {
                                                 questionsDialog.Reset();
                                                 ToggleDialog(false);
+                                                StartCoroutine(FadeAmbience(false));
                                                 TogglePointer(true);
                                                 testStarted = true;
                                             },
@@ -591,6 +599,7 @@ public class MainController : MonoBehaviour
                                 if (!dialog.activeSelf)
                                 {
                                     ToggleDialog(true);
+                                    StartCoroutine(FadeAmbience(true));
                                     questionsDialog.text = "<b>Experiment #1b</b>\nTwo visual indicators will appear in front of you.  Use the laser pointer to select the indicator that is currently activated.  Please make selections as quickly as possible.";
                                     questionsDialog.question = false;
                                     Color actionColor = Color.black;
@@ -604,6 +613,8 @@ public class MainController : MonoBehaviour
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
                                             TogglePointer(true);
+                                            StartCoroutine(FadeAmbience(false));
+                                            StartCoroutine(FadeMusic(true));
                                             testStarted = true;
                                         },
                                         background = actionColor,
@@ -632,6 +643,7 @@ public class MainController : MonoBehaviour
                                     experiments[1].SetActive(false);
                                     experimentIdx = 2;
                                     testStarted = false;
+                                    StartCoroutine(FadeMusic(false));
                                 }
                                 else
                                 {
@@ -649,6 +661,7 @@ public class MainController : MonoBehaviour
                                 if (!dialog.activeSelf)
                                 {
                                     ToggleDialog(true);
+                                    StartCoroutine(FadeAmbience(true));
                                     questionsDialog.text = "<b>Experiment #1c</b>\nAlerts will appear in and out of your view.  Use the laser pointer to answer the yes/no questions appearing on the alerts. Please do so as quickly as possible.\n\nRemember: you can use the right thumbpad to rotate your view.";
                                     questionsDialog.question = false;
                                     Color actionColor = Color.black;
@@ -662,6 +675,7 @@ public class MainController : MonoBehaviour
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
                                             TogglePointer(true);
+                                            StartCoroutine(FadeAmbience(false));
                                             testStarted = true;
                                         },
                                         background = actionColor,
@@ -704,6 +718,7 @@ public class MainController : MonoBehaviour
                     if (!dialog.activeSelf)
                     {
                         ToggleDialog(true);
+                        StartCoroutine(FadeAmbience(true));
                         questionsDialog.text = "<b>Experiment #2:</b>\nA series of menus will appear in your view.  You will be prompted to interact with each menu in one of 3 ways: laser pointer, controller touch, thumbpad. Before we get started, these interaction techniques will be introduced.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
@@ -753,6 +768,8 @@ public class MainController : MonoBehaviour
                                 {
                                     questionsDialog.Reset();
                                     technique2Button.transform.parent.gameObject.SetActive(false);
+                                    successSound.Stop();
+                                    successSound.Play();
                                     techniqueIdx = 2;
                                 });
                                 questionsDialog.text = "<b>Technique #2: Controller Touch</b>\nFor this technique, touch the UI button with your controller and pull the trigger to make a selection.";
@@ -765,6 +782,8 @@ public class MainController : MonoBehaviour
                                 {
                                     questionsDialog.Reset();
                                     technique3Buttons.transform.parent.gameObject.SetActive(false);
+                                    successSound.Stop();
+                                    successSound.Play();
                                     techniqueIdx = 3;
                                 });
                                 questionsDialog.text = "<b>Technique #3: Thumbpad</b>\nWith this technique, a button in view is highlighted.  Press on the edges of the thumbpad on the left controller to change which button is highlighted.  Pull the trigger to select the 'Correct' button.";
@@ -785,6 +804,8 @@ public class MainController : MonoBehaviour
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
+                                            StartCoroutine(FadeAmbience(false));
+                                            StartCoroutine(FadeMusic(true));
                                             testStarted = true;
                                             StartCoroutine(ThreeTwoOne(() =>
                                             {
@@ -815,6 +836,7 @@ public class MainController : MonoBehaviour
                         SetSceneIdx(5);
                         testStarted = false;
                         ToggleNumberPad(false);
+                        StartCoroutine(FadeMusic(false));
                     }
                     else
                     {
@@ -883,6 +905,7 @@ public class MainController : MonoBehaviour
                     if (!dialog.activeSelf)
                     {
                         ToggleDialog(true);
+                        StartCoroutine(FadeAmbience(true));
                         questionsDialog.text = "You've done well!  Next is the final test.  Follow the directions and complete the movements, and you'll be done soon.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
@@ -1030,6 +1053,8 @@ public class MainController : MonoBehaviour
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
+                                            StartCoroutine(FadeAmbience(false));
+                                            StartCoroutine(FadeMusic(true));
                                             testStarted = true;
                                             lapStuff.SetActive(true);
                                             joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
@@ -1068,6 +1093,7 @@ public class MainController : MonoBehaviour
                                 {
                                     teleport.enabled = true;
                                     teleport.blur = true;
+                                    techniqueText.text = "Fast Travel";
                                 }));
                             }
                             break;
@@ -1086,6 +1112,7 @@ public class MainController : MonoBehaviour
                                     {
                                         joystick.enabled = true;
                                         tracker.joystick = true;
+                                        techniqueText.text = "Joystick";
                                     }));
                                 }));
                             }
@@ -1119,6 +1146,17 @@ public class MainController : MonoBehaviour
         }
     }
 
+    private IEnumerator FadeMusic(bool on)
+    {
+        if (on) music.Play();
+        while ((on && music.volume < 0.2f) || (!on && music.volume > 0f))
+        {
+            music.volume += on ? 0.01f : -0.01f;
+            yield return null;
+        }
+        if (!on) music.Stop();
+    }
+
     public void SetSceneIdx (int idx)
     {
         scenes[sceneIdx].SetActive(false);
@@ -1130,7 +1168,6 @@ public class MainController : MonoBehaviour
     {
         dialog.SetActive(show);
         TogglePointer(show);
-        StartCoroutine(FadeAmbience(show));
     }
 
     private void ToggleNumberPad(bool show)
@@ -1164,10 +1201,16 @@ public class MainController : MonoBehaviour
     private IEnumerator ThreeTwoOne(AfterWaitDelegate callable = null)
     {
         threeTwoOne.SetActive(true);
+        threeTwoOneSound.Stop();
+        threeTwoOneSound.Play();
         threeTwoOne.GetComponentInChildren<Text>().text = "3";
         yield return new WaitForSeconds(1f);
+        threeTwoOneSound.Stop();
+        threeTwoOneSound.Play();
         threeTwoOne.GetComponentInChildren<Text>().text = "2";
         yield return new WaitForSeconds(1f);
+        threeTwoOneSound.Stop();
+        threeTwoOneSound.Play();
         threeTwoOne.GetComponentInChildren<Text>().text = "1";
         yield return new WaitForSeconds(1f);
         threeTwoOne.SetActive(false);

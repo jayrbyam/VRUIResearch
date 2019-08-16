@@ -38,6 +38,8 @@ public class TennisShooter : MonoBehaviour
                 newBall.transform.localScale = tennisBall.transform.localScale;
                 newBall.transform.position = launchPoint.position;
                 newBall.GetComponent<Rigidbody>().AddForce(launchPoint.forward * 1000f);
+                GetComponent<AudioSource>().Stop();
+                GetComponent<AudioSource>().Play();
                 ballsShot++;
             }
         }

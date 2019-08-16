@@ -80,6 +80,8 @@ public class VRKeyboard : MonoBehaviour
     private void Completed()
     {
         completed = true;
+        MainController.Instance.successSound.Stop();
+        MainController.Instance.successSound.Play();
         Color green = Color.green;
         ColorUtility.TryParseHtmlString(greenHex, out green);
         entered.transform.parent.GetComponent<RawImage>().color = green;

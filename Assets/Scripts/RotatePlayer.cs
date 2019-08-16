@@ -16,11 +16,11 @@ public class RotatePlayer : MonoBehaviour
     {
         if (SteamVR_Actions.default_DPadLeft[SteamVR_Input_Sources.RightHand].stateDown)
         {
-            transform.eulerAngles += new Vector3(0f, -35f, 0f);
+            transform.eulerAngles += new Vector3(0f, -40f, 0f);
         }
         if (SteamVR_Actions.default_DPadRight[SteamVR_Input_Sources.RightHand].stateDown)
         {
-            transform.eulerAngles += new Vector3(0f, 35f, 0f);
+            transform.eulerAngles += new Vector3(0f, 40f, 0f);
         }
     }
 }

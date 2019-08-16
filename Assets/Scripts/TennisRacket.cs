@@ -20,6 +20,8 @@ public class TennisRacket : MonoBehaviour
     {
         if (collision.gameObject.tag == "TennisBall" && MainController.Instance.tennisScore < 10)
         {
+            GetComponent<AudioSource>().Stop();
+            GetComponent<AudioSource>().Play();
             MainController.Instance.tennisScore++;
         }
     }

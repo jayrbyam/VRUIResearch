@@ -41,12 +41,8 @@
       "requirement": "optional"
     },
     {
-      "name": "/actions/default/in/DPadUp",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/default/in/DPadDown",
-      "type": "boolean"
+      "name": "/actions/default/in/DPad",
+      "type": "vector2"
     },
     {
       "name": "/actions/default/in/DPadLeft",
@@ -55,10 +51,6 @@
     {
       "name": "/actions/default/in/DPadRight",
       "type": "boolean"
-    },
-    {
-      "name": "/actions/default/in/DPad",
-      "type": "vector2"
     },
     {
       "name": "/actions/default/out/Haptic",
@@ -116,44 +108,7 @@
       "usage": "single"
     }
   ],
-  "default_bindings": [
-    {
-      "controller_type": "vive_controller",
-      "binding_url": "bindings_vive_controller.json"
-    },
-    {
-      "controller_type": "oculus_touch",
-      "binding_url": "bindings_oculus_touch.json"
-    },
-    {
-      "controller_type": "knuckles",
-      "binding_url": "bindings_knuckles.json"
-    },
-    {
-      "controller_type": "holographic_controller",
-      "binding_url": "bindings_holographic_controller.json"
-    },
-    {
-      "controller_type": "vive",
-      "binding_url": "binding_vive.json"
-    },
-    {
-      "controller_type": "vive_pro",
-      "binding_url": "binding_vive_pro.json"
-    },
-    {
-      "controller_type": "rift",
-      "binding_url": "binding_rift.json"
-    },
-    {
-      "controller_type": "holographic_hmd",
-      "binding_url": "binding_holographic_hmd.json"
-    },
-    {
-      "controller_type": "vive_tracker_camera",
-      "binding_url": "binding_vive_tracker_camera.json"
-    }
-  ],
+  "default_bindings": [],
   "localization": [
     {
       "language_tag": "en_US",
@@ -167,11 +122,9 @@
       "/actions/default/in/Teleport": "Teleport",
       "/actions/default/out/Haptic": "Haptic",
       "/actions/platformer/in/Jump": "Jump",
-      "/actions/default/in/DPadUp": "DPad Up",
-      "/actions/default/in/DPadDown": "DPad Down",
+      "/actions/default/in/DPad": "DPad",
       "/actions/default/in/DPadLeft": "DPad Left",
-      "/actions/default/in/DPadRight": "DPad Right",
-      "/actions/default/in/DPad": "DPad"
+      "/actions/default/in/DPadRight": "DPad Right"
     }
   ]
 }

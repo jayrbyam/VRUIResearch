@@ -14,11 +14,22 @@ Colors:
  - Download Progress #4cd137
 
 Tasks:
- - Develop class for timing an action
-   - Pass in bool function that determines starting/ending action
-   - Watch then record time between starting and ending actions
+ - Add visual cues to out-of-view alerts (pulsing arrow attached to camera, hide when alert enters view)
+ - Add question after alerts asking how different alert types made them feel
+ - Add metric for time until first action on menu tasks
+ - Track number of mistakes made in menu tasks
+ - Track number of no-selection hovers on menu tasks
+ - Add question after menus asking which placement the user prefered
+ - Add question after menus asking how different menu interaction types make the user feel
+ - Add metric for time until first action on movement laps
+ - Time for each 3 laps
+ - Record number of actions take for each movement technique
+ - Add question after movement techniques asking which technique the user prefers
+ - How did each movement technique make the user feel
+ - Add thank you message at the end that reloads scene after a time
+ - Save metrics entry to CSV at the end of the experience
+ - Fix bug with tennis ball colliders
  - Write up agreement/waiver for participants
- - Store pre-experience questions in the database (or at least develop means to do so)
 
 Menus:
 Touch world-space number pad

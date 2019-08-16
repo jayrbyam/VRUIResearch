@@ -17,7 +17,7 @@ public class Alert : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.parent.name != "VR Camera") transform.LookAt(GameObject.Find("VR Camera").transform.position);
+        //if (transform.parent.name != "VR Camera") transform.LookAt(GameObject.Find("VR Camera").transform.position);
     }
 
     public void YesSelected()

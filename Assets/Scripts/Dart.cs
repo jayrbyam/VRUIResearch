@@ -11,6 +11,8 @@ public class Dart : MonoBehaviour
     public GameObject textHint;
     public GameObject highlight;
     public CapsuleCollider collider;
+    public AudioSource hit;
+    public AudioSource miss;
     private bool grabbed = false;
     private bool thrown = false;
 
@@ -65,11 +67,13 @@ public class Dart : MonoBehaviour
                 ColorUtility.TryParseHtmlString("#4CD137", out green);
                 textHint.GetComponentInChildren<ProceduralImage>().color = green;
                 MainController.Instance.dartScore++;
+                hit.Play();
             } else {
                 textHint.GetComponentInChildren<Text>().text = "Miss";
                 Color red = Color.red;
                 ColorUtility.TryParseHtmlString("#E84118", out red);
                 textHint.GetComponentInChildren<ProceduralImage>().color = red;
+                miss.Play();
             }
             
             textHint.SetActive(true);

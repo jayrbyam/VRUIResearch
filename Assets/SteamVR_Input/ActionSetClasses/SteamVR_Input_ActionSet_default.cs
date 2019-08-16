@@ -89,19 +89,11 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Boolean DPadUp
+        public virtual SteamVR_Action_Vector2 DPad
         {
             get
             {
-                return SteamVR_Actions.default_DPadUp;
-            }
-        }
-        
-        public virtual SteamVR_Action_Boolean DPadDown
-        {
-            get
-            {
-                return SteamVR_Actions.default_DPadDown;
+                return SteamVR_Actions.default_DPad;
             }
         }
         
@@ -118,14 +110,6 @@ namespace Valve.VR
             get
             {
                 return SteamVR_Actions.default_DPadRight;
-            }
-        }
-        
-        public virtual SteamVR_Action_Vector2 DPad
-        {
-            get
-            {
-                return SteamVR_Actions.default_DPad;
             }
         }
         

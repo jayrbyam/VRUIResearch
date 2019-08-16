@@ -72,6 +72,8 @@ public class VRNumberPad : MonoBehaviour
 
     private void Completed()
     {
+        MainController.Instance.successSound.Stop();
+        MainController.Instance.successSound.Play();
         completed = true;
         Color green = Color.green;
         ColorUtility.TryParseHtmlString(greenHex, out green);
