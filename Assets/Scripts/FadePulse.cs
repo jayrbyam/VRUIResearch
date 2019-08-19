@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class FadePulse : MonoBehaviour
 {
+    public bool meshPro = true;
+    public float delay = 0f;
     private bool hide;
     public bool Hide {
         set
@@ -15,6 +18,7 @@ public class FadePulse : MonoBehaviour
         get { return hide; }
     }
     private bool fadingOut = true;
+    private float time = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -25,17 +29,23 @@ public class FadePulse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Color oldColor = GetComponent<TextMeshPro>().color;
-        if (oldColor.a <= 0f)
+        if (delay > 0f) time += Time.deltaTime;
+
+        if (delay == 0f || time > delay)
         {
-            fadingOut = false;
-            if (hide)
+            Color oldColor = meshPro ? GetComponent<TextMeshPro>().color : GetComponent<RawImage>().color;
+            if (oldColor.a <= 0f)
             {
-                MainController.Instance.SetSceneIdx(1);
-                transform.parent.gameObject.SetActive(false);
+                fadingOut = false;
+                if (hide)
+                {
+                    MainController.Instance.SetSceneIdx(1);
+                    transform.parent.gameObject.SetActive(false);
+                }
             }
+            if (oldColor.a >= 1f) fadingOut = true;
+            if (meshPro) GetComponent<TextMeshPro>().color = new Vector4(oldColor.r, oldColor.g, oldColor.b, oldColor.a + (fadingOut ? -0.005f : 0.005f));
+            else GetComponent<RawImage>().color = new Vector4(oldColor.r, oldColor.g, oldColor.b, oldColor.a + (fadingOut ? -0.005f : 0.005f));
         }
-        if (oldColor.a >= 1f) fadingOut = true;
-        GetComponent<TextMeshPro>().color = new Vector4(oldColor.r, oldColor.g, oldColor.b, oldColor.a + (fadingOut ? -0.005f : 0.005f));
     }
 }

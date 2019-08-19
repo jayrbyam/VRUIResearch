@@ -193,6 +193,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1436558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,6 +591,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &13400845
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -932,6 +934,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &20952515
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2875,6 +2878,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &87693003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3338,6 +3342,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &98727770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4039,6 +4044,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &123411359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4663,6 +4669,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &133066941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5077,6 +5084,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &139827809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5814,6 +5822,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &169192152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6359,6 +6368,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &182566087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6917,6 +6927,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &201964463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7150,6 +7161,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &206980674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7959,6 +7971,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &224866295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8787,6 +8800,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &247981702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9090,6 +9104,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &272481253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9750,6 +9765,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &274483086
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10872,6 +10888,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &283273871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12085,6 +12102,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &314304271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12936,6 +12954,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &325009495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13926,6 +13945,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &348440778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14316,6 +14336,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &352412965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15059,6 +15080,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &369556879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15386,6 +15408,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &372626987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15619,6 +15642,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &375297116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16366,6 +16390,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &394551832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17237,6 +17262,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &431266196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17703,6 +17729,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &435828977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17936,6 +17963,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &436001093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18169,6 +18197,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &436232160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18402,6 +18431,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &440163010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18814,6 +18844,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &443304192
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19071,6 +19102,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &446420086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19697,6 +19729,93 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &454741048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 454741049}
+  - component: {fileID: 454741052}
+  - component: {fileID: 454741051}
+  - component: {fileID: 454741050}
+  m_Layer: 0
+  m_Name: RawImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &454741049
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454741048}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1119194864}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -100, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &454741050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454741048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0efcb9c530e1a244827951c7e55ae2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshPro: 0
+  delay: 0.5
+--- !u!114 &454741051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454741048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 037fc9f91d6c27347a983f37f79ad0ef, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &454741052
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454741048}
+  m_CullTransparentMesh: 0
 --- !u!1 &457070430
 GameObject:
   m_ObjectHideFlags: 0
@@ -19770,6 +19889,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &457070434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20003,6 +20123,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &465899525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20636,6 +20757,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f260935093f73f241bfaa1578e5e5506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &483070392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 483070393}
+  m_Layer: 0
+  m_Name: Right Arrows
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &483070393
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483070392}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1839794385}
+  - {fileID: 1035107894}
+  - {fileID: 921221204}
+  m_Father: {fileID: 1670537508}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &483465831
 GameObject:
   m_ObjectHideFlags: 0
@@ -20794,6 +20953,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!65 &483465835
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22738,6 +22898,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &523608329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23471,6 +23632,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &550403934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24328,6 +24490,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &584042206
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25399,6 +25562,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &612446941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26558,6 +26722,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &640948406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27368,6 +27533,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &673010737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28131,6 +28297,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &687861122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28449,6 +28616,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &687964247
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29486,6 +29654,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!65 &705540219
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30192,6 +30361,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &715509479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30504,6 +30674,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &718434502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30737,6 +30908,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &719770962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31810,6 +31982,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &755681130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32671,6 +32844,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &766556711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33669,6 +33843,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &787473138
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35449,6 +35624,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &826311574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36090,6 +36266,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &844406265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36862,6 +37039,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &861987978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37593,6 +37771,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &898250011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37826,6 +38005,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &899104576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38798,6 +38978,93 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919341806}
   m_CullTransparentMesh: 0
+--- !u!1 &921221203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 921221204}
+  - component: {fileID: 921221207}
+  - component: {fileID: 921221206}
+  - component: {fileID: 921221205}
+  m_Layer: 0
+  m_Name: RawImage (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &921221204
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921221203}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_Children: []
+  m_Father: {fileID: 483070393}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 100, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &921221205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921221203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0efcb9c530e1a244827951c7e55ae2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshPro: 0
+  delay: 0.5
+--- !u!114 &921221206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921221203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 037fc9f91d6c27347a983f37f79ad0ef, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &921221207
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921221203}
+  m_CullTransparentMesh: 0
 --- !u!1 &924226288
 GameObject:
   m_ObjectHideFlags: 0
@@ -39171,6 +39438,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &929632313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40043,6 +40311,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &952770339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40246,6 +40515,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &969596137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40570,6 +40840,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &971145692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41122,6 +41393,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &986999725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41751,6 +42023,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &998462899
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41987,6 +42260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0efcb9c530e1a244827951c7e55ae2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshPro: 1
+  delay: 0
 --- !u!114 &998774547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43081,6 +43356,93 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 7b340effa216fd448bfa485a2bc38c8c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f5df1e47240d8e4aa38a1c3173770f7, type: 3}
+--- !u!1 &1035107893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1035107894}
+  - component: {fileID: 1035107897}
+  - component: {fileID: 1035107896}
+  - component: {fileID: 1035107895}
+  m_Layer: 0
+  m_Name: RawImage (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1035107894
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035107893}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_Children: []
+  m_Father: {fileID: 483070393}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1035107895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035107893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0efcb9c530e1a244827951c7e55ae2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshPro: 0
+  delay: 0.25
+--- !u!114 &1035107896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035107893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 037fc9f91d6c27347a983f37f79ad0ef, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1035107897
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035107893}
+  m_CullTransparentMesh: 0
 --- !u!4 &1040136461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000014285432570, guid: 4f8a76d2be4d1cb40a9aa32921fcb73c,
@@ -43278,6 +43640,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1051196187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43744,6 +44107,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &1053906606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44211,6 +44575,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1072223112
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44553,6 +44918,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1086193558
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45462,6 +45828,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1095830077
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46236,6 +46603,44 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1115889064}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1119194863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1119194864}
+  m_Layer: 0
+  m_Name: Left Arrows
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1119194864
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119194863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 454741049}
+  - {fileID: 1498860532}
+  - {fileID: 1660530164}
+  m_Father: {fileID: 1670537508}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!21 &1120309781
 Material:
   serializedVersion: 6
@@ -46500,6 +46905,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1131188266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46733,6 +47139,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1144849231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46966,6 +47373,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1148961806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47355,6 +47763,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1152173390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47758,6 +48167,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1166720145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48234,6 +48644,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1171067194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48625,6 +49036,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1176018784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49739,6 +50151,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1210428334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50659,6 +51072,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1226306693
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51265,6 +51679,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1248818943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51682,6 +52097,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1250710238
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52739,6 +53155,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1296362279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53109,6 +53526,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1309230101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53439,6 +53857,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1309644205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54515,6 +54934,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1336254050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55097,6 +55517,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1349529558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55983,6 +56404,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1373219604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56662,6 +57084,7 @@ MonoBehaviour:
   indicatorsSelected: 0
   twoIndicators: {fileID: 536451052}
   alerts: {fileID: 234517739}
+  visualCues: {fileID: 1915969843}
   technique2Button: {fileID: 491510514}
   technique3Buttons: {fileID: 1431390538}
   stringsHandled: 0
@@ -58764,6 +59187,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1440102196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59270,6 +59694,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1455104959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59612,6 +60037,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1456894754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60608,6 +61034,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1489217312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61005,6 +61432,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1491073279
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61220,6 +61648,93 @@ Transform:
   m_Father: {fileID: 2022527178}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 185, z: 0}
+--- !u!1 &1498860531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1498860532}
+  - component: {fileID: 1498860535}
+  - component: {fileID: 1498860534}
+  - component: {fileID: 1498860533}
+  m_Layer: 0
+  m_Name: RawImage (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1498860532
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498860531}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1119194864}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1498860533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498860531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0efcb9c530e1a244827951c7e55ae2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshPro: 0
+  delay: 0.25
+--- !u!114 &1498860534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498860531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 037fc9f91d6c27347a983f37f79ad0ef, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1498860535
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498860531}
+  m_CullTransparentMesh: 0
 --- !u!1 &1503106007
 GameObject:
   m_ObjectHideFlags: 0
@@ -61868,6 +62383,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &1528801693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62220,6 +62736,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!65 &1534590893
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63259,6 +63776,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1571820974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64268,6 +64786,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1599436759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64683,6 +65202,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1612656001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65258,6 +65778,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1634442279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65479,6 +66000,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1634603481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66070,6 +66592,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &1641298675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66286,6 +66809,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1650689554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66676,6 +67200,93 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657502465}
   m_CullTransparentMesh: 0
+--- !u!1 &1660530163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1660530164}
+  - component: {fileID: 1660530167}
+  - component: {fileID: 1660530166}
+  - component: {fileID: 1660530165}
+  m_Layer: 0
+  m_Name: RawImage (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1660530164
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660530163}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1119194864}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 100, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1660530165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660530163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0efcb9c530e1a244827951c7e55ae2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshPro: 0
+  delay: 0
+--- !u!114 &1660530166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660530163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 037fc9f91d6c27347a983f37f79ad0ef, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1660530167
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660530163}
+  m_CullTransparentMesh: 0
 --- !u!1 &1661418431
 GameObject:
   m_ObjectHideFlags: 0
@@ -66834,6 +67445,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!65 &1661418435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67041,6 +67653,8 @@ RectTransform:
   - {fileID: 661649029}
   - {fileID: 1742456113}
   - {fileID: 251902226}
+  - {fileID: 1119194864}
+  - {fileID: 483070393}
   m_Father: {fileID: 683646905}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -67352,6 +67966,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1681547008
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68135,6 +68750,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &1704241764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68625,6 +69241,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1716407345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68967,6 +69584,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1716861776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70214,6 +70832,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1753893713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70629,6 +71248,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1757202577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72303,6 +72923,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1814537229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73080,6 +73701,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1833502657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73497,6 +74119,93 @@ MonoBehaviour:
   handFollowTransform: 1
   highlightOnHover: 1
   hideHighlight: []
+--- !u!1 &1839794384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1839794385}
+  - component: {fileID: 1839794388}
+  - component: {fileID: 1839794387}
+  - component: {fileID: 1839794386}
+  m_Layer: 0
+  m_Name: RawImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1839794385
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839794384}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_Children: []
+  m_Father: {fileID: 483070393}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -100, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1839794386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839794384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0efcb9c530e1a244827951c7e55ae2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshPro: 0
+  delay: 0
+--- !u!114 &1839794387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839794384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 2800000, guid: 037fc9f91d6c27347a983f37f79ad0ef, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1839794388
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839794384}
+  m_CullTransparentMesh: 0
 --- !u!1 &1840345720
 GameObject:
   m_ObjectHideFlags: 0
@@ -73877,6 +74586,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1849283410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74291,6 +75001,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1860546994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74707,6 +75418,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &1866499370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75960,6 +76672,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1912298647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76489,6 +77202,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1915969843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915969841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c66b047f50742384a8562d5f01247d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  show: 0
+  left: {fileID: 1119194863}
+  right: {fileID: 483070392}
+  target: {fileID: 1784453943}
+  angle: 0
 --- !u!1 &1916301989
 GameObject:
   m_ObjectHideFlags: 0
@@ -76935,6 +77665,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1926557607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77168,6 +77899,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1928317631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77480,6 +78212,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1941714415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77956,6 +78689,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &1949701759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78213,6 +78947,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1957118052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78446,6 +79181,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1968303632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78685,6 +79421,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1979303021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79044,6 +79781,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1993432107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79277,6 +80015,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &1993868697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79720,6 +80459,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &2021372338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80412,6 +81152,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &2051144428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81561,6 +82302,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!65 &2083316773
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -81994,6 +82736,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 0
 --- !u!114 &2084615701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82131,6 +82874,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &2085257034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83683,6 +84427,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.InteractionSystem.CustomEvents+UnityEventHand, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onHoverChange: 1
 --- !u!114 &2146016172
 MonoBehaviour:
   m_ObjectHideFlags: 0

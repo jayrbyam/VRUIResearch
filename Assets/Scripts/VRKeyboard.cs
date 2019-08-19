@@ -47,6 +47,7 @@ public class VRKeyboard : MonoBehaviour
 
     public void KeyPressed(Button button)
     {
+        if (timeToAction() == -1) setTimeToAction();
         if (completed) return;
         enteredText += button.GetComponentInChildren<Text>().text;
         if (enteredText == promptText) Completed();
@@ -54,6 +55,8 @@ public class VRKeyboard : MonoBehaviour
 
     public void Backspace()
     {
+        addMistake();
+        if (timeToAction() == -1) setTimeToAction();
         if (enteredText != "" && !completed)
         {
             enteredText = enteredText.Substring(0, enteredText.Length - 1);
@@ -63,6 +66,7 @@ public class VRKeyboard : MonoBehaviour
 
     public void Space()
     {
+        if (timeToAction() == -1) setTimeToAction();
         if (completed) return;
         enteredText += " ";
         if (enteredText == promptText) Completed();
@@ -94,5 +98,35 @@ public class VRKeyboard : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Reset();
         MainController.Instance.stringsCompleted++;
+    }
+
+    private float timeToAction()
+    {
+        if (MainController.Instance.stringsCompleted == 0) return MainController.Instance.metrics.e2TA1;
+        if (MainController.Instance.stringsCompleted == 1) return MainController.Instance.metrics.e2TA2;
+        if (MainController.Instance.stringsCompleted == 2) return MainController.Instance.metrics.e2TA3;
+        if (MainController.Instance.stringsCompleted == 3) return MainController.Instance.metrics.e2TA4;
+        if (MainController.Instance.stringsCompleted == 4) return MainController.Instance.metrics.e2TA5;
+        return MainController.Instance.metrics.e2TA6;
+    }
+
+    private void setTimeToAction()
+    {
+        if (MainController.Instance.stringsCompleted == 0) MainController.Instance.metrics.e2TA1 = MainController.Instance.timer.time;
+        else if (MainController.Instance.stringsCompleted == 1) MainController.Instance.metrics.e2TA2 = MainController.Instance.timer.time;
+        else if (MainController.Instance.stringsCompleted == 2) MainController.Instance.metrics.e2TA3 = MainController.Instance.timer.time;
+        else if (MainController.Instance.stringsCompleted == 3) MainController.Instance.metrics.e2TA4 = MainController.Instance.timer.time;
+        else if (MainController.Instance.stringsCompleted == 4) MainController.Instance.metrics.e2TA5 = MainController.Instance.timer.time;
+        else MainController.Instance.metrics.e2TA6 = MainController.Instance.timer.time;
+    }
+
+    private void addMistake()
+    {
+        if (MainController.Instance.stringsCompleted == 0) MainController.Instance.metrics.e2M1++;
+        else if (MainController.Instance.stringsCompleted == 1) MainController.Instance.metrics.e2M2++;
+        else if (MainController.Instance.stringsCompleted == 2) MainController.Instance.metrics.e2M3++;
+        else if (MainController.Instance.stringsCompleted == 3) MainController.Instance.metrics.e2M4++;
+        else if (MainController.Instance.stringsCompleted == 4) MainController.Instance.metrics.e2M5++;
+        else MainController.Instance.metrics.e2M6++;
     }
 }

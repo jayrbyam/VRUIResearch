@@ -14,10 +14,9 @@ Colors:
  - Download Progress #4cd137
 
 Tasks:
- - Add visual cues to out-of-view alerts (pulsing arrow attached to camera, hide when alert enters view)
  - Add question after alerts asking how different alert types made them feel
- - Add metric for time until first action on menu tasks
- - Track number of mistakes made in menu tasks
+ - Add on hover change of color for UIElement
+ - Add videos of interactions for techniques alongside the words
  - Track number of no-selection hovers on menu tasks
  - Add question after menus asking which placement the user prefered
  - Add question after menus asking how different menu interaction types make the user feel

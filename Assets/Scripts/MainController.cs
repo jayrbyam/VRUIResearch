@@ -30,7 +30,7 @@ public class MainController : MonoBehaviour
     public LaserPointer rightPointer;
     public GameObject dialog;
     private VRDialog questionsDialog;
-    private bool dominantRight = false;
+    private bool dominantRight = true;
     private delegate void AfterWaitDelegate();
     public GameObject numberPad;
     public GameObject threeTwoOne;
@@ -48,7 +48,7 @@ public class MainController : MonoBehaviour
     // 3 - Instructions and Alerts
     // 4 - Menus
     // 5 - Movement
-    private int sceneIdx = 0;
+    private int sceneIdx = 4;
 
     // Scene 0
     public FadePulse startText;
@@ -94,6 +94,7 @@ public class MainController : MonoBehaviour
     public Text numbersTimeText;
     public static int numbersCompleted = 0;
     private int numbersHandled = 0;
+    private bool testCompleted = false;
 
     // Scene 3
     private bool secondScreen = false;
@@ -107,6 +108,7 @@ public class MainController : MonoBehaviour
     public int indicatorsSelected = 0;
     public TwoIndicators twoIndicators;
     public AlertsController alerts;
+    public VisualCues visualCues;
 
     // Scene 4
     private int techniqueIdx = -1;
@@ -532,141 +534,143 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-                    switch (experimentIdx)
+                    if (!testCompleted)
                     {
-                        case 0:
-                            if (!testStarted)
-                            {
-                                if (!dialog.activeSelf)
+                        switch (experimentIdx)
+                        {
+                            case 0:
+                                if (!testStarted)
                                 {
-                                    ToggleDialog(true);
-                                    questionsDialog.text = "<b>Experiment #1a</b>\nTwo audio sources will appear in front of you.  Use the laser pointer to select the audio source that is currently emitting audio.  Please make selections as quickly as possible.";
-                                    questionsDialog.question = false;
-                                    Color actionColor = Color.black;
-                                    ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                                    questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                    if (!dialog.activeSelf)
                                     {
-                                        new VRDialogActionValues()
+                                        ToggleDialog(true);
+                                        questionsDialog.text = "<b>Experiment #1a</b>\nTwo audio sources will appear in front of you.  Use the laser pointer to select the audio source that is currently emitting audio.  Please make selections as quickly as possible.";
+                                        questionsDialog.question = false;
+                                        Color actionColor = Color.black;
+                                        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                        questionsDialog.SetActions(new List<VRDialogActionValues>()
                                         {
-                                            text = "Let do it!",
-                                            callback = answer => {
-                                                questionsDialog.Reset();
-                                                ToggleDialog(false);
-                                                StartCoroutine(FadeAmbience(false));
-                                                TogglePointer(true);
-                                                testStarted = true;
-                                            },
-                                            background = actionColor,
-                                            requireAnswer = false
+                                            new VRDialogActionValues()
+                                            {
+                                                text = "Let do it!",
+                                                callback = answer => {
+                                                    questionsDialog.Reset();
+                                                    ToggleDialog(false);
+                                                    StartCoroutine(FadeAmbience(false));
+                                                    TogglePointer(true);
+                                                    testStarted = true;
+                                                },
+                                                background = actionColor,
+                                                requireAnswer = false
+                                            }
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    if (!experiments[0].gameObject.activeSelf)
+                                    {
+                                        experiments[0].SetActive(true);
+                                        StartCoroutine(ThreeTwoOne(() =>
+                                        {
+                                            twoAudio.EmitRandom();
+                                            audioSourcesHandled++;
+                                            timer.StartTimer();
+                                        }));
+                                    }
+                                    timer.Update();
+                                    if (audioSourcesSelected > 8)
+                                    {
+                                        metrics.e1aT = timer.time;
+                                        timer.time = 0f;
+                                        experiments[0].SetActive(false);
+                                        experimentIdx = 1;
+                                        testStarted = false;
+                                    }
+                                    else
+                                    {
+                                        if (audioSourcesSelected == audioSourcesHandled && audioSourcesHandled != 0)
+                                        {
+                                            twoAudio.EmitRandom();
+                                            audioSourcesHandled++;
                                         }
-                                    });
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                if (!experiments[0].gameObject.activeSelf)
+                                break;
+                            case 1:
+                                if (!testStarted)
                                 {
-                                    experiments[0].SetActive(true);
-                                    StartCoroutine(ThreeTwoOne(() =>
+                                    if (!dialog.activeSelf)
                                     {
-                                        twoAudio.EmitRandom();
-                                        audioSourcesHandled++;
-                                        timer.StartTimer();
-                                    }));
-                                }
-                                timer.Update();
-                                if (audioSourcesSelected > 8)
-                                {
-                                    metrics.e1aT = timer.time;
-                                    timer.time = 0f;
-                                    experiments[0].SetActive(false);
-                                    experimentIdx = 1;
-                                    testStarted = false;
+                                        ToggleDialog(true);
+                                        StartCoroutine(FadeAmbience(true));
+                                        questionsDialog.text = "<b>Experiment #1b</b>\nTwo visual indicators will appear in front of you.  Use the laser pointer to select the indicator that is currently activated.  Please make selections as quickly as possible.";
+                                        questionsDialog.question = false;
+                                        Color actionColor = Color.black;
+                                        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                        questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                        {
+                                            new VRDialogActionValues()
+                                            {
+                                                text = "Ready!",
+                                                callback = answer => {
+                                                    questionsDialog.Reset();
+                                                    ToggleDialog(false);
+                                                    TogglePointer(true);
+                                                    StartCoroutine(FadeAmbience(false));
+                                                    StartCoroutine(FadeMusic(true));
+                                                    testStarted = true;
+                                                },
+                                                background = actionColor,
+                                                requireAnswer = false
+                                            }
+                                        });
+                                    }
                                 }
                                 else
                                 {
-                                    if (audioSourcesSelected == audioSourcesHandled && audioSourcesHandled != 0)
+                                    if (!experiments[1].gameObject.activeSelf)
                                     {
-                                        twoAudio.EmitRandom();
-                                        audioSourcesHandled++;
+                                        experiments[1].SetActive(true);
+                                        StartCoroutine(ThreeTwoOne(() =>
+                                        {
+                                            twoIndicators.ActivateRandom();
+                                            indicatorsHandled++;
+                                            timer.StartTimer();
+                                        }));
+                                    }
+                                    timer.Update();
+                                    if (indicatorsSelected > 8)
+                                    {
+                                        metrics.e1bT = timer.time;
+                                        timer.time = 0f;
+                                        experiments[1].SetActive(false);
+                                        experimentIdx = 2;
+                                        testStarted = false;
+                                        StartCoroutine(FadeMusic(false));
+                                    }
+                                    else
+                                    {
+                                        if (indicatorsSelected == indicatorsHandled && indicatorsHandled != 0)
+                                        {
+                                            twoIndicators.ActivateRandom();
+                                            indicatorsHandled++;
+                                        }
                                     }
                                 }
-                            }
-                            break;
-                        case 1:
-                            if (!testStarted)
-                            {
-                                if (!dialog.activeSelf)
+                                break;
+                            case 2:
+                                if (!testStarted)
                                 {
-                                    ToggleDialog(true);
-                                    StartCoroutine(FadeAmbience(true));
-                                    questionsDialog.text = "<b>Experiment #1b</b>\nTwo visual indicators will appear in front of you.  Use the laser pointer to select the indicator that is currently activated.  Please make selections as quickly as possible.";
-                                    questionsDialog.question = false;
-                                    Color actionColor = Color.black;
-                                    ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                                    questionsDialog.SetActions(new List<VRDialogActionValues>()
-                                {
-                                    new VRDialogActionValues()
+                                    if (!dialog.activeSelf)
                                     {
-                                        text = "Ready!",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            ToggleDialog(false);
-                                            TogglePointer(true);
-                                            StartCoroutine(FadeAmbience(false));
-                                            StartCoroutine(FadeMusic(true));
-                                            testStarted = true;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = false
-                                    }
-                                });
-                                }
-                            }
-                            else
-                            {
-                                if (!experiments[1].gameObject.activeSelf)
-                                {
-                                    experiments[1].SetActive(true);
-                                    StartCoroutine(ThreeTwoOne(() =>
-                                    {
-                                        twoIndicators.ActivateRandom();
-                                        indicatorsHandled++;
-                                        timer.StartTimer();
-                                    }));
-                                }
-                                timer.Update();
-                                if (indicatorsSelected > 8)
-                                {
-                                    metrics.e1bT = timer.time;
-                                    timer.time = 0f;
-                                    experiments[1].SetActive(false);
-                                    experimentIdx = 2;
-                                    testStarted = false;
-                                    StartCoroutine(FadeMusic(false));
-                                }
-                                else
-                                {
-                                    if (indicatorsSelected == indicatorsHandled && indicatorsHandled != 0)
-                                    {
-                                        twoIndicators.ActivateRandom();
-                                        indicatorsHandled++;
-                                    }
-                                }
-                            }
-                            break;
-                        case 2:
-                            if (!testStarted)
-                            {
-                                if (!dialog.activeSelf)
-                                {
-                                    ToggleDialog(true);
-                                    StartCoroutine(FadeAmbience(true));
-                                    questionsDialog.text = "<b>Experiment #1c</b>\nAlerts will appear in and out of your view.  Use the laser pointer to answer the yes/no questions appearing on the alerts. Please do so as quickly as possible.\n\nRemember: you can use the right thumbpad to rotate your view.";
-                                    questionsDialog.question = false;
-                                    Color actionColor = Color.black;
-                                    ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                                    questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                        ToggleDialog(true);
+                                        StartCoroutine(FadeAmbience(true));
+                                        questionsDialog.text = "<b>Experiment #1c</b>\nAlerts will appear in and out of your view.  Use the laser pointer to answer the yes/no questions appearing on the alerts. Please do so as quickly as possible.\n\nRemember: you can use the right thumbpad to rotate your view.";
+                                        questionsDialog.question = false;
+                                        Color actionColor = Color.black;
+                                        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                        questionsDialog.SetActions(new List<VRDialogActionValues>()
                                 {
                                     new VRDialogActionValues()
                                     {
@@ -682,34 +686,60 @@ public class MainController : MonoBehaviour
                                         requireAnswer = false
                                     }
                                 });
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                if (!experiments[2].gameObject.activeSelf)
+                                else
                                 {
-                                    experiments[2].SetActive(true);
-                                    StartCoroutine(ThreeTwoOne(() =>
+                                    if (!experiments[2].gameObject.activeSelf)
                                     {
-                                        alerts.Begin();
-                                        timer.StartTimer();
-                                    }));
+                                        experiments[2].SetActive(true);
+                                        StartCoroutine(ThreeTwoOne(() =>
+                                        {
+                                            alerts.Begin();
+                                            timer.StartTimer();
+                                        }));
+                                    }
+                                    timer.Update();
+                                    if (alerts.completed)
+                                    {
+                                        timer.StopTimer();
+                                        timer.time = 0f;
+                                        experiments[2].SetActive(false);
+                                        testCompleted = true;
+                                    }
                                 }
-                                timer.Update();
-                                if (alerts.completed)
+                                break;
+                        }
+                        break;
+                    } else
+                    {
+                        if (!dialog.activeSelf)
+                        {
+                            ToggleDialog(true);
+                            StartCoroutine(FadeAmbience(true));
+                            questionsDialog.text = "<b>Experiment #1c</b>\nThis is where a self-assessment manikin will be for the different kind of alerts.";
+                            questionsDialog.question = false;
+                            Color actionColor = Color.black;
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                            questionsDialog.SetActions(new List<VRDialogActionValues>()
+                            {
+                                new VRDialogActionValues()
                                 {
-                                    timer.StopTimer();
-                                    metrics.e1cT = timer.time;
-                                    timer.time = 0f;
-                                    experiments[2].SetActive(false);
-                                    SetSceneIdx(4);
-                                    experimentIdx = 3;
-                                    testStarted = false;
+                                    text = "Okay",
+                                    callback = answer => {
+                                        questionsDialog.Reset();
+                                        ToggleDialog(false);
+                                        SetSceneIdx(4);
+                                        experimentIdx = 3;
+                                        testStarted = false;
+                                        testCompleted = false;
+                                    },
+                                    background = actionColor,
+                                    requireAnswer = false
                                 }
-                            }
-                            break;
+                            });
+                        }
                     }
-                    break;
                 }
                 break;
             case 4: // Menus
@@ -831,6 +861,7 @@ public class MainController : MonoBehaviour
                     timer.Update();
                     if (stringsCompleted > 5)
                     {
+                        metrics.e2TC6 = timer.time;
                         menusPrompt.SetActive(false);
                         headNumberPad.SetActive(false);
                         SetSceneIdx(5);
@@ -847,6 +878,7 @@ public class MainController : MonoBehaviour
                             switch (stringsCompleted)
                             {
                                 case 1:
+                                    metrics.e2TC1 = timer.time;
                                     touchNumberPad.SetActive(false);
                                     headKeyboard.SetActive(true);
                                     TogglePointer(true);
@@ -858,6 +890,7 @@ public class MainController : MonoBehaviour
                                     keyboard.promptText = newPrompt;
                                     break;
                                 case 2:
+                                    metrics.e2TC2 = timer.time;
                                     headKeyboard.SetActive(false);
                                     TogglePointer(false);
                                     if (dominantRight) leftHandNumberPad.SetActive(true);
@@ -865,6 +898,7 @@ public class MainController : MonoBehaviour
                                     keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
                                     break;
                                 case 3:
+                                    metrics.e2TC3 = timer.time;
                                     if (dominantRight) leftHandNumberPad.SetActive(false);
                                     else rightHandNumberPad.SetActive(false);
                                     buttonKeyboard.SetActive(true);
@@ -876,6 +910,7 @@ public class MainController : MonoBehaviour
                                     keyboard.promptText = newPrompt;
                                     break;
                                 case 4:
+                                    metrics.e2TC4 = timer.time;
                                     buttonKeyboard.SetActive(false);
                                     if (dominantRight) leftHandKeyboard.SetActive(true);
                                     else rightHandKeyboard.SetActive(true);
@@ -888,6 +923,7 @@ public class MainController : MonoBehaviour
                                     keyboard.promptText = newPrompt;
                                     break;
                                 case 5:
+                                    metrics.e2TC5 = timer.time;
                                     if (dominantRight) leftHandKeyboard.SetActive(false);
                                     else rightHandKeyboard.SetActive(false);
                                     TogglePointer(false);
