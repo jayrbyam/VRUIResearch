@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.ProceduralImage;
+using UnityEngine.SceneManagement;
 using Valve.VR;
 using Valve.VR.Extras;
 using Valve.VR.InteractionSystem;
@@ -33,6 +35,7 @@ public class MainController : MonoBehaviour
     private bool dominantRight = true;
     private delegate void AfterWaitDelegate();
     public GameObject numberPad;
+    public GameObject progressBar;
     public GameObject threeTwoOne;
     public AudioSource threeTwoOneSound;
     public AudioSource successSound;
@@ -48,13 +51,16 @@ public class MainController : MonoBehaviour
     // 3 - Instructions and Alerts
     // 4 - Menus
     // 5 - Movement
-    private int sceneIdx = 4;
+    // 6 - Thank You
+    private int sceneIdx = 0;
 
     // Scene 0
     public FadePulse startText;
 
     // Scene 1
     private int? questionIdx = 0;
+    public bool waitingForRightRotate = false;
+    public bool waitingForLeftRotate = false;
 
     // Scene 2
     private int testIdx = 0;
@@ -88,7 +94,7 @@ public class MainController : MonoBehaviour
         }
         set
         {
-            tennisScoreText.text = "Score: " + value.ToString() + "/10";
+            tennisScoreText.text = "Score: " + value.ToString();
         }
     }
     public Text numbersTimeText;
@@ -139,6 +145,11 @@ public class MainController : MonoBehaviour
     public GameObject joystickStuff;
     public GameObject joystickSecondLapStuff;
     public GameObject joystickThirdLapStuff;
+    private System.Random rand;
+    private bool oneDone = false;
+
+    // Scene 6
+    private float reloadTime = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -157,6 +168,7 @@ public class MainController : MonoBehaviour
         teleport.CancelTeleportHint();
         teleport.enabled = false;
         joystick.enabled = false;
+        rand = new System.Random();
     }
 
     // Update is called once per frame
@@ -260,7 +272,7 @@ public class MainController : MonoBehaviour
                             break;
                         case 3:
                             questionIdx = null;
-                            questionsDialog.text = "Nice work! You will now proceed to the pre-experiment skill test.  This skill test will help us get an idea of your base VR skill before starting the actual experiment.\n\nNote: At any time, you may press on the right or left of the right-hand thumbpad to rotate your view.";
+                            questionsDialog.text = "Nice work! Now, notice the dots at the bottom of this dialog.  These will show you how far along you are in the experiment.";
                             questionsDialog.question = false;
                             actionColor = Color.black;
                             ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -278,9 +290,114 @@ public class MainController : MonoBehaviour
                                 },
                                 new VRDialogActionValues()
                                 {
+                                    text = "Okay",
+                                    callback = answer => {
+                                        questionsDialog.Reset();
+                                        questionIdx = 4;
+                                    },
+                                    background = actionColor,
+                                    requireAnswer = false
+                                }
+                            });
+                            break;
+                        case 4:
+                            questionIdx = null;
+                            questionsDialog.text = "Before we get to the fun stuff, you need to know how to rotate your view.";
+                            questionsDialog.question = false;
+                            actionColor = Color.black;
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                            questionsDialog.SetActions(new List<VRDialogActionValues>()
+                            {
+                                new VRDialogActionValues()
+                                {
+                                    text = "Back",
+                                    callback = answer => {
+                                        questionsDialog.Reset();
+                                        questionIdx = 3;
+                                    },
+                                    background = actionColor,
+                                    requireAnswer = false
+                                },
+                                new VRDialogActionValues()
+                                {
+                                    text = "Okay",
+                                    callback = answer => {
+                                        questionsDialog.Reset();
+                                        questionIdx = 5;
+                                    },
+                                    background = actionColor,
+                                    requireAnswer = false
+                                }
+                            });
+                            break;
+                        case 5:
+                            questionIdx = null;
+                            questionsDialog.text = "Press on the left half of your right-hand thumbpad to rotate your view to the left.";
+                            questionsDialog.question = false;
+                            actionColor = Color.black;
+                            waitingForLeftRotate = true;
+                            ControllerButtonHints.ShowButtonHint(rightPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                            questionsDialog.SetActions(new List<VRDialogActionValues>()
+                            {
+                                new VRDialogActionValues()
+                                {
+                                    text = "Back",
+                                    callback = answer => {
+                                        questionsDialog.Reset();
+                                        questionIdx = 4;
+                                    },
+                                    background = actionColor,
+                                    requireAnswer = false
+                                }
+                            });
+                            break;
+                        case 6:
+                            questionIdx = null;
+                            questionsDialog.text = "Press on the right half of your right-hand thumbpad to rotate your view to the right.";
+                            questionsDialog.question = false;
+                            actionColor = Color.black;
+                            waitingForRightRotate = true;
+                            ControllerButtonHints.ShowButtonHint(rightPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                            questionsDialog.SetActions(new List<VRDialogActionValues>()
+                            {
+                                new VRDialogActionValues()
+                                {
+                                    text = "Back",
+                                    callback = answer => {
+                                        questionsDialog.Reset();
+                                        questionIdx = 5;
+                                    },
+                                    background = actionColor,
+                                    requireAnswer = false
+                                }
+                            });
+                            break;
+                        case 7:
+                            questionIdx = null;
+                            questionsDialog.text = "Great! You will now proceed to the pre-experiment skill test.  This skill test will help us get an idea of your base VR skill before starting the actual experiment.";
+                            questionsDialog.question = false;
+                            actionColor = Color.black;
+                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                            questionsDialog.SetActions(new List<VRDialogActionValues>()
+                            {
+                                new VRDialogActionValues()
+                                {
+                                    text = "Back",
+                                    callback = answer => {
+                                        questionsDialog.Reset();
+                                        questionIdx = 6;
+                                    },
+                                    background = actionColor,
+                                    requireAnswer = false
+                                },
+                                new VRDialogActionValues()
+                                {
                                     text = "Alright!",
                                     callback = answer => {
                                         questionsDialog.Reset();
+                                        UpdateProgress(1);
                                         ToggleDialog(false);
                                         SetSceneIdx(2);
                                     },
@@ -301,7 +418,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "<b>Skill Test #1</b>\nThe first test is a game of darts. Use the trigger to grab and throw each dart. Remember, you will be timed and the score will be recorded.";
+                                questionsDialog.text = "<b>Skill Test #1</b>\nThe first test is a game of darts. Use the trigger to grab and throw each dart.\nHint: \"close enough\" points may be given.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -357,7 +474,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "<b>Skill Test #2</b>\nNext, you will be given a racket, and tennis balls will be shot toward you.  Hit a ball, get a point.";
+                                questionsDialog.text = "<b>Skill Test #2</b>\nNext, you will be given a hoop in your hand, and balls will be shot at you.  Get a ball through the hoop, and you will get a point.\nHint: \"close enough\" points may be given.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -428,7 +545,7 @@ public class MainController : MonoBehaviour
                             if (!dialog.activeSelf)
                             {
                                 ToggleDialog(true);
-                                questionsDialog.text = "<b>Skill Test #3</b>\nLastly, a number pad will appear.  Use the laser pointer to enter the 5 displayed sequences on the number pad, as fast and as accuractely as you can.";
+                                questionsDialog.text = "<b>Skill Test #3</b>\nLastly, a number pad will appear.  Use the laser pointer to enter the 3 displayed sequences on the number pad, as fast and as accuractely as you can.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -463,7 +580,7 @@ public class MainController : MonoBehaviour
                                 }));
                             }
                             timer.Update();
-                            if (numbersCompleted > 4)
+                            if (numbersCompleted == 3)
                             {
                                 metrics.st3T = timer.time;
                                 timer.time = 0f;
@@ -491,7 +608,7 @@ public class MainController : MonoBehaviour
                     {
                         ToggleDialog(true);
                         StartCoroutine(FadeAmbience(true));
-                        questionsDialog.text = "Great work!  Your base VR skill score has been recorded.  Now, we will begin the first component of the UI experiment.";
+                        questionsDialog.text = "Great work!  Your base VR skill score has been recorded.  Now, we will begin the first component of the UI experiment.  Ready?";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -499,10 +616,13 @@ public class MainController : MonoBehaviour
                         {
                             new VRDialogActionValues()
                             {
-                                text = "Ready!",
+                                text = "Yup.",
                                 callback = answer => {
                                     questionsDialog.Reset();
-                                    secondScreen = true;
+                                    UpdateProgress(2);
+                                    ToggleDialog(false);
+                                    SetSceneIdx(4);
+                                    //secondScreen = true; // Skipping the instructions portion
                                 },
                                 background = actionColor,
                                 requireAnswer = false
@@ -519,7 +639,7 @@ public class MainController : MonoBehaviour
                         {
                             new VRDialogActionValues()
                             {
-                                text = "Next",
+                                text = "Okay",
                                 callback = answer => {
                                     questionsDialog.Reset();
                                     ToggleDialog(false);
@@ -552,7 +672,7 @@ public class MainController : MonoBehaviour
                                         {
                                             new VRDialogActionValues()
                                             {
-                                                text = "Let do it!",
+                                                text = "Start",
                                                 callback = answer => {
                                                     questionsDialog.Reset();
                                                     ToggleDialog(false);
@@ -612,7 +732,7 @@ public class MainController : MonoBehaviour
                                         {
                                             new VRDialogActionValues()
                                             {
-                                                text = "Ready!",
+                                                text = "Start",
                                                 callback = answer => {
                                                     questionsDialog.Reset();
                                                     ToggleDialog(false);
@@ -666,7 +786,7 @@ public class MainController : MonoBehaviour
                                     {
                                         ToggleDialog(true);
                                         StartCoroutine(FadeAmbience(true));
-                                        questionsDialog.text = "<b>Experiment #1c</b>\nAlerts will appear in and out of your view.  Use the laser pointer to answer the yes/no questions appearing on the alerts. Please do so as quickly as possible.\n\nRemember: you can use the right thumbpad to rotate your view.";
+                                        questionsDialog.text = "<b>Experiment #1c</b>\nAlerts will appear in and out of your view.  Use the laser pointer to answer the yes/no questions appearing on the alerts. Please do so as quickly as possible.\n<b>Remember</b>: you can use the right thumbpad to rotate your view.";
                                         questionsDialog.question = false;
                                         Color actionColor = Color.black;
                                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -674,7 +794,7 @@ public class MainController : MonoBehaviour
                                 {
                                     new VRDialogActionValues()
                                     {
-                                        text = "Ready!",
+                                        text = "Start",
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
@@ -749,7 +869,7 @@ public class MainController : MonoBehaviour
                     {
                         ToggleDialog(true);
                         StartCoroutine(FadeAmbience(true));
-                        questionsDialog.text = "<b>Experiment #2:</b>\nA series of menus will appear in your view.  You will be prompted to interact with each menu in one of 3 ways: laser pointer, controller touch, thumbpad. Before we get started, these interaction techniques will be introduced.";
+                        questionsDialog.text = "<b>Experiment #1:</b>\nA series of menus will appear in your view.  You will be prompted to interact with each menu in one of 3 ways.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -757,7 +877,7 @@ public class MainController : MonoBehaviour
                         {
                             new VRDialogActionValues()
                             {
-                                text = "Show me!",
+                                text = "Okay",
                                 callback = answer => {
                                     questionsDialog.Reset();
                                     techniqueIdx = 0;
@@ -772,7 +892,7 @@ public class MainController : MonoBehaviour
                         {
                             case 0:
                                 techniqueIdx = -1;
-                                questionsDialog.text = "<b>Technique #1: Laser Pointer</b>\nYou may recognize this technique...prove that you haven't forgotten by selecting 'Next'.";
+                                questionsDialog.text = "Before we get started, you'll get to try each menu interaction technique.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -780,11 +900,10 @@ public class MainController : MonoBehaviour
                                 {
                                     new VRDialogActionValues()
                                     {
-                                        text = "Next",
+                                        text = "Okay",
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             techniqueIdx = 1;
-                                            TogglePointer(false);
                                         },
                                         background = actionColor,
                                         requireAnswer = false
@@ -793,6 +912,27 @@ public class MainController : MonoBehaviour
                                 break;
                             case 1:
                                 techniqueIdx = -1;
+                                questionsDialog.text = "<b>Technique #1: Laser Pointer</b>\nYou may recognize this technique...prove that you haven't forgotten by selecting 'Next'.";
+                                questionsDialog.question = false;
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            techniqueIdx = 2;
+                                            TogglePointer(false);
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                break;
+                            case 2:
+                                techniqueIdx = -1;
                                 technique2Button.transform.parent.gameObject.SetActive(true);
                                 technique2Button.GetComponent<Button>().onClick.AddListener(() =>
                                 {
@@ -800,12 +940,12 @@ public class MainController : MonoBehaviour
                                     technique2Button.transform.parent.gameObject.SetActive(false);
                                     successSound.Stop();
                                     successSound.Play();
-                                    techniqueIdx = 2;
+                                    techniqueIdx = 3;
                                 });
                                 questionsDialog.text = "<b>Technique #2: Controller Touch</b>\nFor this technique, touch the UI button with your controller and pull the trigger to make a selection.";
                                 questionsDialog.question = false;
                                 break;
-                            case 2:
+                            case 3:
                                 techniqueIdx = -1;
                                 technique3Buttons.transform.parent.gameObject.SetActive(true);
                                 technique3Buttons.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() =>
@@ -814,15 +954,15 @@ public class MainController : MonoBehaviour
                                     technique3Buttons.transform.parent.gameObject.SetActive(false);
                                     successSound.Stop();
                                     successSound.Play();
-                                    techniqueIdx = 3;
+                                    techniqueIdx = 4;
                                 });
                                 questionsDialog.text = "<b>Technique #3: Thumbpad</b>\nWith this technique, a button in view is highlighted.  Press on the edges of the thumbpad on the left controller to change which button is highlighted.  Pull the trigger to select the 'Correct' button.";
                                 questionsDialog.question = false;
                                 break;
-                            case 3:
+                            case 4:
                                 techniqueIdx = -1;
                                 TogglePointer(true);
-                                questionsDialog.text = "Experiment #2 will now begin.  Use the prompted interaction technique and the menus that appear to enter the 6 displayed sequences, much like in Skill Test #3.";
+                                questionsDialog.text = "Experiment #1 will now begin.  Use the prompted interaction technique and the menus that appear to enter the 6 displayed sequences, much like in Skill Test #3.";
                                 questionsDialog.question = false;
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -830,7 +970,7 @@ public class MainController : MonoBehaviour
                                 {
                                     new VRDialogActionValues()
                                     {
-                                        text = "Ready!",
+                                        text = "Start",
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
@@ -942,7 +1082,7 @@ public class MainController : MonoBehaviour
                     {
                         ToggleDialog(true);
                         StartCoroutine(FadeAmbience(true));
-                        questionsDialog.text = "You've done well!  Next is the final test.  Follow the directions and complete the movements, and you'll be done soon.";
+                        questionsDialog.text = "You've done well!  Just one more test.  Follow the directions and complete the movements, and you'll be done soon.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -953,6 +1093,7 @@ public class MainController : MonoBehaviour
                                 text = "Okay",
                                 callback = answer => {
                                     questionsDialog.Reset();
+                                    UpdateProgress(3);
                                     secondScreen = true;
                                 },
                                 background = actionColor,
@@ -963,7 +1104,7 @@ public class MainController : MonoBehaviour
                     else if (secondScreen)
                     {
                         secondScreen = false;
-                        questionsDialog.text = "<b>Experiment #3</b>\nThis final experiment involves movement, using one of three movement techniques.  Before we get started with the experiment, the movement techniques will be introduced.";
+                        questionsDialog.text = "<b>Experiment #2</b>\nThis final experiment involves movement, using one of two movement techniques.";
                         questionsDialog.question = false;
                         Color actionColor = Color.black;
                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -971,7 +1112,7 @@ public class MainController : MonoBehaviour
                         {
                             new VRDialogActionValues()
                             {
-                                text = "Ready!",
+                                text = "Okay",
                                 callback = answer => {
                                     questionsDialog.Reset();
                                     techniqueIdx = 0;
@@ -987,9 +1128,7 @@ public class MainController : MonoBehaviour
                         {
                             case 0:
                                 techniqueIdx = -1;
-                                teleport.enabled = true;
-                                Teleport.instance.CancelTeleportHint();
-                                questionsDialog.text = "<b>Technique #1: Teleport</b>\nPress down on the left thumbpad to open the teleport interface.  Release the button to teleport.\nAfter you've tried it a few times, come back and press 'Next'.";
+                                questionsDialog.text = "<b>Experiment #2</b>\nBefore we get started with the experiment, you'll get to try the two movement techniques.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -997,7 +1136,7 @@ public class MainController : MonoBehaviour
                                 {
                                     new VRDialogActionValues()
                                     {
-                                        text = "Next",
+                                        text = "Okay",
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             techniqueIdx = 1;
@@ -1008,6 +1147,31 @@ public class MainController : MonoBehaviour
                                 });
                                 break;
                             case 1:
+                                techniqueIdx = -1;
+                                teleport.enabled = true;
+                                Teleport.instance.CancelTeleportHint();
+                                questionsDialog.text = "<b>Technique #1: Teleport</b>\nPress down on the left thumbpad to open the teleport interface.  Release the button to teleport.\nTry it!";
+                                questionsDialog.question = false;
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            joystick.transform.position = Vector3.zero;
+                                            joystick.transform.eulerAngles = Vector3.zero;
+                                            teleport.enabled = false;
+                                            techniqueIdx = 3;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                break;
+                            case 2:
                                 techniqueIdx = -1;
                                 teleport.blur = true;
                                 questionsDialog.text = "<b>Technique #2: Fast Travel</b>\nAgain, press down on the left thumbpad to open the interface.  Release the button to fast travel.\nAfter you've tried it a few times, come back and press 'Next'.";
@@ -1022,7 +1186,7 @@ public class MainController : MonoBehaviour
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             teleport.blur = false;
-                                            techniqueIdx = 0;
+                                            techniqueIdx = 1;
                                         },
                                         background = actionColor,
                                         requireAnswer = false
@@ -1034,17 +1198,17 @@ public class MainController : MonoBehaviour
                                             questionsDialog.Reset();
                                             teleport.enabled = false;
                                             teleport.blur = false;
-                                            techniqueIdx = 2;
+                                            techniqueIdx = 4;
                                         },
                                         background = actionColor,
                                         requireAnswer = false
                                     }
                                 });
                                 break;
-                            case 2:
+                            case 3:
                                 techniqueIdx = -1;
                                 joystick.enabled = true;
-                                questionsDialog.text = "<b>Technique #3: Thumbpad Joystick</b>\nTouch the thumbpad on your left controller and use it like a joysick to control your current position.\nAfter you've tried it for a while, come back and press 'Next'.";
+                                questionsDialog.text = "<b>Technique #2: Thumbpad Joystick</b>\nTouch the thumbpad on your left controller and use it like a joysick to control your current position.\nTry it!";
                                 questionsDialog.question = false;
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -1068,16 +1232,18 @@ public class MainController : MonoBehaviour
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             joystick.enabled = false;
-                                            techniqueIdx = 3;
+                                            joystick.transform.position = Vector3.zero;
+                                            joystick.transform.eulerAngles = Vector3.zero;
+                                            techniqueIdx = 4;
                                         },
                                         background = actionColor,
                                         requireAnswer = false
                                     }
                                 });
                                 break;
-                            case 3:
+                            case 4:
                                 techniqueIdx = -1;
-                                questionsDialog.text = "Experiment #3 will now begin.  Use the prompted movement technique to complete 3 laps as quickly as possible.";
+                                questionsDialog.text = "Experiment #2 will now begin.  Use the prompted movement technique to complete 3 laps as quickly as possible.";
                                 questionsDialog.question = false;
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -1085,7 +1251,7 @@ public class MainController : MonoBehaviour
                                 {
                                     new VRDialogActionValues()
                                     {
-                                        text = "Ready!",
+                                        text = "Start",
                                         callback = answer => {
                                             questionsDialog.Reset();
                                             ToggleDialog(false);
@@ -1099,7 +1265,19 @@ public class MainController : MonoBehaviour
                                             threeTwoOne.transform.eulerAngles = new Vector3(0, 90f, 0f);
                                             StartCoroutine(ThreeTwoOne(() =>
                                             {
-                                                techniqueIdx = 0;
+                                                techniqueIdx = rand.NextDouble() > 0.5 ? 0 : 1;
+                                                if (techniqueIdx == 0)
+                                                {
+                                                    teleport.enabled = true;
+                                                    teleport.blur = false;
+                                                    techniqueText.text = "Teleport";
+                                                } else
+                                                {
+                                                    joystickStuff.SetActive(true);
+                                                    joystick.enabled = true;
+                                                    tracker.joystick = true;
+                                                    techniqueText.text = "Joystick";
+                                                }
                                                 tracker.track = true;
                                             }));
                                         },
@@ -1116,24 +1294,35 @@ public class MainController : MonoBehaviour
                     switch (techniqueIdx)
                     {
                         case 0:
-                            teleport.enabled = true;
-                            teleport.blur = false;
                             if (tracker.completed)
                             {
-                                techniqueIdx = 1;
                                 teleport.enabled = false;
                                 tracker.completed = false;
-                                joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
-                                joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
-                                StartCoroutine(ThreeTwoOne(() => 
+                                if (oneDone)
                                 {
-                                    teleport.enabled = true;
-                                    teleport.blur = true;
-                                    techniqueText.text = "Fast Travel";
-                                }));
+                                    joystick.transform.position = Vector3.zero;
+                                    joystick.transform.eulerAngles = Vector3.zero;
+                                    lapStuff.SetActive(false);
+                                    SetSceneIdx(6);
+                                    StartCoroutine(FadeMusic(false));
+                                    StartCoroutine(FadeAmbience(true));
+                                } else
+                                {
+                                    oneDone = true;
+                                    joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
+                                    joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                                    techniqueIdx = 1;
+                                    joystickStuff.SetActive(true);
+                                    StartCoroutine(ThreeTwoOne(() =>
+                                    {
+                                        joystick.enabled = true;
+                                        tracker.joystick = true;
+                                        techniqueText.text = "Joystick";
+                                    }));
+                                }
                             }
                             break;
-                        case 1:
+                        case 2:
                             if (tracker.completed)
                             {
                                 techniqueIdx = 2;
@@ -1153,15 +1342,45 @@ public class MainController : MonoBehaviour
                                 }));
                             }
                             break;
-                        case 2:
+                        case 1:
                             if (tracker.completed)
                             {
+                                joystick.enabled = false;
                                 joystickStuff.SetActive(false);
-                                lapStuff.SetActive(false);
+                                tracker.completed = false;
+                                if (oneDone)
+                                {
+                                    joystick.transform.position = Vector3.zero;
+                                    joystick.transform.eulerAngles = Vector3.zero;
+                                    lapStuff.SetActive(false);
+                                    SetSceneIdx(6);
+                                    StartCoroutine(FadeMusic(false));
+                                    StartCoroutine(FadeAmbience(true));
+                                }
+                                else
+                                {
+                                    oneDone = true;
+                                    techniqueIdx = 0;
+                                    joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
+                                    joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                                    StartCoroutine(ThreeTwoOne(() =>
+                                    {
+                                        teleport.enabled = true;
+                                        teleport.blur = false;
+                                        techniqueText.text = "Teleport";
+                                    }));
+                                }
                             }
                             break;
                     }
                 }
+                break;
+            case 6:
+                if (reloadTime > 10f)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                }
+                reloadTime += Time.deltaTime;
                 break;
         }
         
@@ -1202,6 +1421,7 @@ public class MainController : MonoBehaviour
 
     private void ToggleDialog(bool show)
     {
+        progressBar.SetActive(show);
         dialog.SetActive(show);
         TogglePointer(show);
     }
@@ -1251,5 +1471,57 @@ public class MainController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         threeTwoOne.SetActive(false);
         if (callable != null) callable();
+    }
+
+    public void LeftRotated()
+    {
+        Color actionColor = Color.black;
+        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+        questionsDialog.SetActions(new List<VRDialogActionValues>()
+        {
+            new VRDialogActionValues()
+            {
+                text = "Okay",
+                callback = answer => {
+                    questionsDialog.Reset();
+                    joystick.transform.eulerAngles = Vector3.zero;
+                    ControllerButtonHints.HideAllButtonHints(rightPointer.GetComponent<Hand>());
+                    questionIdx = 6;
+                },
+                background = actionColor,
+                requireAnswer = false
+            }
+        });
+    }
+
+    public void RightRotated()
+    {
+        Color actionColor = Color.black;
+        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+        questionsDialog.SetActions(new List<VRDialogActionValues>()
+        {
+            new VRDialogActionValues()
+            {
+                text = "Okay",
+                callback = answer => {
+                    questionsDialog.Reset();
+                    joystick.transform.eulerAngles = Vector3.zero;
+                    ControllerButtonHints.HideAllButtonHints(rightPointer.GetComponent<Hand>());
+                    questionIdx = 7;
+                },
+                background = actionColor,
+                requireAnswer = false
+            }
+        });
+    }
+
+    private void UpdateProgress(int idx)
+    {
+        Color actionColor = Color.black;
+        ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+        for (int i = 0; i <= idx; i++)
+        {
+            progressBar.transform.GetChild(i).GetComponent<ProceduralImage>().color = actionColor;
+        }
     }
 }

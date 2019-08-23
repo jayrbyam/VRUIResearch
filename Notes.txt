@@ -1,8 +1,18 @@
 Registered Hypotheses:
-  Instructions and Alerts:
-    - Users are able to respond to alerts in camera view much faster than to alerts outside of camera view.
-    - When the alert is outside the camera view, visual cues are most helpful for descreasing response time, followed by audio cues then no cues.
-    -
+ - Menu interactions:
+    - Laser pointer is the most efficient for skilled users
+      - Minimal hand movement (all in the wrist)
+      - More precise selections
+    - Touch is easier for less skilled users
+      - Broader movements lead to less mistakes
+ - Menu placement: 
+    - Menus should be reachable if interactable by touch
+    - Menus should be in clear sight
+    - Users do not like head mounted menus
+    - Hand mounted menus allow for more stability (less mistakes)
+      - Both arms can be used to work toward the same action
+ - Movement:
+    - Teleporting is the movement method that causes the least sickness (most comfortable)
 
 Colors:
  - Gainsboro #D8DBE2
@@ -14,6 +24,26 @@ Colors:
  - Download Progress #4cd137
 
 Tasks:
+ - Put some delay between trying movement, so they don't do it too soon
+ - Add texture to maze
+ - Randomize the order of the movement techniques
+ - All text you are supposed to be able to read should be 50% bigger **
+ - Prompt movement technique during countdown
+ - Track down why hand number button not working
+ - World space numberpad too far in front
+ - Change numbering of experiments, to make consistant
+ - Look into switching hands on command
+ - Add keyboard command to skip to next
+ - Reset player between technique introductions
+ - Joystick too sensitive
+ - Allow for fast travel to be reset before completing
+ - Make sequence green until mistake is made
+ - Use only one of the techniques for each area!  Randomly!
+ - Split up dialog!
+ - Tell how many experiments there are, progress bar with dots?
+ - Make user do the rotate action
+ - Fix bug where backspace doesn't unhighlight
+ - Add instruction about pulling the trigger to make a selection on question dialog
  - Add question after alerts asking how different alert types made them feel
  - Add on hover change of color for UIElement
  - Add videos of interactions for techniques alongside the words
@@ -25,7 +55,6 @@ Tasks:
  - Record number of actions take for each movement technique
  - Add question after movement techniques asking which technique the user prefers
  - How did each movement technique make the user feel
- - Add thank you message at the end that reloads scene after a time
  - Save metrics entry to CSV at the end of the experience
  - Fix bug with tennis ball colliders
  - Write up agreement/waiver for participants

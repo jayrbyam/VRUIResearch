@@ -16,12 +16,22 @@ public class TennisRacket : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "TennisBall" && MainController.Instance.tennisScore < 10)
+    //    {
+    //        GetComponent<AudioSource>().Stop();
+    //        GetComponent<AudioSource>().Play();
+    //        MainController.Instance.tennisScore++;
+    //    }
+    //}
+
+    void OnTriggerExit(Collider other)
     {
-        if (collision.gameObject.tag == "TennisBall" && MainController.Instance.tennisScore < 10)
+        if (other.gameObject.tag == "TennisBall" && MainController.Instance.tennisScore < 10)
         {
-            GetComponent<AudioSource>().Stop();
-            GetComponent<AudioSource>().Play();
+            //GetComponent<AudioSource>().Stop();
+            //GetComponent<AudioSource>().Play();
             MainController.Instance.tennisScore++;
         }
     }
