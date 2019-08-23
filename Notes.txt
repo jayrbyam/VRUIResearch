@@ -24,7 +24,7 @@ Colors:
  - Download Progress #4cd137
 
 Tasks:
- - Put some delay between trying movement, so they don't do it too soon
+ - Make ending more elegant
  - Add texture to maze
  - Randomize the order of the movement techniques
  - All text you are supposed to be able to read should be 50% bigger **
@@ -38,9 +38,6 @@ Tasks:
  - Joystick too sensitive
  - Allow for fast travel to be reset before completing
  - Make sequence green until mistake is made
- - Use only one of the techniques for each area!  Randomly!
- - Split up dialog!
- - Tell how many experiments there are, progress bar with dots?
  - Make user do the rotate action
  - Fix bug where backspace doesn't unhighlight
  - Add instruction about pulling the trigger to make a selection on question dialog

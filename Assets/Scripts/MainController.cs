@@ -52,7 +52,7 @@ public class MainController : MonoBehaviour
     // 4 - Menus
     // 5 - Movement
     // 6 - Thank You
-    private int sceneIdx = 0;
+    private int sceneIdx = 5;
 
     // Scene 0
     public FadePulse startText;
@@ -1154,22 +1154,25 @@ public class MainController : MonoBehaviour
                                 questionsDialog.question = false;
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                StartCoroutine(WaitThenExecute(3f, () =>
                                 {
-                                    new VRDialogActionValues()
+                                    questionsDialog.SetActions(new List<VRDialogActionValues>()
                                     {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            joystick.transform.position = Vector3.zero;
-                                            joystick.transform.eulerAngles = Vector3.zero;
-                                            teleport.enabled = false;
-                                            techniqueIdx = 3;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = false
-                                    }
-                                });
+                                        new VRDialogActionValues()
+                                        {
+                                            text = "Next",
+                                            callback = answer => {
+                                                questionsDialog.Reset();
+                                                joystick.transform.position = Vector3.zero;
+                                                joystick.transform.eulerAngles = Vector3.zero;
+                                                teleport.enabled = false;
+                                                techniqueIdx = 3;
+                                            },
+                                            background = actionColor,
+                                            requireAnswer = false
+                                        }
+                                    });
+                                }));
                                 break;
                             case 2:
                                 techniqueIdx = -1;
@@ -1222,24 +1225,31 @@ public class MainController : MonoBehaviour
                                             joystick.enabled = false;
                                             teleport.enabled = true;
                                             techniqueIdx = 1;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            joystick.enabled = false;
-                                            joystick.transform.position = Vector3.zero;
-                                            joystick.transform.eulerAngles = Vector3.zero;
-                                            techniqueIdx = 4;
+                                            StopAllCoroutines();
                                         },
                                         background = actionColor,
                                         requireAnswer = false
                                     }
                                 });
+                                StartCoroutine(WaitThenExecute(3f, () =>
+                                {
+                                    questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                    {
+                                        new VRDialogActionValues()
+                                        {
+                                            text = "Next",
+                                            callback = answer => {
+                                                questionsDialog.Reset();
+                                                joystick.enabled = false;
+                                                joystick.transform.position = Vector3.zero;
+                                                joystick.transform.eulerAngles = Vector3.zero;
+                                                techniqueIdx = 4;
+                                            },
+                                            background = actionColor,
+                                            requireAnswer = false
+                                        }
+                                    });
+                                }));
                                 break;
                             case 4:
                                 techniqueIdx = -1;
@@ -1367,6 +1377,7 @@ public class MainController : MonoBehaviour
                                     {
                                         teleport.enabled = true;
                                         teleport.blur = false;
+                                        tracker.joystick = false;
                                         techniqueText.text = "Teleport";
                                     }));
                                 }
