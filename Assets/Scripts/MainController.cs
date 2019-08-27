@@ -302,80 +302,6 @@ public class MainController : MonoBehaviour
                             break;
                         case 4:
                             questionIdx = null;
-                            questionsDialog.text = "Before we get to the fun stuff, you need to know how to rotate your view.";
-                            questionsDialog.question = false;
-                            actionColor = Color.black;
-                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                            questionsDialog.SetActions(new List<VRDialogActionValues>()
-                            {
-                                new VRDialogActionValues()
-                                {
-                                    text = "Back",
-                                    callback = answer => {
-                                        questionsDialog.Reset();
-                                        questionIdx = 3;
-                                    },
-                                    background = actionColor,
-                                    requireAnswer = false
-                                },
-                                new VRDialogActionValues()
-                                {
-                                    text = "Okay",
-                                    callback = answer => {
-                                        questionsDialog.Reset();
-                                        questionIdx = 5;
-                                    },
-                                    background = actionColor,
-                                    requireAnswer = false
-                                }
-                            });
-                            break;
-                        case 5:
-                            questionIdx = null;
-                            questionsDialog.text = "Press on the left half of your right-hand thumbpad to rotate your view to the left.";
-                            questionsDialog.question = false;
-                            actionColor = Color.black;
-                            waitingForLeftRotate = true;
-                            ControllerButtonHints.ShowButtonHint(rightPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
-                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                            questionsDialog.SetActions(new List<VRDialogActionValues>()
-                            {
-                                new VRDialogActionValues()
-                                {
-                                    text = "Back",
-                                    callback = answer => {
-                                        questionsDialog.Reset();
-                                        questionIdx = 4;
-                                    },
-                                    background = actionColor,
-                                    requireAnswer = false
-                                }
-                            });
-                            break;
-                        case 6:
-                            questionIdx = null;
-                            questionsDialog.text = "Press on the right half of your right-hand thumbpad to rotate your view to the right.";
-                            questionsDialog.question = false;
-                            actionColor = Color.black;
-                            waitingForRightRotate = true;
-                            ControllerButtonHints.ShowButtonHint(rightPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
-                            ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                            questionsDialog.SetActions(new List<VRDialogActionValues>()
-                            {
-                                new VRDialogActionValues()
-                                {
-                                    text = "Back",
-                                    callback = answer => {
-                                        questionsDialog.Reset();
-                                        questionIdx = 5;
-                                    },
-                                    background = actionColor,
-                                    requireAnswer = false
-                                }
-                            });
-                            break;
-                        case 7:
-                            questionIdx = null;
                             questionsDialog.text = "Great! You will now proceed to the pre-experiment skill test.  This skill test will help us get an idea of your base VR skill before starting the actual experiment.";
                             questionsDialog.question = false;
                             actionColor = Color.black;
@@ -387,7 +313,7 @@ public class MainController : MonoBehaviour
                                     text = "Back",
                                     callback = answer => {
                                         questionsDialog.Reset();
-                                        questionIdx = 6;
+                                        questionIdx = 3;
                                     },
                                     background = actionColor,
                                     requireAnswer = false
@@ -892,7 +818,7 @@ public class MainController : MonoBehaviour
                         {
                             case 0:
                                 techniqueIdx = -1;
-                                questionsDialog.text = "Before we get started, you'll get to try each menu interaction technique.";
+                                questionsDialog.text = "<b>Experiment #1:</b>\nBefore we get started, you'll get to try each menu interaction technique.";
                                 questionsDialog.question = false;
                                 Color actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
@@ -1253,6 +1179,80 @@ public class MainController : MonoBehaviour
                                 break;
                             case 4:
                                 techniqueIdx = -1;
+                                questionsDialog.text = "<b>Experiment #2</b>\nBefore we get to the test, you need to know how to rotate your view.";
+                                questionsDialog.question = false;
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            techniqueIdx = 3;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Okay",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            techniqueIdx = 5;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                break;
+                            case 5:
+                                techniqueIdx = -1;
+                                questionsDialog.text = "<b>Experiment #2</b>\nPress on the left half of your right-hand thumbpad to rotate your view to the left.";
+                                questionsDialog.question = false;
+                                actionColor = Color.black;
+                                waitingForLeftRotate = true;
+                                ControllerButtonHints.ShowButtonHint(rightPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            techniqueIdx = 4;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                break;
+                            case 6:
+                                techniqueIdx = -1;
+                                questionsDialog.text = "<b>Experiment #2</b>\nPress on the right half of your right-hand thumbpad to rotate your view to the right.";
+                                questionsDialog.question = false;
+                                actionColor = Color.black;
+                                waitingForRightRotate = true;
+                                ControllerButtonHints.ShowButtonHint(rightPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            techniqueIdx = 5;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                break;
+                            case 7:
+                                techniqueIdx = -1;
                                 questionsDialog.text = "Experiment #2 will now begin.  Use the prompted movement technique to complete 3 laps as quickly as possible.";
                                 questionsDialog.question = false;
                                 actionColor = Color.black;
@@ -1364,7 +1364,8 @@ public class MainController : MonoBehaviour
                                     joystick.transform.eulerAngles = Vector3.zero;
                                     lapStuff.SetActive(false);
                                     SetSceneIdx(6);
-                                    StartCoroutine(FadeMusic(false));
+                                    music.Stop();
+                                    music.Play();
                                     StartCoroutine(FadeAmbience(true));
                                 }
                                 else
@@ -1497,7 +1498,7 @@ public class MainController : MonoBehaviour
                     questionsDialog.Reset();
                     joystick.transform.eulerAngles = Vector3.zero;
                     ControllerButtonHints.HideAllButtonHints(rightPointer.GetComponent<Hand>());
-                    questionIdx = 6;
+                    techniqueIdx = 6;
                 },
                 background = actionColor,
                 requireAnswer = false
@@ -1518,7 +1519,7 @@ public class MainController : MonoBehaviour
                     questionsDialog.Reset();
                     joystick.transform.eulerAngles = Vector3.zero;
                     ControllerButtonHints.HideAllButtonHints(rightPointer.GetComponent<Hand>());
-                    questionIdx = 7;
+                    techniqueIdx = 7;
                 },
                 background = actionColor,
                 requireAnswer = false
