@@ -56,6 +56,7 @@ public class VRNumberPad : MonoBehaviour
     {
         if (enteredText != "" && !completed)
         {
+            MainController.Instance.metrics.st3M++;
             enteredText = enteredText.Substring(0, enteredText.Length - 1);
             if (enteredText == promptText) Completed();
         }

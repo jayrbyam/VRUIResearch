@@ -22,13 +22,13 @@ public class Alert : MonoBehaviour
 
     public void YesSelected()
     {
-        if (yesCorrect && !last) MainController.Instance.metrics.e1cCA++;
+        //if (yesCorrect && !last) MainController.Instance.metrics.e1cCA++;
         answered = true;
     }
 
     public void NoSelected()
     {
-        if (!yesCorrect && !last) MainController.Instance.metrics.e1cCA++;
+        //if (!yesCorrect && !last) MainController.Instance.metrics.e1cCA++;
         answered = true;
     }
 }

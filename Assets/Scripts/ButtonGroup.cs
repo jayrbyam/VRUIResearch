@@ -51,6 +51,7 @@ public class ButtonGroup : MonoBehaviour
     private void Select(int idx)
     {
         if (idx < 0 || idx > width * height - 1) return;
+        if (MainController.Instance.trackingHovers) MainController.Instance.hovers++;
         Color unselectedBackground = Color.gray;
         ColorUtility.TryParseHtmlString("#373F51", out unselectedBackground);
         transform.GetChild(selected).GetComponent<ProceduralImage>().color = unselectedBackground;

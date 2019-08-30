@@ -11,14 +11,18 @@ public class VRDialog : MonoBehaviour
 
     public Text mainText;
     public GameObject answersPanel;
+    public GameObject manikinPanel;
+    public Text leftText;
+    public Text rightText;
     public GameObject originalAnswer;
     public GameObject originalAction;
     public AudioSource failureSound;
     public AudioSource hoverSound;
+    private delegate void AfterWaitDelegate();
 
     public string text
     {
-        get
+        get 
         {
             return mainText.text;
         }
@@ -36,6 +40,39 @@ public class VRDialog : MonoBehaviour
         set
         {
             answersPanel.SetActive(value);
+        }
+    }
+    public bool manikin
+    {
+        get
+        {
+            return manikinPanel.activeSelf;
+        }
+        set
+        {
+            manikinPanel.SetActive(value);
+        }
+    }
+    public string leftManikinText
+    {
+        get
+        {
+            return leftText.text;
+        }
+        set
+        {
+            leftText.text = value;
+        }
+    }
+    public string rightManikinText
+    {
+        get
+        {
+            return rightText.text;
+        }
+        set
+        {
+            rightText.text = value;
         }
     }
 
@@ -122,6 +159,42 @@ public class VRDialog : MonoBehaviour
         }
     }
 
+    public void SetManikin(ManikinChoice choice)
+    {
+        selectedAnswer = choice.choice;
+        hoverSound.Stop();
+        hoverSound.Play();
+
+        // Enable all actions
+        foreach (Transform action in originalAction.transform.parent)
+        {
+            if (action != originalAction && action.GetComponent<VRDialogAction>().requireAction)
+            {
+                action.GetComponent<Button>().enabled = true;
+            }
+        }
+
+        // Unselect all other answers
+        ManikinChoice[] choices = manikinPanel.GetComponentsInChildren<ManikinChoice>();
+        foreach (ManikinChoice bullet in choices)
+        {
+            bullet.Toggle(false);
+        }
+
+        // Select the current answer
+        choice.Toggle(true);
+        StartCoroutine(WaitThenExecute(0.5f, () =>
+        {
+            originalAction.transform.parent.GetChild(originalAction.transform.parent.childCount - 1).GetComponent<Button>().onClick.Invoke();
+        }));
+    }
+
+    private IEnumerator WaitThenExecute(float seconds, AfterWaitDelegate callable)
+    {
+        yield return new WaitForSeconds(seconds);
+        callable();
+    }
+
     public void Reset()
     {
         selectedAnswer = null;
@@ -140,6 +213,13 @@ public class VRDialog : MonoBehaviour
             {
                 Destroy(action.gameObject);
             }
+        }
+
+        // Unselect all other answers
+        ManikinChoice[] choices = manikinPanel.GetComponentsInChildren<ManikinChoice>();
+        foreach (ManikinChoice bullet in choices)
+        {
+            bullet.Toggle(false);
         }
     }
 }

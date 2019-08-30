@@ -32,7 +32,7 @@ public class MainController : MonoBehaviour
     public LaserPointer rightPointer;
     public GameObject dialog;
     private VRDialog questionsDialog;
-    private bool dominantRight = true;
+    private bool dominantRight = false;
     private delegate void AfterWaitDelegate();
     public GameObject numberPad;
     public GameObject progressBar;
@@ -43,6 +43,7 @@ public class MainController : MonoBehaviour
     public AudioSource music;
     public Timer timer;
     private List<string> letters = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+    private bool output = false;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
@@ -52,7 +53,7 @@ public class MainController : MonoBehaviour
     // 4 - Menus
     // 5 - Movement
     // 6 - Thank You
-    private int sceneIdx = 5;
+    private int sceneIdx = 0;
 
     // Scene 0
     public FadePulse startText;
@@ -64,7 +65,7 @@ public class MainController : MonoBehaviour
 
     // Scene 2
     private int testIdx = 0;
-    private bool testStarted = false;
+    public bool testStarted = false;
     public List<Transform> skillTests;
     public Transform darts;
     public Text dartScoreText;
@@ -101,6 +102,8 @@ public class MainController : MonoBehaviour
     public static int numbersCompleted = 0;
     private int numbersHandled = 0;
     private bool testCompleted = false;
+    public bool trackingHovers = false;
+    public int hovers = 0;
 
     // Scene 3
     private bool secondScreen = false;
@@ -145,6 +148,7 @@ public class MainController : MonoBehaviour
     public GameObject joystickStuff;
     public GameObject joystickSecondLapStuff;
     public GameObject joystickThirdLapStuff;
+    public bool joystickTime = false;
     private System.Random rand;
     private bool oneDone = false;
 
@@ -174,6 +178,8 @@ public class MainController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P)) metrics.OutputMetrics();
+
         switch (sceneIdx)
         {
             case 0: // Starting screen
@@ -196,8 +202,9 @@ public class MainController : MonoBehaviour
                     {
                         case 0:
                             questionIdx = null;
-                            questionsDialog.text = "Hi! Thanks for participating.  We're going to start off with just a few questions.";
+                            questionsDialog.text = "Hi! Thanks for participating.  Use the laser pointer and trigger to make selections.";
                             questionsDialog.question = false;
+                            ControllerButtonHints.ShowButtonHint(rightPointer.GetComponent<Hand>(), SteamVR_Actions.default_InteractUI);
                             Color actionColor = Color.black;
                             ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                             questionsDialog.SetActions(new List<VRDialogActionValues>()
@@ -207,6 +214,7 @@ public class MainController : MonoBehaviour
                                     text = "Got it.",
                                     callback = answer => {
                                         questionsDialog.Reset();
+                                        ControllerButtonHints.HideAllButtonHints(rightPointer.GetComponent<Hand>());
                                         questionIdx = 1;
                                     },
                                     background = actionColor,
@@ -503,6 +511,7 @@ public class MainController : MonoBehaviour
                                     timer.StartTimer();
                                     numberPad.GetComponent<VRNumberPad>().promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
                                     numbersHandled++;
+                                    trackingHovers = true;
                                 }));
                             }
                             timer.Update();
@@ -510,6 +519,9 @@ public class MainController : MonoBehaviour
                             {
                                 metrics.st3T = timer.time;
                                 timer.time = 0f;
+                                metrics.st3H = hovers;
+                                hovers = 0;
+                                trackingHovers = false;
                                 SetSceneIdx(3);
                                 testStarted = false;
                                 ToggleNumberPad(false);
@@ -554,7 +566,8 @@ public class MainController : MonoBehaviour
                                 requireAnswer = false
                             }
                         });
-                    } else if (secondScreen)
+                    }
+                    else if (secondScreen)
                     {
                         secondScreen = false;
                         questionsDialog.text = "<b>Experiment #1</b>\nA series of instructions and alerts will appear in your view.  Follow the directions and complete the actions to proceed through the test.";
@@ -627,7 +640,7 @@ public class MainController : MonoBehaviour
                                     timer.Update();
                                     if (audioSourcesSelected > 8)
                                     {
-                                        metrics.e1aT = timer.time;
+                                        //metrics.e1aT = timer.time;
                                         timer.time = 0f;
                                         experiments[0].SetActive(false);
                                         experimentIdx = 1;
@@ -688,7 +701,7 @@ public class MainController : MonoBehaviour
                                     timer.Update();
                                     if (indicatorsSelected > 8)
                                     {
-                                        metrics.e1bT = timer.time;
+                                        //metrics.e1bT = timer.time;
                                         timer.time = 0f;
                                         experiments[1].SetActive(false);
                                         experimentIdx = 2;
@@ -757,7 +770,8 @@ public class MainController : MonoBehaviour
                                 break;
                         }
                         break;
-                    } else
+                    }
+                    else
                     {
                         if (!dialog.activeSelf)
                         {
@@ -868,7 +882,7 @@ public class MainController : MonoBehaviour
                                     successSound.Play();
                                     techniqueIdx = 3;
                                 });
-                                questionsDialog.text = "<b>Technique #2: Controller Touch</b>\nFor this technique, touch the UI button with your controller and pull the trigger to make a selection.";
+                                questionsDialog.text = "<b>Technique #2: Controller Touch</b>\nFor this technique, touch the button in front of you with your controller, and pull the trigger to make a selection.";
                                 questionsDialog.question = false;
                                 break;
                             case 3:
@@ -880,10 +894,12 @@ public class MainController : MonoBehaviour
                                     technique3Buttons.transform.parent.gameObject.SetActive(false);
                                     successSound.Stop();
                                     successSound.Play();
+                                    ControllerButtonHints.HideAllButtonHints(leftPointer.GetComponent<Hand>());
                                     techniqueIdx = 4;
                                 });
-                                questionsDialog.text = "<b>Technique #3: Thumbpad</b>\nWith this technique, a button in view is highlighted.  Press on the edges of the thumbpad on the left controller to change which button is highlighted.  Pull the trigger to select the 'Correct' button.";
+                                questionsDialog.text = "<b>Technique #3: Thumbpad</b>\nWith this technique, a button in view is highlighted.  Press a direction on the thumbpad of your left controller to change which button is highlighted.  Pull the trigger to select the 'Correct' button.";
                                 questionsDialog.question = false;
+                                ControllerButtonHints.ShowButtonHint(leftPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
                                 break;
                             case 4:
                                 techniqueIdx = -1;
@@ -910,6 +926,7 @@ public class MainController : MonoBehaviour
                                                 timer.text = stringsTimeText;
                                                 timer.time = 0f;
                                                 timer.StartTimer();
+                                                trackingHovers = true;
                                                 keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
                                                 stringsHandled++;
                                             }));
@@ -924,80 +941,707 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-                    timer.Update();
-                    if (stringsCompleted > 5)
+                    if (!testCompleted)
                     {
-                        metrics.e2TC6 = timer.time;
-                        menusPrompt.SetActive(false);
-                        headNumberPad.SetActive(false);
-                        SetSceneIdx(5);
-                        testStarted = false;
-                        ToggleNumberPad(false);
-                        StartCoroutine(FadeMusic(false));
-                    }
-                    else
-                    {
-                        if (stringsCompleted == stringsHandled && stringsHandled != 0)
+                        timer.Update();
+                        if (stringsCompleted > 5)
                         {
-                            timer.StartTimer();
-                            stringsHandled++;
-                            switch (stringsCompleted)
+                            metrics.e1TC6 = timer.time;
+                            timer.time = 0f;
+                            metrics.e1H6 = hovers;
+                            hovers = 0;
+                            trackingHovers = false;
+                            menusPrompt.SetActive(false);
+                            headNumberPad.SetActive(false);
+                            ToggleNumberPad(false);
+                            StartCoroutine(FadeMusic(false));
+                            testCompleted = true;
+                            questionIdx = 0;
+                        }
+                        else
+                        {
+                            if (stringsCompleted == stringsHandled && stringsHandled != 0)
                             {
-                                case 1:
-                                    metrics.e2TC1 = timer.time;
-                                    touchNumberPad.SetActive(false);
-                                    headKeyboard.SetActive(true);
-                                    TogglePointer(true);
-                                    string newPrompt = "";
-                                    for (int i = 0; i < 6; i++)
-                                    {
-                                        newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
-                                    }
-                                    keyboard.promptText = newPrompt;
-                                    break;
-                                case 2:
-                                    metrics.e2TC2 = timer.time;
-                                    headKeyboard.SetActive(false);
-                                    TogglePointer(false);
-                                    if (dominantRight) leftHandNumberPad.SetActive(true);
-                                    else rightHandNumberPad.SetActive(true);
-                                    keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
-                                    break;
-                                case 3:
-                                    metrics.e2TC3 = timer.time;
-                                    if (dominantRight) leftHandNumberPad.SetActive(false);
-                                    else rightHandNumberPad.SetActive(false);
-                                    buttonKeyboard.SetActive(true);
-                                    newPrompt = "";
-                                    for (int i = 0; i < 6; i++)
-                                    {
-                                        newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
-                                    }
-                                    keyboard.promptText = newPrompt;
-                                    break;
-                                case 4:
-                                    metrics.e2TC4 = timer.time;
-                                    buttonKeyboard.SetActive(false);
-                                    if (dominantRight) leftHandKeyboard.SetActive(true);
-                                    else rightHandKeyboard.SetActive(true);
-                                    TogglePointer(true);
-                                    newPrompt = "";
-                                    for (int i = 0; i < 6; i++)
-                                    {
-                                        newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
-                                    }
-                                    keyboard.promptText = newPrompt;
-                                    break;
-                                case 5:
-                                    metrics.e2TC5 = timer.time;
-                                    if (dominantRight) leftHandKeyboard.SetActive(false);
-                                    else rightHandKeyboard.SetActive(false);
-                                    TogglePointer(false);
-                                    headNumberPad.SetActive(true);
-                                    keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
-                                    break;
+                                timer.StartTimer();
+                                stringsHandled++;
+                                switch (stringsCompleted)
+                                {
+                                    case 1:
+                                        metrics.e1TC1 = timer.time;
+                                        timer.time = 0f;
+                                        metrics.e1H1 = hovers;
+                                        hovers = 0;
+                                        touchNumberPad.SetActive(false);
+                                        headKeyboard.SetActive(true);
+                                        TogglePointer(true);
+                                        string newPrompt = "";
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
+                                        }
+                                        keyboard.promptText = newPrompt;
+                                        break;
+                                    case 2:
+                                        metrics.e1TC2 = timer.time;
+                                        timer.time = 0f;
+                                        metrics.e1H2 = hovers;
+                                        hovers = 0;
+                                        headKeyboard.SetActive(false);
+                                        TogglePointer(false);
+                                        if (dominantRight) leftHandNumberPad.SetActive(true);
+                                        else rightHandNumberPad.SetActive(true);
+                                        keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                        break;
+                                    case 3:
+                                        metrics.e1TC3 = timer.time;
+                                        timer.time = 0f;
+                                        metrics.e1H3 = hovers;
+                                        hovers = 0;
+                                        if (dominantRight) leftHandNumberPad.SetActive(false);
+                                        else rightHandNumberPad.SetActive(false);
+                                        buttonKeyboard.SetActive(true);
+                                        ControllerButtonHints.ShowButtonHint(leftPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
+                                        newPrompt = "";
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
+                                        }
+                                        keyboard.promptText = newPrompt;
+                                        break;
+                                    case 4:
+                                        metrics.e1TC4 = timer.time;
+                                        timer.time = 0f;
+                                        metrics.e1H4 = hovers;
+                                        hovers = 0;
+                                        buttonKeyboard.SetActive(false);
+                                        if (dominantRight) leftHandKeyboard.SetActive(true);
+                                        else rightHandKeyboard.SetActive(true);
+                                        TogglePointer(true);
+                                        newPrompt = "";
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            newPrompt += letters[UnityEngine.Random.Range(0, letters.Count - 1)];
+                                        }
+                                        keyboard.promptText = newPrompt;
+                                        break;
+                                    case 5:
+                                        metrics.e1TC5 = timer.time;
+                                        timer.time = 0f;
+                                        metrics.e1H5 = hovers;
+                                        hovers = 0;
+                                        if (dominantRight) leftHandKeyboard.SetActive(false);
+                                        else rightHandKeyboard.SetActive(false);
+                                        TogglePointer(false);
+                                        headNumberPad.SetActive(true);
+                                        ControllerButtonHints.ShowButtonHint(leftPointer.GetComponent<Hand>(), SteamVR_Actions.default_DPadLeft);
+                                        keyboard.promptText = UnityEngine.Random.Range(0, 999999).ToString().PadLeft(6, '0');
+                                        break;
+                                }
                             }
                         }
+                    } else
+                    {
+                        switch (questionIdx)
+                        {
+                            case 0:
+                                questionIdx = -1;
+                                StartCoroutine(FadeAmbience(true));
+                                ToggleDialog(true);
+                                questionsDialog.text = "Great work!  You will now be asked to rate your feelings about what you just completed.";
+                                questionsDialog.question = false;
+                                Color actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Okay",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 1;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                break;
+                            case 1:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Laser Pointer</b>\nHow did using the laser pointer make you feel?";
+                                questionsDialog.manikin = true;
+                                questionsDialog.leftManikinText = "Unhappy";
+                                questionsDialog.rightManikinText = "Happy";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1ML1 = int.Parse(answer);
+                                            questionIdx = 2;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 2:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Laser Pointer</b>\nHow did using the laser pointer make you feel?";
+                                questionsDialog.leftManikinText = "Calm";
+                                questionsDialog.rightManikinText = "Excited";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 1;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1ML2 = int.Parse(answer);
+                                            questionIdx = 3;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 3:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Laser Pointer</b>\nHow did using the laser pointer make you feel?";
+                                questionsDialog.leftManikinText = "In Control";
+                                questionsDialog.rightManikinText = "Not In Control";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 2;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1ML3 = int.Parse(answer);
+                                            questionIdx = 4;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 4:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Controller Touch</b>\nHow did using the controller touch method make you feel?";
+                                questionsDialog.manikin = true;
+                                questionsDialog.leftManikinText = "Unhappy";
+                                questionsDialog.rightManikinText = "Happy";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 3;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MT1 = int.Parse(answer);
+                                            questionIdx = 5;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 5:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Controller Touch</b>\nHow did using the controller touch method make you feel?";
+                                questionsDialog.leftManikinText = "Calm";
+                                questionsDialog.rightManikinText = "Excited";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 4;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MT2 = int.Parse(answer);
+                                            questionIdx = 6;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 6:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Controller Touch</b>\nHow did using the controller touch method make you feel?";
+                                questionsDialog.leftManikinText = "In Control";
+                                questionsDialog.rightManikinText = "Not In Control";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 5;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MT3 = int.Parse(answer);
+                                            questionIdx = 7;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 7:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Thumbpad</b>\nHow did using the thumbpad to make selections make you feel?";
+                                questionsDialog.manikin = true;
+                                questionsDialog.leftManikinText = "Unhappy";
+                                questionsDialog.rightManikinText = "Happy";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 6;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MB1 = int.Parse(answer);
+                                            questionIdx = 8;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 8:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Thumbpad</b>\nHow did using the thumbpad to make selections make you feel?";
+                                questionsDialog.leftManikinText = "Calm";
+                                questionsDialog.rightManikinText = "Excited";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 7;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MB2 = int.Parse(answer);
+                                            questionIdx = 9;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 9:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Thumbpad</b>\nHow did using the thumbpad to make selections make you feel?";
+                                questionsDialog.leftManikinText = "In Control";
+                                questionsDialog.rightManikinText = "Not In Control";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 8;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MB3 = int.Parse(answer);
+                                            questionIdx = 10;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 10:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Head Mounted Menus</b>\nHow did the menus that followed your view make you feel?";
+                                questionsDialog.manikin = true;
+                                questionsDialog.leftManikinText = "Unhappy";
+                                questionsDialog.rightManikinText = "Happy";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 9;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MH1 = int.Parse(answer);
+                                            questionIdx = 11;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 11:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Head Mounted Menus</b>\nHow did the menus that followed your view make you feel?";
+                                questionsDialog.leftManikinText = "Calm";
+                                questionsDialog.rightManikinText = "Excited";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 10;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MH2 = int.Parse(answer);
+                                            questionIdx = 12;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 12:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Head Mounted Menus</b>\nHow did the menus that followed your view make you feel?";
+                                questionsDialog.leftManikinText = "In Control";
+                                questionsDialog.rightManikinText = "Not In Control";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 11;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MH3 = int.Parse(answer);
+                                            questionIdx = 13;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 13:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Hand Mounted Menus</b>\nHow did the menus that were attached to your hand make you feel?";
+                                questionsDialog.manikin = true;
+                                questionsDialog.leftManikinText = "Unhappy";
+                                questionsDialog.rightManikinText = "Happy";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 12;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MC1 = int.Parse(answer);
+                                            questionIdx = 14;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 14:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Hand Mounted Menus</b>\nHow did the menus that were attached to your hand make you feel?";
+                                questionsDialog.leftManikinText = "Calm";
+                                questionsDialog.rightManikinText = "Excited";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 13;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MC2 = int.Parse(answer);
+                                            questionIdx = 15;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 15:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Hand Mounted Menus</b>\nHow did the menus that were attached to your hand make you feel?";
+                                questionsDialog.leftManikinText = "In Control";
+                                questionsDialog.rightManikinText = "Not In Control";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 14;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MC3 = int.Parse(answer);
+                                            questionIdx = 16;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 16:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Fixed Position Menus</b>\nHow did the menus that were simply out in front of you make you feel?";
+                                questionsDialog.manikin = true;
+                                questionsDialog.leftManikinText = "Unhappy";
+                                questionsDialog.rightManikinText = "Happy";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 15;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MW1 = int.Parse(answer);
+                                            questionIdx = 17;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 17:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Fixed Position Menus</b>\nHow did the menus that were simply out in front of you make you feel?";
+                                questionsDialog.leftManikinText = "Calm";
+                                questionsDialog.rightManikinText = "Excited";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 16;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e1MW2 = int.Parse(answer);
+                                            questionIdx = 18;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 18:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Fixed Position Menus</b>\nHow did the menus that were simply out in front of you make you feel?";
+                                questionsDialog.leftManikinText = "In Control";
+                                questionsDialog.rightManikinText = "Not In Control";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 17;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            ToggleDialog(false);
+                                            metrics.e1MW3 = int.Parse(answer);
+                                            SetSceneIdx(5);
+                                            testStarted = false;
+                                            testCompleted = false;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                        }
+                        
                     }
                 }
                 break;
@@ -1010,6 +1654,7 @@ public class MainController : MonoBehaviour
                         StartCoroutine(FadeAmbience(true));
                         questionsDialog.text = "You've done well!  Just one more test.  Follow the directions and complete the movements, and you'll be done soon.";
                         questionsDialog.question = false;
+                        questionsDialog.manikin = false;
                         Color actionColor = Color.black;
                         ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                         questionsDialog.SetActions(new List<VRDialogActionValues>()
@@ -1078,6 +1723,7 @@ public class MainController : MonoBehaviour
                                 Teleport.instance.CancelTeleportHint();
                                 questionsDialog.text = "<b>Technique #1: Teleport</b>\nPress down on the left thumbpad to open the teleport interface.  Release the button to teleport.\nTry it!";
                                 questionsDialog.question = false;
+                                ControllerButtonHints.ShowButtonHint(leftPointer.GetComponent<Hand>(), SteamVR_Actions.default_Teleport);
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                                 StartCoroutine(WaitThenExecute(3f, () =>
@@ -1091,6 +1737,7 @@ public class MainController : MonoBehaviour
                                                 questionsDialog.Reset();
                                                 joystick.transform.position = Vector3.zero;
                                                 joystick.transform.eulerAngles = Vector3.zero;
+                                                ControllerButtonHints.HideAllButtonHints(leftPointer.GetComponent<Hand>());
                                                 teleport.enabled = false;
                                                 techniqueIdx = 3;
                                             },
@@ -1139,6 +1786,7 @@ public class MainController : MonoBehaviour
                                 joystick.enabled = true;
                                 questionsDialog.text = "<b>Technique #2: Thumbpad Joystick</b>\nTouch the thumbpad on your left controller and use it like a joysick to control your current position.\nTry it!";
                                 questionsDialog.question = false;
+                                ControllerButtonHints.ShowButtonHint(leftPointer.GetComponent<Hand>(), SteamVR_Actions.default_Teleport);
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
                                 questionsDialog.SetActions(new List<VRDialogActionValues>()
@@ -1169,6 +1817,7 @@ public class MainController : MonoBehaviour
                                                 joystick.enabled = false;
                                                 joystick.transform.position = Vector3.zero;
                                                 joystick.transform.eulerAngles = Vector3.zero;
+                                                ControllerButtonHints.HideAllButtonHints(leftPointer.GetComponent<Hand>());
                                                 techniqueIdx = 4;
                                             },
                                             background = actionColor,
@@ -1275,6 +1924,7 @@ public class MainController : MonoBehaviour
                                             threeTwoOne.transform.eulerAngles = new Vector3(0, 90f, 0f);
                                             StartCoroutine(ThreeTwoOne(() =>
                                             {
+                                                teleport.setTimeTilAction = true;
                                                 techniqueIdx = rand.NextDouble() > 0.5 ? 0 : 1;
                                                 if (techniqueIdx == 0)
                                                 {
@@ -1287,8 +1937,11 @@ public class MainController : MonoBehaviour
                                                     joystick.enabled = true;
                                                     tracker.joystick = true;
                                                     techniqueText.text = "Joystick";
+                                                    joystickTime = true;
                                                 }
                                                 tracker.track = true;
+                                                timer.time = 0f;
+                                                timer.StartTimer();
                                             }));
                                         },
                                         background = actionColor,
@@ -1301,98 +1954,392 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-                    switch (techniqueIdx)
+                    if (teleport.firstAction)
                     {
-                        case 0:
-                            if (tracker.completed)
-                            {
-                                teleport.enabled = false;
-                                tracker.completed = false;
-                                if (oneDone)
+                        teleport.firstAction = false;
+                        metrics.e2TTA = timer.time;
+                    }
+                    if (!testCompleted)
+                    {
+                        timer.Update();
+                        switch (techniqueIdx)
+                        {
+                            case 0:
+                                if (tracker.completed)
                                 {
-                                    joystick.transform.position = Vector3.zero;
-                                    joystick.transform.eulerAngles = Vector3.zero;
-                                    lapStuff.SetActive(false);
-                                    SetSceneIdx(6);
-                                    StartCoroutine(FadeMusic(false));
-                                    StartCoroutine(FadeAmbience(true));
-                                } else
+                                    teleport.enabled = false;
+                                    tracker.completed = false;
+                                    if (oneDone)
+                                    {
+                                        joystick.transform.position = Vector3.zero;
+                                        joystick.transform.eulerAngles = Vector3.zero;
+                                        lapStuff.SetActive(false);
+                                        StartCoroutine(FadeMusic(false));
+                                        testCompleted = true;
+                                        questionIdx = 0;
+                                    }
+                                    else
+                                    {
+                                        oneDone = true;
+                                        joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
+                                        joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                                        techniqueIdx = 1;
+                                        joystickStuff.SetActive(true);
+                                        StartCoroutine(ThreeTwoOne(() =>
+                                        {
+                                            joystick.enabled = true;
+                                            tracker.joystick = true;
+                                            techniqueText.text = "Joystick";
+                                            joystickTime = true;
+                                        }));
+                                    }
+                                }
+                                break;
+                            case 2:
+                                if (tracker.completed)
                                 {
-                                    oneDone = true;
-                                    joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
-                                    joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
-                                    techniqueIdx = 1;
+                                    techniqueIdx = 2;
+                                    tracker.completed = false;
+                                    teleport.enabled = false;
+                                    teleport.blur = false;
                                     joystickStuff.SetActive(true);
-                                    StartCoroutine(ThreeTwoOne(() =>
+                                    StartCoroutine(WaitThenExecute(0.5f, () =>
                                     {
-                                        joystick.enabled = true;
-                                        tracker.joystick = true;
-                                        techniqueText.text = "Joystick";
+                                        joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
+                                        joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                                        StartCoroutine(ThreeTwoOne(() =>
+                                        {
+                                            joystick.enabled = true;
+                                            tracker.joystick = true;
+                                            techniqueText.text = "Joystick";
+                                        }));
                                     }));
                                 }
-                            }
-                            break;
-                        case 2:
-                            if (tracker.completed)
-                            {
-                                techniqueIdx = 2;
-                                tracker.completed = false;
-                                teleport.enabled = false;
-                                teleport.blur = false;
-                                joystickStuff.SetActive(true);
-                                StartCoroutine(WaitThenExecute(0.5f, () => {
-                                    joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
-                                    joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
-                                    StartCoroutine(ThreeTwoOne(() =>
-                                    {
-                                        joystick.enabled = true;
-                                        tracker.joystick = true;
-                                        techniqueText.text = "Joystick";
-                                    }));
-                                }));
-                            }
-                            break;
-                        case 1:
-                            if (tracker.completed)
-                            {
-                                joystick.enabled = false;
-                                joystickStuff.SetActive(false);
-                                tracker.completed = false;
-                                if (oneDone)
+                                break;
+                            case 1:
+                                if (tracker.completed)
                                 {
-                                    joystick.transform.position = Vector3.zero;
-                                    joystick.transform.eulerAngles = Vector3.zero;
-                                    lapStuff.SetActive(false);
-                                    SetSceneIdx(6);
-                                    music.Stop();
-                                    music.Play();
-                                    StartCoroutine(FadeAmbience(true));
-                                }
-                                else
-                                {
-                                    oneDone = true;
-                                    techniqueIdx = 0;
-                                    joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
-                                    joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
-                                    StartCoroutine(ThreeTwoOne(() =>
+                                    joystick.enabled = false;
+                                    joystickStuff.SetActive(false);
+                                    tracker.completed = false;
+                                    if (oneDone)
                                     {
-                                        teleport.enabled = true;
-                                        teleport.blur = false;
-                                        tracker.joystick = false;
-                                        techniqueText.text = "Teleport";
-                                    }));
+                                        joystick.transform.position = Vector3.zero;
+                                        joystick.transform.eulerAngles = Vector3.zero;
+                                        lapStuff.SetActive(false);
+                                        StartCoroutine(FadeMusic(false));
+                                        testCompleted = true;
+                                        questionIdx = 0;
+                                    }
+                                    else
+                                    {
+                                        oneDone = true;
+                                        techniqueIdx = 0;
+                                        joystick.transform.position = new Vector3(0f, joystick.transform.position.y, 9f);
+                                        joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                                        StartCoroutine(ThreeTwoOne(() =>
+                                        {
+                                            teleport.enabled = true;
+                                            teleport.blur = false;
+                                            tracker.joystick = false;
+                                            techniqueText.text = "Teleport";
+                                        }));
+                                    }
                                 }
-                            }
-                            break;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (questionIdx)
+                        {
+                            case 0:
+                                questionIdx = -1;
+                                StartCoroutine(FadeAmbience(true));
+                                ToggleDialog(true);
+                                questionsDialog.text = "Nice!  Now, please rate your feelings about what you just completed.";
+                                questionsDialog.question = false;
+                                Color actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Okay",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 1;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    }
+                                });
+                                break;
+                            case 1:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Teleporting</b>\nHow did teleporting make you feel?";
+                                questionsDialog.manikin = true;
+                                questionsDialog.leftManikinText = "Unhappy";
+                                questionsDialog.rightManikinText = "Happy";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e2MT1 = int.Parse(answer);
+                                            questionIdx = 2;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 2:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Teleporting</b>\nHow did teleporting make you feel?";
+                                questionsDialog.leftManikinText = "Calm";
+                                questionsDialog.rightManikinText = "Excited";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 1;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e2MT2 = int.Parse(answer);
+                                            questionIdx = 3;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 3:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Teleporting</b>\nHow did teleporting make you feel?";
+                                questionsDialog.leftManikinText = "In Control";
+                                questionsDialog.rightManikinText = "Not In Control";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 2;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e2MT3 = int.Parse(answer);
+                                            questionIdx = 4;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 4:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Teleporting</b>\nHow did teleporting make you feel?";
+                                questionsDialog.leftManikinText = "Comfortable";
+                                questionsDialog.rightManikinText = "Sick";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 3;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e2MT4 = int.Parse(answer);
+                                            questionIdx = 5;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 5:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Joystick</b>\nHow did using the joystick to move make you feel?";
+                                questionsDialog.manikin = true;
+                                questionsDialog.leftManikinText = "Unhappy";
+                                questionsDialog.rightManikinText = "Happy";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 4;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e2MJ1 = int.Parse(answer);
+                                            questionIdx = 6;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 6:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Joystick</b>\nHow did using the joystick to move make you feel?";
+                                questionsDialog.leftManikinText = "Calm";
+                                questionsDialog.rightManikinText = "Excited";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 5;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e2MJ2 = int.Parse(answer);
+                                            questionIdx = 7;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 7:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Joystick</b>\nHow did using the joystick to move make you feel?";
+                                questionsDialog.leftManikinText = "In Control";
+                                questionsDialog.rightManikinText = "Not In Control";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 6;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e2MJ3 = int.Parse(answer);
+                                            questionIdx = 8;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                            case 8:
+                                questionIdx = -1;
+                                questionsDialog.text = "<b>Joystick</b>\nHow did using the joystick to move make you feel?";
+                                questionsDialog.leftManikinText = "Comfortable";
+                                questionsDialog.rightManikinText = "Sick";
+                                actionColor = Color.black;
+                                ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
+                                questionsDialog.SetActions(new List<VRDialogActionValues>()
+                                {
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Back",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            questionIdx = 7;
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = false
+                                    },
+                                    new VRDialogActionValues()
+                                    {
+                                        text = "Next",
+                                        callback = answer => {
+                                            questionsDialog.Reset();
+                                            metrics.e2MJ4 = int.Parse(answer);
+                                            ToggleDialog(false);
+                                            SetSceneIdx(6);
+                                            StartCoroutine(FadeAmbience(false));
+                                            StartCoroutine(FadeMusic(true));
+                                        },
+                                        background = actionColor,
+                                        requireAnswer = true
+                                    }
+                                });
+                                break;
+                        }
                     }
                 }
                 break;
             case 6:
-                if (reloadTime > 10f)
+                //if (reloadTime > 10f)
+                //{
+                if (!output)
                 {
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    output = true;
+                    metrics.OutputMetrics();
+                    //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 }
-                reloadTime += Time.deltaTime;
+                //reloadTime += Time.deltaTime;
                 break;
         }
         

@@ -24,29 +24,14 @@ Colors:
  - Download Progress #4cd137
 
 Tasks:
- - Make ending more elegant
- - Add texture to maze
- - Prompt movement technique during countdown
- - Track down why hand number button not working
- - World space numberpad too far in front
- - Look into switching hands on command
- - Add keyboard command to skip to next
- - Make sequence green until mistake is made
- - Add instruction about pulling the trigger to make a selection on question dialog
- - Add question after alerts asking how different alert types made them feel
- - Add on hover change of color for UIElement
- - Add videos of interactions for techniques alongside the words
- - Track number of no-selection hovers on menu tasks
- - Add question after menus asking which placement the user prefered
- - Add question after menus asking how different menu interaction types make the user feel
- - Add metric for time until first action on movement laps
- - Time for each 3 laps
- - Record number of actions take for each movement technique
- - Add question after movement techniques asking which technique the user prefers
- - How did each movement technique make the user feel
+ - Test time to joystick action
+ - Make sure joystick and teleport are random
  - Save metrics entry to CSV at the end of the experience
- - Fix bug with tennis ball colliders
  - Write up agreement/waiver for participants
+ - Track down why hand number button not working
+ - Look into switching hands on command
+ - Make sequence green until mistake is made
+ - Add videos of interactions for techniques alongside the words
 
 Menus:
 Touch world-space number pad

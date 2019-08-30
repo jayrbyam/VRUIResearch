@@ -38,7 +38,7 @@ public class TwoIndicators : MonoBehaviour
         left.Activate(false);
         right.Activate(false);
         MainController.Instance.timer.StopTimer();
-        if (leftActive) MainController.Instance.metrics.e1bCA++;
+        //if (leftActive) MainController.Instance.metrics.e1bCA++;
         MainController.Instance.indicatorsSelected++;
     }
 
@@ -48,7 +48,7 @@ public class TwoIndicators : MonoBehaviour
         left.Activate(false);
         right.Activate(false);
         MainController.Instance.timer.StopTimer();
-        if (!leftActive) MainController.Instance.metrics.e1bCA++;
+        //if (!leftActive) MainController.Instance.metrics.e1bCA++;
         MainController.Instance.indicatorsSelected++;
     }
 

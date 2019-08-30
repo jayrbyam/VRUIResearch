@@ -35,21 +35,35 @@ public class TrackPlayer : MonoBehaviour
                 lap++;
                 if (lap == 1)
                 {
-                    if (!joystick) MainController.Instance.secondLapStuff.SetActive(true);
+                    if (!joystick)
+                    {
+                        MainController.Instance.secondLapStuff.SetActive(true);
+                        MainController.Instance.metrics.e2TTL1 = MainController.Instance.timer.time;
+                        MainController.Instance.timer.time = 0f;
+                    }
                     else
                     {
                         MainController.Instance.joystickSecondLapStuff.SetActive(true);
                         MainController.Instance.joystick.second = true;
+                        MainController.Instance.metrics.e2JTL1 = MainController.Instance.timer.time;
+                        MainController.Instance.timer.time = 0f;
                     }
                     
                 }
                 else if (lap == 2)
                 {
-                    if (!joystick) MainController.Instance.thirdLapStuff.SetActive(true);
+                    if (!joystick)
+                    {
+                        MainController.Instance.thirdLapStuff.SetActive(true);
+                        MainController.Instance.metrics.e2TTL2 = MainController.Instance.timer.time;
+                        MainController.Instance.timer.time = 0f;
+                    }
                     else
                     {
                         MainController.Instance.joystickThirdLapStuff.SetActive(true);
                         MainController.Instance.joystick.third = true;
+                        MainController.Instance.metrics.e2JTL2 = MainController.Instance.timer.time;
+                        MainController.Instance.timer.time = 0f;
                     }
                 }
                 firstCorner = false;
@@ -64,12 +78,16 @@ public class TrackPlayer : MonoBehaviour
                     {
                         MainController.Instance.secondLapStuff.SetActive(false);
                         MainController.Instance.thirdLapStuff.SetActive(false);
+                        MainController.Instance.metrics.e2TTL3 = MainController.Instance.timer.time;
+                        MainController.Instance.timer.time = 0f;
                     } else
                     {
                         MainController.Instance.joystick.second = false;
                         MainController.Instance.joystick.third = false;
                         MainController.Instance.joystickSecondLapStuff.SetActive(false);
                         MainController.Instance.joystickThirdLapStuff.SetActive(false);
+                        MainController.Instance.metrics.e2JTL3 = MainController.Instance.timer.time;
+                        MainController.Instance.timer.time = 0f;
                     }
                 }
             }

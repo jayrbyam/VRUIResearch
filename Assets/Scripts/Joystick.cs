@@ -25,6 +25,11 @@ public class Joystick : MonoBehaviour
     {
         if (SteamVR_Actions.default_DPad[SteamVR_Input_Sources.LeftHand].active)
         {
+            if (MainController.Instance.joystickTime)
+            {
+                MainController.Instance.joystickTime = false;
+                MainController.Instance.metrics.e2JTA = MainController.Instance.timer.time - 3f;
+            }
             Vector2 axis = SteamVR_Actions.default_DPad.GetAxis(SteamVR_Input_Sources.LeftHand) * 0.1f;
             Vector3 oldPosition = transform.position;
             transform.position += new Vector3(head.forward.x * axis.y, 0f, 0f);

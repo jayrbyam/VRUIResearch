@@ -26,6 +26,8 @@ public class TouchUIElement : UIElement
     {
         base.OnHandHoverBegin(hand);
 
+        if (MainController.Instance.trackingHovers) MainController.Instance.hovers++;
+
         if (onHoverChange)
         {
             Color selectedBackground = Color.gray;
