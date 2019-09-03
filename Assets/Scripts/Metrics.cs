@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 
 public class Metrics
@@ -199,5 +201,78 @@ public class Metrics
         output += "Experiment #2 Joystick In Control Manikin: " + e2MJ3 + "\n";
         output += "Experiment #2 Joystick Sick Manikin: " + e2MJ4 + "\n";
         Debug.Log(output);
+
+        string line = "";
+        line += peqVRE + ",";
+        line += peqDH + ",";
+        line += st1T + ",";
+        line += st1S + ",";
+        line += st2S + ",";
+        line += st3T + ",";
+        line += st3H + ",";
+        line += st3M + ",";
+        line += e1TA1 + ",";
+        line += e1TA2 + ",";
+        line += e1TA3 + ",";
+        line += e1TA4 + ",";
+        line += e1TA5 + ",";
+        line += e1TA6 + ",";
+        line += e1TC1 + ",";
+        line += e1TC2 + ",";
+        line += e1TC3 + ",";
+        line += e1TC4 + ",";
+        line += e1TC5 + ",";
+        line += e1TC6 + ",";
+        line += e1M1 + ",";
+        line += e1M2 + ",";
+        line += e1M3 + ",";
+        line += e1M4 + ",";
+        line += e1M5 + ",";
+        line += e1M6 + ",";
+        line += e1H1 + ",";
+        line += e1H2 + ",";
+        line += e1H3 + ",";
+        line += e1H4 + ",";
+        line += e1H5 + ",";
+        line += e1H6 + ",";
+        line += e1ML1 + ",";
+        line += e1ML2 + ",";
+        line += e1ML3 + ",";
+        line += e1MT1 + ",";
+        line += e1MT2 + ",";
+        line += e1MT3 + ",";
+        line += e1MB1 + ",";
+        line += e1MB2 + ",";
+        line += e1MB3 + ",";
+        line += e1MH1 + ",";
+        line += e1MH2 + ",";
+        line += e1MH3 + ",";
+        line += e1MC1 + ",";
+        line += e1MC2 + ",";
+        line += e1MC3 + ",";
+        line += e1MW1 + ",";
+        line += e1MW2 + ",";
+        line += e1MW3 + ",";
+        line += e2TTA + ",";
+        line += e2TTL1 + ",";
+        line += e2TTL2 + ",";
+        line += e2TTL3 + ",";
+        line += e2JTA + ",";
+        line += e2JTL1 + ",";
+        line += e2JTL2 + ",";
+        line += e2JTL3 + ",";
+        line += e2MT1 + ",";
+        line += e2MT2 + ",";
+        line += e2MT3 + ",";
+        line += e2MT4 + ",";
+        line += e2MJ1 + ",";
+        line += e2MJ2 + ",";
+        line += e2MJ3 + ",";
+        line += e2MJ4 + "\n";
+
+        var csv = new StringBuilder();
+        csv.AppendLine(line);
+        File.AppendAllText(@"C:\Users\jayrb\VRUIResearch\data.csv", csv.ToString());
+        Debug.Log("Metrics saved to file.");
     }
 }

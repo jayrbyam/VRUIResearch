@@ -24,8 +24,6 @@ Colors:
  - Download Progress #4cd137
 
 Tasks:
- - Test time to joystick action
- - Make sure joystick and teleport are random
  - Save metrics entry to CSV at the end of the experience
  - Write up agreement/waiver for participants
  - Track down why hand number button not working

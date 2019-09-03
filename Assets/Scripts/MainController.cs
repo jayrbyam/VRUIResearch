@@ -53,8 +53,8 @@ public class MainController : MonoBehaviour
     // 4 - Menus
     // 5 - Movement
     // 6 - Thank You
-    private int sceneIdx = 0;
-
+    public int sceneIdx = 0;
+    
     // Scene 0
     public FadePulse startText;
 
@@ -91,7 +91,7 @@ public class MainController : MonoBehaviour
     {
         get
         {
-            return int.Parse(tennisScoreText.text.Split(' ')[1].Split('/')[0]);
+            return int.Parse(tennisScoreText.text.Split(' ')[1]);
         }
         set
         {
@@ -120,7 +120,7 @@ public class MainController : MonoBehaviour
     public VisualCues visualCues;
 
     // Scene 4
-    private int techniqueIdx = -1;
+    public int techniqueIdx = -1;
     public GameObject technique2Button;
     public ButtonGroup technique3Buttons;
     public int stringsHandled = 0;
@@ -148,7 +148,6 @@ public class MainController : MonoBehaviour
     public GameObject joystickStuff;
     public GameObject joystickSecondLapStuff;
     public GameObject joystickThirdLapStuff;
-    public bool joystickTime = false;
     private System.Random rand;
     private bool oneDone = false;
 
@@ -1937,7 +1936,6 @@ public class MainController : MonoBehaviour
                                                     joystick.enabled = true;
                                                     tracker.joystick = true;
                                                     techniqueText.text = "Joystick";
-                                                    joystickTime = true;
                                                 }
                                                 tracker.track = true;
                                                 timer.time = 0f;
@@ -1958,6 +1956,11 @@ public class MainController : MonoBehaviour
                     {
                         teleport.firstAction = false;
                         metrics.e2TTA = timer.time;
+                    }
+                    if (joystick.firstAction)
+                    {
+                        joystick.firstAction = false;
+                        metrics.e2JTA = timer.time;
                     }
                     if (!testCompleted)
                     {
@@ -1987,10 +1990,10 @@ public class MainController : MonoBehaviour
                                         joystickStuff.SetActive(true);
                                         StartCoroutine(ThreeTwoOne(() =>
                                         {
+                                            timer.time = 0f;
                                             joystick.enabled = true;
                                             tracker.joystick = true;
                                             techniqueText.text = "Joystick";
-                                            joystickTime = true;
                                         }));
                                     }
                                 }
@@ -2039,6 +2042,7 @@ public class MainController : MonoBehaviour
                                         joystick.transform.eulerAngles = new Vector3(0f, 90f, 0f);
                                         StartCoroutine(ThreeTwoOne(() =>
                                         {
+                                            timer.time = 0f;
                                             teleport.enabled = true;
                                             teleport.blur = false;
                                             tracker.joystick = false;

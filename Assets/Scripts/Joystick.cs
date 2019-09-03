@@ -13,6 +13,8 @@ public class Joystick : MonoBehaviour
     public List<BoxCollider> secondObjects;
     public bool third = false;
     public List<BoxCollider> thirdObjects;
+    public bool firstAction = false;
+    private bool setTimeTilAction = true;
 
     // Start is called before the first frame update
     void Start()
@@ -23,12 +25,12 @@ public class Joystick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SteamVR_Actions.default_DPad[SteamVR_Input_Sources.LeftHand].active)
+        if (SteamVR_Actions.default_DPad[SteamVR_Input_Sources.LeftHand].axis != Vector2.zero)
         {
-            if (MainController.Instance.joystickTime)
+            if (MainController.Instance.sceneIdx == 5 && MainController.Instance.testStarted && MainController.Instance.techniqueIdx == 1 && setTimeTilAction)
             {
-                MainController.Instance.joystickTime = false;
-                MainController.Instance.metrics.e2JTA = MainController.Instance.timer.time - 3f;
+                setTimeTilAction = false;
+                firstAction = true;
             }
             Vector2 axis = SteamVR_Actions.default_DPad.GetAxis(SteamVR_Input_Sources.LeftHand) * 0.1f;
             Vector3 oldPosition = transform.position;
