@@ -33,7 +33,7 @@ public class MainController : MonoBehaviour
     public LaserPointer rightPointer;
     public GameObject dialog;
     private VRDialog questionsDialog;
-    private bool dominantRight = false;
+    private bool dominantRight = true;
     private delegate void AfterWaitDelegate();
     public GameObject numberPad;
     public GameObject progressBar;
