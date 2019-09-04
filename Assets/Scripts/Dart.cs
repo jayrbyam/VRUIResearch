@@ -81,7 +81,7 @@ public class Dart : MonoBehaviour
             highlight.SetActive(true);
 
             MainController.Instance.dartsThrown++;
-            if (MainController.Instance.dartsThrown == 5) Invoke("DestroyThis", 3f);
+            if (MainController.Instance.dartsThrown == 5) Invoke("DestroyThis", 1f);
         }
     }
 

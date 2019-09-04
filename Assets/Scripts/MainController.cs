@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Valve.VR;
 using Valve.VR.Extras;
 using Valve.VR.InteractionSystem;
+using UnityEngine.Video;
 
 public class MainController : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class MainController : MonoBehaviour
     public Timer timer;
     private List<string> letters = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
     private bool output = false;
+    public List<VideoClip> videos;
 
     // Indeces for "scenes" in the experience
     // 0 - Start screen
@@ -136,6 +138,7 @@ public class MainController : MonoBehaviour
     public GameObject leftHandKeyboard;
     public GameObject rightHandKeyboard;
     public GameObject headNumberPad;
+    public VideoPlayer videoPlayer;
 
     // Scene 5
     public Teleport teleport;
@@ -391,7 +394,7 @@ public class MainController : MonoBehaviour
                                 timer.time = 0f;
                                 metrics.st1S = dartScore;
                                 endTriggered = true;
-                                StartCoroutine(WaitThenExecute(3f, () =>
+                                StartCoroutine(WaitThenExecute(1f, () =>
                                 {
                                     skillTests[0].gameObject.SetActive(false);
                                     testIdx = 1;
@@ -1066,25 +1069,17 @@ public class MainController : MonoBehaviour
                                 break;
                             case 1:
                                 questionIdx = -1;
+                                videoPlayer.clip = videos[0];
                                 questionsDialog.text = "<b>Laser Pointer</b>\nHow did using the laser pointer make you feel?";
                                 questionsDialog.manikin = true;
                                 questionsDialog.leftManikinText = "Unhappy";
                                 questionsDialog.rightManikinText = "Happy";
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                                questionsDialog.SetActions(new List<VRDialogActionValues>()
-                                {
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1ML1 = int.Parse(answer);
-                                            questionIdx = 2;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
-                                    }
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1ML1 = int.Parse(answer);
+                                    questionIdx = 2;
                                 });
                                 break;
                             case 2:
@@ -1105,18 +1100,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1ML2 = int.Parse(answer);
-                                            questionIdx = 3;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1ML2 = int.Parse(answer);
+                                    questionIdx = 3;
                                 });
                                 break;
                             case 3:
@@ -1137,22 +1126,17 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1ML3 = int.Parse(answer);
-                                            questionIdx = 4;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1ML3 = int.Parse(answer);
+                                    questionIdx = 4;
                                 });
                                 break;
                             case 4:
                                 questionIdx = -1;
+                                videoPlayer.clip = videos[1];
                                 questionsDialog.text = "<b>Controller Touch</b>\nHow did using the controller touch method make you feel?";
                                 questionsDialog.manikin = true;
                                 questionsDialog.leftManikinText = "Unhappy";
@@ -1170,18 +1154,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MT1 = int.Parse(answer);
-                                            questionIdx = 5;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MT1 = int.Parse(answer);
+                                    questionIdx = 5;
                                 });
                                 break;
                             case 5:
@@ -1202,18 +1180,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MT2 = int.Parse(answer);
-                                            questionIdx = 6;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MT2 = int.Parse(answer);
+                                    questionIdx = 6;
                                 });
                                 break;
                             case 6:
@@ -1234,22 +1206,17 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MT3 = int.Parse(answer);
-                                            questionIdx = 7;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MT3 = int.Parse(answer);
+                                    questionIdx = 7;
                                 });
                                 break;
                             case 7:
                                 questionIdx = -1;
+                                videoPlayer.clip = videos[2];
                                 questionsDialog.text = "<b>Thumbpad</b>\nHow did using the thumbpad to make selections make you feel?";
                                 questionsDialog.manikin = true;
                                 questionsDialog.leftManikinText = "Unhappy";
@@ -1267,18 +1234,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MB1 = int.Parse(answer);
-                                            questionIdx = 8;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MB1 = int.Parse(answer);
+                                    questionIdx = 8;
                                 });
                                 break;
                             case 8:
@@ -1299,18 +1260,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MB2 = int.Parse(answer);
-                                            questionIdx = 9;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MB2 = int.Parse(answer);
+                                    questionIdx = 9;
                                 });
                                 break;
                             case 9:
@@ -1331,22 +1286,17 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MB3 = int.Parse(answer);
-                                            questionIdx = 10;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MB3 = int.Parse(answer);
+                                    questionIdx = 10;
                                 });
                                 break;
                             case 10:
                                 questionIdx = -1;
+                                videoPlayer.clip = videos[3];
                                 questionsDialog.text = "<b>Head Mounted Menus</b>\nHow did the menus that followed your view make you feel?";
                                 questionsDialog.manikin = true;
                                 questionsDialog.leftManikinText = "Unhappy";
@@ -1364,18 +1314,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MH1 = int.Parse(answer);
-                                            questionIdx = 11;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MH1 = int.Parse(answer);
+                                    questionIdx = 11;
                                 });
                                 break;
                             case 11:
@@ -1396,18 +1340,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MH2 = int.Parse(answer);
-                                            questionIdx = 12;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MH2 = int.Parse(answer);
+                                    questionIdx = 12;
                                 });
                                 break;
                             case 12:
@@ -1428,22 +1366,17 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MH3 = int.Parse(answer);
-                                            questionIdx = 13;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MH3 = int.Parse(answer);
+                                    questionIdx = 13;
                                 });
                                 break;
                             case 13:
                                 questionIdx = -1;
+                                videoPlayer.clip = videos[4];
                                 questionsDialog.text = "<b>Hand Mounted Menus</b>\nHow did the menus that were attached to your hand make you feel?";
                                 questionsDialog.manikin = true;
                                 questionsDialog.leftManikinText = "Unhappy";
@@ -1461,18 +1394,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MC1 = int.Parse(answer);
-                                            questionIdx = 14;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MC1 = int.Parse(answer);
+                                    questionIdx = 14;
                                 });
                                 break;
                             case 14:
@@ -1493,18 +1420,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MC2 = int.Parse(answer);
-                                            questionIdx = 15;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MC2 = int.Parse(answer);
+                                    questionIdx = 15;
                                 });
                                 break;
                             case 15:
@@ -1525,22 +1446,17 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MC3 = int.Parse(answer);
-                                            questionIdx = 16;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MC3 = int.Parse(answer);
+                                    questionIdx = 16;
                                 });
                                 break;
                             case 16:
                                 questionIdx = -1;
+                                videoPlayer.clip = videos[5];
                                 questionsDialog.text = "<b>Fixed Position Menus</b>\nHow did the menus that were simply out in front of you make you feel?";
                                 questionsDialog.manikin = true;
                                 questionsDialog.leftManikinText = "Unhappy";
@@ -1558,18 +1474,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MW1 = int.Parse(answer);
-                                            questionIdx = 17;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MW1 = int.Parse(answer);
+                                    questionIdx = 17;
                                 });
                                 break;
                             case 17:
@@ -1590,18 +1500,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e1MW2 = int.Parse(answer);
-                                            questionIdx = 18;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e1MW2 = int.Parse(answer);
+                                    questionIdx = 18;
                                 });
                                 break;
                             case 18:
@@ -1622,21 +1526,15 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            ToggleDialog(false);
-                                            metrics.e1MW3 = int.Parse(answer);
-                                            SetSceneIdx(5);
-                                            testStarted = false;
-                                            testCompleted = false;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    ToggleDialog(false);
+                                    metrics.e1MW3 = int.Parse(answer);
+                                    SetSceneIdx(5);
+                                    testStarted = false;
+                                    testCompleted = false;
                                 });
                                 break;
                         }
@@ -2081,25 +1979,17 @@ public class MainController : MonoBehaviour
                                 break;
                             case 1:
                                 questionIdx = -1;
+                                videoPlayer.clip = videos[6];
                                 questionsDialog.text = "<b>Teleporting</b>\nHow did teleporting make you feel?";
                                 questionsDialog.manikin = true;
                                 questionsDialog.leftManikinText = "Unhappy";
                                 questionsDialog.rightManikinText = "Happy";
                                 actionColor = Color.black;
                                 ColorUtility.TryParseHtmlString("#46ACC2", out actionColor);
-                                questionsDialog.SetActions(new List<VRDialogActionValues>()
-                                {
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e2MT1 = int.Parse(answer);
-                                            questionIdx = 2;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
-                                    }
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e2MT1 = int.Parse(answer);
+                                    questionIdx = 2;
                                 });
                                 break;
                             case 2:
@@ -2120,18 +2010,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e2MT2 = int.Parse(answer);
-                                            questionIdx = 3;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e2MT2 = int.Parse(answer);
+                                    questionIdx = 3;
                                 });
                                 break;
                             case 3:
@@ -2152,18 +2036,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e2MT3 = int.Parse(answer);
-                                            questionIdx = 4;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e2MT3 = int.Parse(answer);
+                                    questionIdx = 4;
                                 });
                                 break;
                             case 4:
@@ -2184,22 +2062,17 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e2MT4 = int.Parse(answer);
-                                            questionIdx = 5;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e2MT4 = int.Parse(answer);
+                                    questionIdx = 5;
                                 });
                                 break;
                             case 5:
                                 questionIdx = -1;
+                                videoPlayer.clip = videos[7];
                                 questionsDialog.text = "<b>Joystick</b>\nHow did using the joystick to move make you feel?";
                                 questionsDialog.manikin = true;
                                 questionsDialog.leftManikinText = "Unhappy";
@@ -2217,18 +2090,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e2MJ1 = int.Parse(answer);
-                                            questionIdx = 6;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e2MJ1 = int.Parse(answer);
+                                    questionIdx = 6;
                                 });
                                 break;
                             case 6:
@@ -2249,18 +2116,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e2MJ2 = int.Parse(answer);
-                                            questionIdx = 7;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e2MJ2 = int.Parse(answer);
+                                    questionIdx = 7;
                                 });
                                 break;
                             case 7:
@@ -2281,18 +2142,12 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e2MJ3 = int.Parse(answer);
-                                            questionIdx = 8;
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e2MJ3 = int.Parse(answer);
+                                    questionIdx = 8;
                                 });
                                 break;
                             case 8:
@@ -2313,21 +2168,15 @@ public class MainController : MonoBehaviour
                                         },
                                         background = actionColor,
                                         requireAnswer = false
-                                    },
-                                    new VRDialogActionValues()
-                                    {
-                                        text = "Next",
-                                        callback = answer => {
-                                            questionsDialog.Reset();
-                                            metrics.e2MJ4 = int.Parse(answer);
-                                            ToggleDialog(false);
-                                            SetSceneIdx(6);
-                                            StartCoroutine(FadeAmbience(false));
-                                            StartCoroutine(FadeMusic(true));
-                                        },
-                                        background = actionColor,
-                                        requireAnswer = true
                                     }
+                                });
+                                questionsDialog.SetManikinAction(answer => {
+                                    questionsDialog.Reset();
+                                    metrics.e2MJ4 = int.Parse(answer);
+                                    ToggleDialog(false);
+                                    SetSceneIdx(6);
+                                    StartCoroutine(FadeAmbience(false));
+                                    StartCoroutine(FadeMusic(true));
                                 });
                                 break;
                         }

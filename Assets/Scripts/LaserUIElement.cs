@@ -9,6 +9,7 @@ public class LaserUIElement : UIElement
 {
 
     public bool onHoverChange = true;
+    private float onExitTime = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,14 +20,14 @@ public class LaserUIElement : UIElement
     // Update is called once per frame
     void Update()
     {
-        
+        onExitTime += Time.deltaTime;
     }
 
     public void OnEnter(Hand hand)
     {
         base.OnHandHoverBegin(hand);
 
-        if (MainController.Instance.trackingHovers) MainController.Instance.hovers++;
+        if (MainController.Instance.trackingHovers && onExitTime > 0.1f) MainController.Instance.hovers++;
 
         if (onHoverChange)
         {
@@ -40,6 +41,8 @@ public class LaserUIElement : UIElement
     public void OnExit(Hand hand)
     {
         base.OnHandHoverEnd(hand);
+
+        onExitTime = 0f;
 
         if (onHoverChange)
         {

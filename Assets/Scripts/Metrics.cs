@@ -268,7 +268,7 @@ public class Metrics
         line += e2MJ1 + ",";
         line += e2MJ2 + ",";
         line += e2MJ3 + ",";
-        line += e2MJ4 + "\n";
+        line += e2MJ4;
 
         var csv = new StringBuilder();
         csv.AppendLine(line);

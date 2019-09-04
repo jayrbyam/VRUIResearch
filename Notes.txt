@@ -24,12 +24,9 @@ Colors:
  - Download Progress #4cd137
 
 Tasks:
- - Save metrics entry to CSV at the end of the experience
- - Write up agreement/waiver for participants
  - Track down why hand number button not working
  - Look into switching hands on command
  - Make sequence green until mistake is made
- - Add videos of interactions for techniques alongside the words
 
 Menus:
 Touch world-space number pad

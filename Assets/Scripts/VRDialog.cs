@@ -19,6 +19,7 @@ public class VRDialog : MonoBehaviour
     public AudioSource failureSound;
     public AudioSource hoverSound;
     private delegate void AfterWaitDelegate();
+    private Action<string> manikinAction;
 
     public string text
     {
@@ -159,6 +160,11 @@ public class VRDialog : MonoBehaviour
         }
     }
 
+    public void SetManikinAction(Action<string> callback)
+    {
+        manikinAction = callback;
+    }
+
     public void SetManikin(ManikinChoice choice)
     {
         selectedAnswer = choice.choice;
@@ -183,9 +189,9 @@ public class VRDialog : MonoBehaviour
 
         // Select the current answer
         choice.Toggle(true);
-        StartCoroutine(WaitThenExecute(0.5f, () =>
+        StartCoroutine(WaitThenExecute(0.1f, () =>
         {
-            originalAction.transform.parent.GetChild(originalAction.transform.parent.childCount - 1).GetComponent<Button>().onClick.Invoke();
+            manikinAction(selectedAnswer);
         }));
     }
 
