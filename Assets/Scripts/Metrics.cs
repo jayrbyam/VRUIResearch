@@ -273,6 +273,7 @@ public class Metrics
         var csv = new StringBuilder();
         csv.AppendLine(line);
         File.AppendAllText(@"C:\Users\jayrb\VRUIResearch\data.csv", csv.ToString());
+        //File.AppendAllText(@"C:\data.csv", csv.ToString());
         Debug.Log("Metrics saved to file.");
     }
 }
