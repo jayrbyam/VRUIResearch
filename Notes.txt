@@ -23,23 +23,10 @@ Colors:
  - Nasturcian Flower #e84118
  - Download Progress #4cd137
 
-Tasks:
- - Track down why hand number button not working
- - Look into switching hands on command
- - Make sequence green until mistake is made
-
 Menus:
 Touch world-space number pad
-Button controlled world-space keyboard
-Button controlled head-mounted number pad
 Laser pointer head-mounted keyboard
 Touch hand-mounted number pad
+Button controlled world-space keyboard
 Laser pointer hand-mounted keyboard
-
-Audio section! 
-- Which source
-- Look at the source that is emmitting
-- Compare against visual cues
-
-Ask about how they liked it, how it made them feel.
-Self-assesment manikin!!!
+Button controlled head-mounted number pad
